@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {Button, View, Text} from 'react-native';
 
-export default function FuncionarioCadastro() {
-
-  const navigation = useNavigation()
+export default function FuncionarioCadastro({navigation}) {
   
   return (
-    <View>
-      <Text>Página de Cadastro do Funcionario</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Página de Cadastro Funcionário</Text>
+      <Button
+        title="Logar"
+        onPress={() => navigation.navigate('FuncionarioLogin')}
+      />
+      <Button
+        title="Cadastrar"
+      />
     </View>
   );
 }
