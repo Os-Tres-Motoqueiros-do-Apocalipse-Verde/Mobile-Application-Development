@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+export default function Sobre({navigation}) {
   return (
     <View>
-      <Text>Página de Login do Funcionario</Text>
+      <Text>Página Sobre nós</Text>
     </View>
   );
 }
