@@ -182,4 +182,16 @@ export const GlobalStyles = StyleSheet.create({
     borderRadius:10,
     flexDirection: 'row', 
   },
+
+  user: {
+    flex:1,
+    position: 'absolute',
+    zIndex: 2, 
+    bottom:225,
+    left:110,
+    paddingHorizontal: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly', 
+    gap: 5,
+  },
 });

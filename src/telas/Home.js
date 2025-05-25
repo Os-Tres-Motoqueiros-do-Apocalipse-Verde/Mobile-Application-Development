@@ -72,7 +72,7 @@ export default function Home({ navigation, email }) {
       </View>
 
       <View style={GlobalStyles.parteUsuario}> 
-        {/* Se der tempo eu coloco o icone */}
+        <Image style={GlobalStyles.user} source={require('../../assets/icons/User.png')} />
         <Text style={GlobalStyles.textoUsuario}>Prazer! {nome}</Text>
         <Text style={GlobalStyles.textoUsuario}>{email}</Text>
         
