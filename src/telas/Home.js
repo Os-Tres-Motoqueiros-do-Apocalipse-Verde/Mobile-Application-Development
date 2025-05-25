@@ -5,7 +5,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function Home({ navigation, email }) {
   const [nome, setNome] = useState('');
 
-  // Função para buscar dados do usuário pelo email
   async function pegarDadosPorEmail(email) {
     try {
       const dadosJson = await AsyncStorage.getItem(`@user_${email}`);
@@ -39,7 +38,6 @@ export default function Home({ navigation, email }) {
         <Text>Bem vindo! {nome}</Text>
       </View>
 
-      {/* Parte de texto inicial */}
       <View>
         <View>
           <View>
@@ -57,23 +55,23 @@ export default function Home({ navigation, email }) {
         </View>
       </View>
 
-      {/* Aqui vem a Linha */}
       <View>
         <View>
           <Text>Nosso Github </Text>
         </View>
         <View>
-          <Image source={require('../../assets/githubLogo.png')} />
+          <Image source={require('../../assets/home/Github.png')} />
           <View>
             <Text>Essa é a nossa organização do projeto Os Tres Cavaleiros do apocalipse Verde</Text>
             <TouchableOpacity onPress={() => Linking.openURL('https://github.com/Os-Tres-Motoqueiros-do-Apocalipse-Verde')}>
-              <Text style={{color: 'blue', textDecorationLine: 'underline'}}>OTMAV</Text>
+              <Text>OTMAV</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
 
-      <View>
+      <View> 
+        {/* Se der tempo eu coloco o icone */}
         <Text>Prazer! {nome}</Text>
         <Text>{email}</Text>
         <Button
