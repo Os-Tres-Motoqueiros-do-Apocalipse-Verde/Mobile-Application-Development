@@ -43,7 +43,7 @@ export default function MotoCadastro({ navigation }) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={GlobalStyles.principal}>
       <TouchableOpacity onPress={() => navigation.navigate('tabHome')}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>

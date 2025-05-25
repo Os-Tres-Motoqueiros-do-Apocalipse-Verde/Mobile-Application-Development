@@ -2,7 +2,7 @@ import { Text, View, ScrollView, Image, TouchableOpacity, Linking } from 'react-
 
 export default function Sobre({navigation}) {
   return (
-    <ScrollView>
+    <ScrollView style={GlobalStyles.principal}>
       <View>
         <Text>Quem Somos?</Text>
       </View>

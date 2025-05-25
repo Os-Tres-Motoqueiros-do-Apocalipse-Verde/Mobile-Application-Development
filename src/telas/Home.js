@@ -33,7 +33,7 @@ export default function Home({ navigation, email }) {
   }, [email]);
 
   return (
-    <ScrollView>
+    <ScrollView style={GlobalStyles.principal}>
       <View>
         <Text>Bem vindo! {nome}</Text>
       </View>

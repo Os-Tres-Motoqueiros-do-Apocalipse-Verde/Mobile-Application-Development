@@ -37,7 +37,7 @@ export default function FuncionarioCadastro({ navigation }) {
   };
 
   return (
-    <ScrollView>
+    <ScrollView style={GlobalStyles.principal}>
 
       {/* Se der eu coloco imagem */}
       

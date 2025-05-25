@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Button, Alert} from 'react-native';
+import { View, Text, TextInput, Button, Alert, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GlobalStyles } from '../styles/global';
 
 export default function FuncionarioLogin({ navigation }) {
   const [email, setEmail] = useState('');
@@ -38,14 +39,17 @@ export default function FuncionarioLogin({ navigation }) {
   };
 
   return (
-    <View>
+    <View style={GlobalStyles.formulario}>
 
-      {/* Se der eu coloco imagem */}
+      
+      <Image style={GlobalStyles.icone} source={require('../../assets/icons/Engineer.png')}/>
 
-      <Text>Login do Funcionário</Text>
+      <Text style={GlobalStyles.texto}>Login do Funcionário</Text>
 
       <TextInput
+        style={GlobalStyles.caixa}
         placeholder="E-mail"
+        placeholderTextColor="#aaa"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -53,17 +57,19 @@ export default function FuncionarioLogin({ navigation }) {
       />
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="Senha"
         value={senha}
         onChangeText={setSenha}
         secureTextEntry
       />
 
-      <View>
+      <View style={GlobalStyles.botao}>
         <Button title="Entrar" onPress={handleLogin} />
       </View>
 
-      <View>
+      <View style={GlobalStyles.botao}>
         <Button
           title="Não tenho Cadastro"
           onPress={() => navigation.navigate('FuncionarioCadasto')}
