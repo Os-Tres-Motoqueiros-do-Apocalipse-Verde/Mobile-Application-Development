@@ -38,6 +38,9 @@ export default function FuncionarioCadastro({ navigation }) {
 
   return (
     <ScrollView>
+
+      {/* Se der eu coloco imagem */}
+      
       <Text>Cadastro de Funcionário</Text>
 
       <TextInput

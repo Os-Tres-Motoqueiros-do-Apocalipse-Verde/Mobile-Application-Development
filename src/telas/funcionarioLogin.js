@@ -39,6 +39,9 @@ export default function FuncionarioLogin({ navigation }) {
 
   return (
     <View>
+
+      {/* Se der eu coloco imagem */}
+
       <Text>Login do Funcionário</Text>
 
       <TextInput
