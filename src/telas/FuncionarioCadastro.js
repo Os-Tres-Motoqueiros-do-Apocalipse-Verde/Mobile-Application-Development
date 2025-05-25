@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, View, Text, TextInput, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, Alert, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function FuncionarioCadastro({ navigation }) {
@@ -85,14 +85,15 @@ export default function FuncionarioCadastro({ navigation }) {
       />
 
       <View>
-        <Button
-          title="Já tenho login"
-          onPress={() => navigation.navigate('FuncionarioLogin')}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('FuncionarioLogin')}>
+          <Text>Já tenho Login</Text>
+        </TouchableOpacity>
       </View>
       
       <View>
-        <Button title="Cadastrar" onPress={handleCadastrar} />
+        <TouchableOpacity onPress={handleCadastrar}>
+          <Text>Cadastrar</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

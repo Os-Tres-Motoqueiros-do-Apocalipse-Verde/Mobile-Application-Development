@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button, Text, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home({ navigation, email }) {
@@ -74,10 +74,10 @@ export default function Home({ navigation, email }) {
         {/* Se der tempo eu coloco o icone */}
         <Text>Prazer! {nome}</Text>
         <Text>{email}</Text>
-        <Button
-          title="Sair"
-          onPress={() => navigation.navigate('FuncionarioLogin')}
-        />
+        
+        <TouchableOpacity onPress={() => navigation.navigate('FuncionarioLogin')}>
+          <Text>Sair</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );

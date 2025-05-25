@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Image} from 'react-native';
+import { View, Text, TextInput, Alert, Image} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GlobalStyles } from '../styles/global';
 
@@ -66,14 +66,15 @@ export default function FuncionarioLogin({ navigation }) {
       />
 
       <View style={GlobalStyles.botao}>
-        <Button title="Entrar" onPress={handleLogin} />
+        <TouchableOpacity onPress={handleLogin}>
+          <Text>Entrar</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={GlobalStyles.botao}>
-        <Button
-          title="Não tenho Cadastro"
-          onPress={() => navigation.navigate('FuncionarioCadasto')}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate('FuncionarioCadasto')}>
+          <Text>Não tenho cadastro</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
