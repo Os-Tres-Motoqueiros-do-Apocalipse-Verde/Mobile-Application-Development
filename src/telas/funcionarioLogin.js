@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, Button, Alert} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -29,7 +29,7 @@ export default function FuncionarioLogin({ navigation }) {
 
       Alert.alert('Sucesso', `Bem-vindo, ${usuario.nome}!`);
 
-      navigation.navigate('MainTabs'); 
+      navigation.navigate('MainTabs' , { email: usuario.email }); 
 
     } catch (error) {
       console.log('Erro no login:', error);
@@ -62,7 +62,7 @@ export default function FuncionarioLogin({ navigation }) {
 
       <View>
         <Button
-          title="Cadastrar"
+          title="Não tenho Cadastro"
           onPress={() => navigation.navigate('FuncionarioCadasto')}
         />
       </View>

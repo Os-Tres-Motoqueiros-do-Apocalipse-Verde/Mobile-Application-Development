@@ -82,14 +82,14 @@ export default function FuncionarioCadastro({ navigation }) {
       />
 
       <View>
-        <Button title="Cadastrar" onPress={handleCadastrar} />
-      </View>
-
-      <View>
         <Button
           title="Já tenho login"
           onPress={() => navigation.navigate('FuncionarioLogin')}
         />
+      </View>
+      
+      <View>
+        <Button title="Cadastrar" onPress={handleCadastrar} />
       </View>
     </ScrollView>
   );
