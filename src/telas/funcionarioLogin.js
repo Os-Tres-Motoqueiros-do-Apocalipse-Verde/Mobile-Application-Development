@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Alert, Image} from 'react-native';
+import { View, Text, TextInput, Alert, Image, TouchableOpacity} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { GlobalStyles } from '../styles/global';
 
@@ -40,9 +40,10 @@ export default function FuncionarioLogin({ navigation }) {
 
   return (
     <View style={GlobalStyles.formulario}>
-
       
-      <Image style={GlobalStyles.icone} source={require('../../assets/icons/Engineer.png')}/>
+      <View style={GlobalStyles.icone}>
+        <Image style={GlobalStyles.icones} source={require('../../assets/icons/Engineer.png')}/>       
+      </View>
 
       <Text style={GlobalStyles.texto}>Login do Funcionário</Text>
 
@@ -65,15 +66,15 @@ export default function FuncionarioLogin({ navigation }) {
         secureTextEntry
       />
 
-      <View style={GlobalStyles.botao}>
-        <TouchableOpacity onPress={handleLogin}>
-          <Text>Entrar</Text>
+      <View>
+        <TouchableOpacity onPress={() => navigation.navigate('FuncionarioCadasto')}>
+          <Text style={GlobalStyles.link}>Não tenho cadastro</Text>
         </TouchableOpacity>
       </View>
 
       <View style={GlobalStyles.botao}>
-        <TouchableOpacity onPress={() => navigation.navigate('FuncionarioCadasto')}>
-          <Text>Não tenho cadastro</Text>
+        <TouchableOpacity onPress={handleLogin}>
+          <Text style={GlobalStyles.textoBotao}>Entrar</Text>
         </TouchableOpacity>
       </View>
     </View>

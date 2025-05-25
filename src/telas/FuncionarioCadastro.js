@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { View, Text, TextInput, Alert, ScrollView } from 'react-native';
+import { View, Text, TextInput, Alert, ScrollView, TouchableOpacity, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { GlobalStyles } from '../styles/global';
 
 export default function FuncionarioCadastro({ navigation }) {
   const [nome, setNome] = useState('');
@@ -37,19 +38,25 @@ export default function FuncionarioCadastro({ navigation }) {
   };
 
   return (
-    <ScrollView style={GlobalStyles.principal}>
+    <ScrollView style={GlobalStyles.formularioScrool}>
 
-      {/* Se der eu coloco imagem */}
+      <View style={GlobalStyles.icone}>
+        <Image style={GlobalStyles.icones} source={require('../../assets/icons/Engineer.png')}/>       
+      </View>
       
-      <Text>Cadastro de Funcionário</Text>
+      <Text style={GlobalStyles.texto}>Cadastro de Funcionário</Text>
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="Nome"
         value={nome}
         onChangeText={setNome}
       />
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="E-mail"
         value={email}
         onChangeText={setEmail}
@@ -58,6 +65,8 @@ export default function FuncionarioCadastro({ navigation }) {
       />
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="Senha"
         value={senha}
         onChangeText={setSenha}
@@ -65,6 +74,8 @@ export default function FuncionarioCadastro({ navigation }) {
       />
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="Telefone"
         value={telefone}
         onChangeText={setTelefone}
@@ -72,6 +83,8 @@ export default function FuncionarioCadastro({ navigation }) {
       />
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="CPF"
         value={cpf}
         onChangeText={setCpf}
@@ -79,6 +92,8 @@ export default function FuncionarioCadastro({ navigation }) {
       />
 
       <TextInput
+        style={GlobalStyles.caixa}
+        placeholderTextColor="#aaa"
         placeholder="Cargo"
         value={cargo}
         onChangeText={setCargo}
@@ -86,13 +101,13 @@ export default function FuncionarioCadastro({ navigation }) {
 
       <View>
         <TouchableOpacity onPress={() => navigation.navigate('FuncionarioLogin')}>
-          <Text>Já tenho Login</Text>
+          <Text style={GlobalStyles.link}>Já tenho Login</Text>
         </TouchableOpacity>
       </View>
       
-      <View>
+      <View style={GlobalStyles.botao}>
         <TouchableOpacity onPress={handleCadastrar}>
-          <Text>Cadastrar</Text>
+          <Text style={GlobalStyles.textoBotao}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

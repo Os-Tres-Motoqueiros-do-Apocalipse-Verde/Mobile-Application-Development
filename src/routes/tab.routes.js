@@ -12,49 +12,68 @@ export default function TabRoutes({ route }) {
   const initialRouteName = route?.params?.initialRouteName || 'tabHome';
 
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
+    <Tab.Navigator screenOptions={{ 
+      headerShown: false,
+      tabBarStyle: {
+        backgroundColor: '#9F9999',
+        borderTopWidth: 0,
+      },
+      tabBarActiveTintColor: '#fff',
+      tabBarInactiveTintColor: '#bbb',
+      tabBarLabelStyle: {
+        fontSize: 12,
+        fontWeight: '600',
+      },
+      tabBarIconStyle: {
+        marginBottom: 4,
+      },
+     }} initialRouteName={initialRouteName}>
       <Tab.Screen
-        name="tabHome"
-        options={{
-        tabBarIcon: () => <Feather name='home' size={20} />,
-        tabBarLabel: "Início",
-        tabBarActiveBackgroundColor: 'green',
-        tabBarActiveTintColor: 'white'
-        }}
-      >
-        {(props) => <Home {...props} email={route.params?.email} />}
+          name="tabHome"
+          options={{
+            tabBarLabel: "Início",
+            tabBarIcon: ({ color, size }) => (
+              <Feather name="home" size={size} color={color} />
+            ),
+          }}
+        >
+          {(props) => <Home {...props} email={route.params?.email} />}
       </Tab.Screen>
+
 
       <Tab.Screen
         name="tabSobre"
         component={Sobre}
         options={{
-          tabBarIcon: () => <Feather name='info' size={20} />,
           tabBarLabel: "Sobre",
-          tabBarActiveBackgroundColor: 'green',
-          tabBarActiveTintColor: 'white'
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="info" size={size} color={color} />
+          ),
         }}
       />
+
       <Tab.Screen
         name="tabFilialCadastro"
         component={FilialCadastro}
         options={{
-          tabBarIcon: () => <Feather name='map-pin' size={20} />,
           tabBarLabel: "Filial",
-          tabBarActiveBackgroundColor: 'green',
-          tabBarActiveTintColor: 'white'
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="map-pin" size={size} color={color} />
+          ),
         }}
       />
+
       <Tab.Screen
         name="tabMotoCadastro"
         component={MotoCadastro}
         options={{
-          tabBarIcon: () => <Feather name='truck' size={20} />,
           tabBarLabel: "Moto",
-          tabBarActiveBackgroundColor: 'green',
-          tabBarActiveTintColor: 'white'
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="truck" size={size} color={color} />
+          ),
         }}
       />
+
     </Tab.Navigator>
   );
 }

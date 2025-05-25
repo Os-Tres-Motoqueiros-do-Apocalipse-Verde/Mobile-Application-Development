@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+import { GlobalStyles } from '../styles/global';
 
 export default function FilialCadastro({ navigation }) {
   const [nomeFilial, setNomeFilial] = useState('');
@@ -39,26 +40,31 @@ export default function FilialCadastro({ navigation }) {
   };
 
   return (
-    <ScrollView style={GlobalStyles.principal}>
-      <TouchableOpacity onPress={() => navigation.navigate('tabHome')}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+    <ScrollView contentContainerStyle={GlobalStyles.formularioScrool}>
+
+      <TouchableOpacity  onPress={() => navigation.navigate('tabHome')}>
+        <Ionicons  name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
 
-      <View>
-        <Text>Cadastro da Filial</Text>
+      <View style={GlobalStyles.icone}>
+        <Image style={GlobalStyles.icones} source={require('../../assets/icons/Google Forms.png')}/>       
       </View>
 
       <View>
-        <TextInput placeholder="Nome da Filial" value={nomeFilial} onChangeText={setNomeFilial} />
-        <TextInput placeholder="Nome do Responsável" value={responsavel} onChangeText={setResponsavel} />
-        <TextInput placeholder="CEP" value={cep} onChangeText={setCep} keyboardType="numeric" />
-        <TextInput placeholder="Estado" value={estado} onChangeText={setEstado} />
-        <TextInput placeholder="Número" value={numero} onChangeText={setNumero} keyboardType="numeric" />
-        <TextInput placeholder="Rua" value={rua} onChangeText={setRua} />
-        <TextInput placeholder="Complemento" value={complemento} onChangeText={setComplemento} />
+        <Text style={GlobalStyles.texto}>Cadastro da Filial</Text>
+      </View>
+
+      <View>
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Nome da Filial" value={nomeFilial} onChangeText={setNomeFilial} />
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Nome do Responsável" value={responsavel} onChangeText={setResponsavel} />
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="CEP" value={cep} onChangeText={setCep} keyboardType="numeric" />
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Estado" value={estado} onChangeText={setEstado} />
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Número" value={numero} onChangeText={setNumero} keyboardType="numeric" />
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Rua" value={rua} onChangeText={setRua} />
+        <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Complemento" value={complemento} onChangeText={setComplemento} />
     
-        <TouchableOpacity onPress={salvarFilial}>
-          <Text>Cadastrar Filial</Text>
+        <TouchableOpacity style={GlobalStyles.botao} onPress={salvarFilial}>
+          <Text style={GlobalStyles.textoBotao}>Cadastrar Filial</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

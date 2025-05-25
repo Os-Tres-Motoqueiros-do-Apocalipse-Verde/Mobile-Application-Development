@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Alert, Image } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+import { GlobalStyles } from '../styles/global';
 
 export default function MotoCadastro({ navigation }) {
   const [placa, setPlaca] = useState('');
@@ -43,29 +44,33 @@ export default function MotoCadastro({ navigation }) {
   };
 
   return (
-    <ScrollView style={GlobalStyles.principal}>
+    <ScrollView contentContainerStyle={GlobalStyles.formularioScrool}>
       <TouchableOpacity onPress={() => navigation.navigate('tabHome')}>
-        <Ionicons name="arrow-back" size={24} color="black" />
+        <Ionicons name="arrow-back" size={24} color="white" />
       </TouchableOpacity>
 
+      <View style={GlobalStyles.icone}>
+        <Image style={GlobalStyles.icones} source={require('../../assets/icons/moto-logo 2.png')}/>       
+      </View>
+
       <View>
-        <Text>Cadastro da Moto</Text>
+        <Text style={GlobalStyles.texto}>Cadastro da Moto</Text>
       </View>
 
       <View>
 
-      <TextInput placeholder="Placa" value={placa} onChangeText={setPlaca} />
-      <TextInput placeholder="Número do Chassi" value={chassi} onChangeText={setChassi}/>
-      <TextInput placeholder="Condição" value={condicao} onChangeText={setCondicao}/>
-      <TextInput placeholder="Nome do Modelo" value={modelo} onChangeText={setModelo}/>
-      <TextInput placeholder="Sistema de Frenagem" value={frenagem} onChangeText={setFrenagem}/>
-      <TextInput placeholder="Sistema de Partida" value={partida} onChangeText={setPartida}/>
-      <TextInput placeholder="Capacidade do Tanque (L)" value={capacidadeTanque} onChangeText={setCapacidadeTanque} keyboardType="numeric" />
-      <TextInput placeholder="Tipo de Combustível" value={tipoCombustivel} onChangeText={setTipoCombustivel}/>
-      <TextInput placeholder="Média de Consumo (km/L)" value={mediaConsumo} onChangeText={setMediaConsumo}keyboardType="numeric" />
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Placa" value={placa} onChangeText={setPlaca} />
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Número do Chassi" value={chassi} onChangeText={setChassi}/>
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Condição" value={condicao} onChangeText={setCondicao}/>
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Nome do Modelo" value={modelo} onChangeText={setModelo}/>
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Sistema de Frenagem" value={frenagem} onChangeText={setFrenagem}/>
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Sistema de Partida" value={partida} onChangeText={setPartida}/>
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Capacidade do Tanque (L)" value={capacidadeTanque} onChangeText={setCapacidadeTanque} keyboardType="numeric" />
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Tipo de Combustível" value={tipoCombustivel} onChangeText={setTipoCombustivel}/>
+      <TextInput style={GlobalStyles.caixa} placeholderTextColor="#aaa" placeholder="Média de Consumo (km/L)" value={mediaConsumo} onChangeText={setMediaConsumo}keyboardType="numeric" />
 
-      <TouchableOpacity onPress={salvarMoto} style={styles.botao}>
-        <Text>Cadastrar Moto</Text>
+      <TouchableOpacity style={GlobalStyles.botao} onPress={salvarMoto}>
+        <Text style={GlobalStyles.textoBotao}>Cadastrar Moto</Text>
       </TouchableOpacity>
       </View>
     </ScrollView>
