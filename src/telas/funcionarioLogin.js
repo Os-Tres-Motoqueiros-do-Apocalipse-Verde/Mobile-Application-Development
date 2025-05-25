@@ -1,30 +1,40 @@
-import { useState, useEffect } from 'react';
-import { View, Button, Text, TextInput, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function FuncionarioLogin({ navigation }) {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
-  useEffect(() => {
-    console.log('Tela de login carregada');
-  }, []);
-
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!email || !senha) {
-      Alert.alert('Erro', 'Preencha todos os campos');
+      Alert.alert('Erro', 'Por favor, preencha email e senha');
       return;
     }
 
-    // Aqui você pode adicionar lógica real de login
-    console.log('Email:', email);
-    console.log('Senha:', senha);
+    try {
+      const usuarioJson = await AsyncStorage.getItem(`@user_${email}`);
 
-    // Navegar diretamente para a tela Home dentro das tabs
-    navigation.navigate('tabHome');
-  };
+      if (!usuarioJson) {
+        Alert.alert('Erro', 'Usuário não encontrado');
+        return;
+      }
 
-  const handleCadastro = () => {
-    navigation.navigate('Funcionario Cadastro');
+      const usuario = JSON.parse(usuarioJson);
+
+      if (usuario.senha !== senha) {
+        Alert.alert('Erro', 'Senha incorreta');
+        return;
+      }
+
+      Alert.alert('Sucesso', `Bem-vindo, ${usuario.nome}!`);
+
+      navigation.navigate('MainTabs'); 
+
+    } catch (error) {
+      console.log('Erro no login:', error);
+      Alert.alert('Erro', 'Não foi possível fazer login.');
+    }
   };
 
   return (
@@ -51,7 +61,10 @@ export default function FuncionarioLogin({ navigation }) {
       </View>
 
       <View>
-        <Button title="Cadastrar" onPress={handleCadastro} />
+        <Button
+          title="Cadastrar"
+          onPress={() => navigation.navigate('FuncionarioCadasto')}
+        />
       </View>
     </View>
   );
