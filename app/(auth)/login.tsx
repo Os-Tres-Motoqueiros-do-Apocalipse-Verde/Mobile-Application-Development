@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,8 +11,20 @@ export default function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const checkRememberedUser = async () => {
+      const savedUser = await AsyncStorage.getItem('usuarioLogado');
+      const rememberFlag = await AsyncStorage.getItem('rememberMe');
+      if (savedUser && rememberFlag === 'true') {
+        router.replace('/home');
+      }
+    };
+    checkRememberedUser();
+  }, []);
 
   const handleLogin = async () => {
     if (!email || !senha) {
@@ -36,8 +48,8 @@ export default function Login() {
         return;
       }
 
-      // Salva usuário logado
       await AsyncStorage.setItem('usuarioLogado', JSON.stringify(usuarioPorEmail));
+      await AsyncStorage.setItem('rememberMe', rememberMe ? 'true' : 'false');
 
       Alert.alert(
         t('alertWelcomeTitle'),
@@ -77,6 +89,18 @@ export default function Login() {
           />
         </TouchableOpacity>
       </View>
+
+      <TouchableOpacity 
+        onPress={() => setRememberMe(!rememberMe)} 
+        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}
+      >
+        <Ionicons 
+          name={rememberMe ? 'checkbox' : 'square-outline'} 
+          size={24} 
+          color="green" 
+        />
+        <Text style={{ marginLeft: 8 }}>{t('rememberMe')}</Text>
+      </TouchableOpacity>
 
       <Button title={t('loginTitle')} onPress={handleLogin} />
 

@@ -29,15 +29,6 @@ export default function Home() {
     };
         fetchUsuario();
     }, []);
-
-    const handleLogout = async () => {
-      try {
-        await AsyncStorage.removeItem("usuarioLogado");
-        router.replace("/");
-      } catch (error) {
-        console.log(t('alertErrorLogout'), error);
-      }
-    };
   
     return (
       <ScrollView>
@@ -71,7 +62,6 @@ export default function Home() {
             <Text>{t('contextGithub')}</Text>
             </View>
         </View>
-        {/* <Button title="Deslogar" onPress={handleLogout} /> */}
       </ScrollView>
     );
 }
