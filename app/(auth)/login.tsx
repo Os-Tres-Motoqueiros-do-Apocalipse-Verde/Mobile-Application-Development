@@ -63,25 +63,31 @@ export default function Login() {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      <TextInput
-        placeholder={t('emailPlace')}
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-        style={{ marginBottom: 12, borderWidth: 1, padding: 8 }}
-      />
+    <ScrollView>
+      <View>
+        <Ionicons name="mail-outline" size={24} color="green"/>
+        <TextInput
+          placeholder={t('emailPlace')}
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+      </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+      <View>
+        <Ionicons
+            name="lock-closed-outline"
+            size={24}
+            color="green"
+          />
         <TextInput
           placeholder={t('passwordPlace')}
           value={senha}
           onChangeText={setSenha}
           secureTextEntry={!showPassword}
-          style={{ flex: 1, borderWidth: 1, padding: 8 }}
         />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={{ marginLeft: 8 }}>
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <Ionicons
             name={showPassword ? 'eye-outline' : 'eye-off-outline'}
             size={24}
@@ -92,22 +98,21 @@ export default function Login() {
 
       <TouchableOpacity 
         onPress={() => setRememberMe(!rememberMe)} 
-        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}
       >
         <Ionicons 
           name={rememberMe ? 'checkbox' : 'square-outline'} 
           size={24} 
           color="green" 
         />
-        <Text style={{ marginLeft: 8 }}>{t('rememberMe')}</Text>
+        <Text>{t('rememberMe')}</Text>
       </TouchableOpacity>
 
       <Button title={t('loginTitle')} onPress={handleLogin} />
 
-      <View style={{ flexDirection: 'row', marginTop: 16 }}>
+      <View>
         <Text>{t('noAccountText')}</Text>
         <TouchableOpacity onPress={() => router.push('/cadastro')}>
-          <Text style={{ color: 'green', marginLeft: 4 }}>{t('registerTitle')}</Text>
+          <Text>{t('registerTitle')}</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

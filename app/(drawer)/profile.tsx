@@ -220,32 +220,46 @@ export default function Profile() {
                 onPress={() => setOpenLanguage(!openLanguage)}
               >
                 <Ionicons name="language" size={24} color="black" />
-                <Text>{t('titleChangeLanguage')}</Text>
-                <Text>{t('contextChangeLanguage')}</Text>
+                <View>
+                  <Text>{t('titleChangeLanguage')}</Text>
+                  <Text>{t('contextChangeLanguage')}</Text>
+                </View>
+                <Ionicons
+                  name="chevron-down-outline"
+                  size={24}
+                  color="green"
+                />
               </TouchableOpacity>
               {openLanguage && (
                 <View>
-                  {langs.map((lang) => (
-                    <TouchableOpacity
+                  <Text>{t('ContextLanguage')}</Text>
+                  <View>
+                    {langs.map((lang) => (
+                      <TouchableOpacity
                       key={lang.code}
                       onPress={() => changeLanguage(lang.code)}
-                    >
-                      <Text>{lang.label}</Text>
-                    </TouchableOpacity>
-                  ))}
+                      >
+                        <Text>{lang.label}</Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
                 </View>
               )}
             </View>
             <TouchableOpacity>
               <Ionicons name="trash-outline" size={24} color="black" />
-              <Text>{t('titleUpdate')}</Text>
-              <Text>{t('contextUpdateUser')}</Text>
+              <View>
+                <Text>{t('titleUpdate')}</Text>
+                <Text>{t('contextUpdateUser')}</Text>
+              </View>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={confirmarLogout}>
               <Ionicons name="log-out-outline" size={24} color="black" />
-              <Text>{t('textLogout')}</Text>
-              <Text>{t('contextLogout')}</Text>
+              <View>
+                <Text>{t('textLogout')}</Text>
+                <Text>{t('contextLogout')}</Text>
+              </View>
             </TouchableOpacity>
           </View>
         )}

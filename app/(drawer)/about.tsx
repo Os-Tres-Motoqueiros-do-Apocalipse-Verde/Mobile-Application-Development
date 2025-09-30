@@ -16,7 +16,7 @@ const pessoas = [
   },
   {
     nome: "Vicenzo",
-    nascimento: new Date(2004, 2, 10),
+    nascimento: new Date(2004, 0, 20),
     icone: require("../../assets/about/vicenzo-icone.png"),
     foto: require("../../assets/about/vicenzo-inteiro.png"),
     linkedin: "https://www.linkedin.com/in/vicenzo-massao",
@@ -26,7 +26,7 @@ const pessoas = [
   },
   {
     nome: "Luiz",
-    nascimento: new Date(2005, 2, 10),
+    nascimento: new Date(2005, 9, 11),
     icone: require("../../assets/about/luiz-icone.png"),
     foto: require("../../assets/about/luiz-inteiro.png"),
     linkedin: "https://www.linkedin.com/in/luiz-henrique-neri-reimberg-6ab0032b8",
@@ -36,7 +36,7 @@ const pessoas = [
   }
 ];
 
-const calcularIdade = (dataNascimento: Date) => {
+const calculateAge = (dataNascimento: Date) => {
   const hoje = new Date();
   let idade = hoje.getFullYear() - dataNascimento.getFullYear();
   const m = hoje.getMonth() - dataNascimento.getMonth();
@@ -56,7 +56,7 @@ export default function About() {
   return (
     <ScrollView>
       {pessoas.map((p, index) => {
-        const idade = calcularIdade(p.nascimento);
+        const idade = calculateAge(p.nascimento);
         return (
           <View key={index}>
             <View>
@@ -69,22 +69,24 @@ export default function About() {
 
             <View>
               <View>
-                <Text>{p.turma}</Text>
-                <Text>RM:{p.rm}</Text>
-              </View>
+                <View>
+                  <Text>{p.turma}</Text>
+                  <Text>RM:{p.rm}</Text>
+                </View>
 
-              <Image source={p.foto}/>
+                <Image source={p.foto}/>
 
-              <View>
-                <TouchableOpacity onPress={() => handleLinkPress(p.linkedin)}>
-                  <Text>{t('usFollowMe')}</Text>
-                  <Ionicons name="logo-linkedin" size={20} color="black" />
-                </TouchableOpacity>
+                <View>
+                  <TouchableOpacity onPress={() => handleLinkPress(p.linkedin)}>
+                    <Text>{t('usFollowMe')}</Text>
+                    <Ionicons name="logo-linkedin" size={20} color="black" />
+                  </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleLinkPress(p.github)}>
-                  <Ionicons name="logo-github" size={20} color="black" />
-                  <Text>{t('usKnowMe')}</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity onPress={() => handleLinkPress(p.github)}>
+                    <Ionicons name="logo-github" size={20} color="black" />
+                    <Text>{t('usKnowMe')}</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>

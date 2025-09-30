@@ -9,9 +9,9 @@ export default function Index() {
     const checkUser = async () => {
       const usuarioLogado = await AsyncStorage.getItem("usuarioLogado");
       if (usuarioLogado) {
-        router.replace("/home"); // usuário logado → Home (Drawer)
+        router.replace("/home"); 
       } else {
-        router.replace("/login"); // usuário não logado → Login
+        router.replace("/login");
       }
     };
 

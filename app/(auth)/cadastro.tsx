@@ -59,11 +59,14 @@ export default function Cadastro() {
   return (
     <ScrollView>
         <View>
+          <Ionicons name="person-outline" size={20} color="green" />
           <TextInput 
             placeholder={t('namePlace')} 
             value={nome} 
             onChangeText={setNome} />
         </View>
+        <View>
+          <Ionicons name="mail-outline" size={20} color="green" />
           <TextInput 
             placeholder={t('emailPlace')}
             value={email} 
@@ -71,8 +74,10 @@ export default function Cadastro() {
             keyboardType="email-address" 
             autoCapitalize="none"
           />
+        </View>
 
         <View>
+          <Ionicons name="lock-closed-outline" size={20} color="green" />
           <TextInput
             placeholder={t('passwordPlace')}
             value={senha} 
@@ -89,22 +94,31 @@ export default function Cadastro() {
             />
           </TouchableOpacity>
         </View>
-        <TextInput
-          placeholder={t('telephonePlace')}
-          value={telefone} 
-          onChangeText={setTelefone} 
-          keyboardType="phone-pad"
-        />
-        <TextInput 
-          placeholder={t('nationalIdPlace')} 
-          value={cpf} 
-          onChangeText={setCpf}
-        />
-        <TextInput 
-          placeholder={t('positionPlace')}
-          value={cargo} 
-          onChangeText={setCargo}
-        />
+        <View>
+          <Ionicons name="call-outline" size={20} color="green" />
+          <TextInput
+            placeholder={t('telephonePlace')}
+            value={telefone} 
+            onChangeText={setTelefone} 
+            keyboardType="phone-pad"
+          />
+        </View>
+        <View>
+          <Ionicons name="reader-outline" size={20} color="green" />
+          <TextInput 
+            placeholder={t('nationalIdPlace')} 
+            value={cpf} 
+            onChangeText={setCpf}
+          />
+        </View>
+        <View>
+          <Ionicons name="storefront-outline" size={20} color="green" />
+          <TextInput 
+            placeholder={t('positionPlace')}
+            value={cargo} 
+            onChangeText={setCargo}
+          />
+        </View>
 
         <Button title={t('registerTitle')} onPress={handleCadastro} />
 
