@@ -44,14 +44,14 @@ export default function Profile() {
 
   const defaultImage = require("../../assets/profile/avatar.png");
   const [profileImage, setProfileImage] = useState<any>(defaultImage);
-  const [modalVisible, setModalVisible] = useState(false);
   const [zoomVisible, setZoomVisible] = useState(false);
   const [funcionario, setFuncionario] = useState<Funcionario | null>(null);
   const [open, setOpen] = useState(false);
   const [openLanguage, setOpenLanguage] = useState(false);
+  const [openOptions, setOpenOptions] = useState(false);
 
   useEffect(() => {
-    const carregarUsuario = async () => {
+    const loadUser = async () => {
       try {
         const jsonValue = await AsyncStorage.getItem("usuarioLogado");
         const savedImage = await AsyncStorage.getItem("profileImage");
@@ -65,13 +65,13 @@ export default function Profile() {
           setProfileImage({ uri: savedImage });
         }
       } catch (error) {
-        console.error("Erro ao carregar usuário:", error);
+        console.error(t('consoleErroLoading'), error);
       }
     };
-    carregarUsuario();
+    loadUser();
   }, []);
 
-  const salvarImagem = async (uri: string | null) => {
+  const saveImage = async (uri: string | null) => {
     if (uri) {
       await AsyncStorage.setItem("profileImage", uri);
       setProfileImage({ uri });
@@ -88,11 +88,11 @@ export default function Profile() {
 
   const confirmarLogout = () => {
     Alert.alert(
-      "Sair da conta",
-      "Tem certeza que deseja deslogar?",
+      t('alertTitleLogout'),
+      t('alertContextLogout'),
       [
-        { text: "Cancelar", style: "cancel" },
-        { text: "Deslogar", onPress: handleLogout },
+        { text: t('titleCancel')},
+        { text: t('textLogout'), onPress: handleLogout },
       ]
     );
   };
@@ -102,7 +102,7 @@ export default function Profile() {
   const handleChangePhoto = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
-      Alert.alert("Permissão necessária", "Habilite o acesso à galeria.");
+      Alert.alert(t('titlePermission'), t('contextPermissionPhotos'));
       return;
     }
 
@@ -112,7 +112,7 @@ export default function Profile() {
     });
 
     if (!result.canceled) {
-      salvarImagem(result.assets[0].uri);
+      saveImage(result.assets[0].uri);
     }
     setOpen(false);
   };
@@ -120,30 +120,30 @@ export default function Profile() {
   const handleTakePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert("Permissão necessária", "Habilite a câmera.");
+      Alert.alert(t('titlePermission'), t('contextPermissionCamera'));
       return;
     }
 
     const result = await ImagePicker.launchCameraAsync({ quality: 1 });
 
     if (!result.canceled) {
-      salvarImagem(result.assets[0].uri);
+      saveImage(result.assets[0].uri);
     }
     setOpen(false);
   };
 
   const handleRemovePhoto = () => {
-    salvarImagem(null);
+    saveImage(null);
     setOpen(false);
   };
 
-  const confirmarRemoverFoto = () => {
+  const confirmRemovePhoto = () => {
     Alert.alert(
-      "Confirmar remoção",
-      "Tem certeza que deseja remover sua foto de perfil?",
+      t('titleRemovePhoto'),
+      t('ContextRemovePhoto'),
       [
-        { text: "Cancelar", style: "cancel" },
-        { text: "Remover", onPress: handleRemovePhoto },
+        { text: t('titleCancel'), style: "cancel" },
+        { text: t('textRemovePhoto'), onPress: handleRemovePhoto },
       ]
     );
   };
@@ -152,7 +152,7 @@ export default function Profile() {
     <ScrollView>
       <View>
         <Text>
-          {funcionario?.nome ?? "Carregando..."}
+          {funcionario?.nome ?? t('loading')}
         </Text>
 
         <View>
@@ -169,26 +169,26 @@ export default function Profile() {
             {open && (
               <View>
                 <TouchableOpacity onPress={handleViewPhoto}>
-                  <Text>Ver Foto</Text>
+                  <Text>{t('PhotoSee')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleChangePhoto}>
-                  <Text>Mudar Foto</Text>
+                  <Text>{t('photoChange')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleTakePhoto}>
-                  <Text>Tirar com Câmera</Text>
+                  <Text>{t('photoWithCamera')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={confirmarRemoverFoto}>
-                  <Text style={{ color: "red" }}>Remover Foto</Text>
+                <TouchableOpacity onPress={confirmRemovePhoto}>
+                  <Text style={{ color: "red" }}>{t('photoRemove')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setOpen(false)}>
-                  <Text>Cancelar</Text>
+                  <Text>{t('titleCancel')}</Text>
                 </TouchableOpacity>
               </View>
             )}
           </View>
         </View>
 
-        <Text>Meus Dados</Text>
+        <Text>{t('titleMydata')}</Text>
       </View>
 
       <View>
@@ -210,40 +210,45 @@ export default function Profile() {
         </View>
       </View>
 
-      <View>
-        <View>
-          <TouchableOpacity
-            onPress={() => setOpenLanguage(!openLanguage)}
-          >
-            <Ionicons name="language" size={24} color="black" />
-            <Text>Mudar Idioma</Text>
-            <Text>Fazendo isso você pode mudar o idioma do aplicativo</Text>
-          </TouchableOpacity>
-          {openLanguage && (
+      <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
+        <Image source={require("../../assets/profile/white-logo.png")}/>
+      </TouchableOpacity>
+        {openOptions && (
+          <View>
             <View>
-              {langs.map((lang) => (
-                <TouchableOpacity
-                  key={lang.code}
-                  onPress={() => changeLanguage(lang.code)}
-                >
-                  <Text>{lang.label}</Text>
-                </TouchableOpacity>
-              ))}
+              <TouchableOpacity
+                onPress={() => setOpenLanguage(!openLanguage)}
+              >
+                <Ionicons name="language" size={24} color="black" />
+                <Text>{t('titleChangeLanguage')}</Text>
+                <Text>{t('contextChangeLanguage')}</Text>
+              </TouchableOpacity>
+              {openLanguage && (
+                <View>
+                  {langs.map((lang) => (
+                    <TouchableOpacity
+                      key={lang.code}
+                      onPress={() => changeLanguage(lang.code)}
+                    >
+                      <Text>{lang.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
             </View>
-          )}
-        </View>
-        <TouchableOpacity onPress={handleRemovePhoto}>
-          <Ionicons name="trash-outline" size={24} color="black" />
-          <Text>Atualizar</Text>
-          <Text>Você ira ser direcionado para a atualização dos seus dados</Text>
-        </TouchableOpacity>
+            <TouchableOpacity>
+              <Ionicons name="trash-outline" size={24} color="black" />
+              <Text>{t('titleUpdate')}</Text>
+              <Text>{t('contextUpdateUser')}</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity onPress={confirmarLogout}>
-          <Ionicons name="log-out-outline" size={24} color="black" />
-          <Text>Deslogar</Text>
-          <Text>Fazendo isso você irá retornar para a página de login</Text>
-        </TouchableOpacity>
-      </View>
+            <TouchableOpacity onPress={confirmarLogout}>
+              <Ionicons name="log-out-outline" size={24} color="black" />
+              <Text>{t('textLogout')}</Text>
+              <Text>{t('contextLogout')}</Text>
+            </TouchableOpacity>
+          </View>
+        )}
 
       <Modal visible={zoomVisible} transparent onRequestClose={() => setZoomVisible(false)}>
         <View style={styles.zoomContainer}>

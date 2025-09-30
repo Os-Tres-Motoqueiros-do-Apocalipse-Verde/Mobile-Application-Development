@@ -23,7 +23,7 @@ function CustomDrawerContent(props: any) {
 
       <DrawerItem
         label="Sobre Nós"
-        icon={() => <Ionicons name="person-outline" size={24} color="green" />}
+        icon={() => <Ionicons name="people-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("about")}
       />
 

@@ -1,4 +1,4 @@
-import { View, Text, Button, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, Alert, ScrollView, TouchableOpacity, Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
@@ -13,7 +13,16 @@ export default function Home() {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     
-  
+    const openLink = async () => {
+      const url = "https://github.com/Os-Tres-Motoqueiros-do-Apocalipse-Verde";
+
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(t('titleError'), t('contextAlertLinkErro') + url);
+      }
+    };
 
     useEffect(() => {
         const fetchUsuario = async () => {
@@ -59,7 +68,14 @@ export default function Home() {
                 size={24}
                 color="green"
             />
-            <Text>{t('contextGithub')}</Text>
+            <View>
+              <Text>{t('contextGithub')}</Text>
+              <TouchableOpacity onPress={openLink}>
+                <Text>
+                  OTMAV
+                </Text>
+              </TouchableOpacity>
+            </View>
             </View>
         </View>
       </ScrollView>
