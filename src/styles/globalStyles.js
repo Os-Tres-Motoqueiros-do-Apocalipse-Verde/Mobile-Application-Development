@@ -28,6 +28,7 @@ export const createGlobalStyles = (colors) =>
 
     profile: {
     backgroundColor: colors.background,
+    minHeight: 700,
 
     },
 
@@ -273,6 +274,16 @@ export const createGlobalStyles = (colors) =>
     alignItems: "center",
     borderBottomStartRadius:200,
     borderBottomEndRadius:200, 
+    
+  },
+
+  motoPerfil: {
+    height:240,
+    paddingTop:30,
+    backgroundColor: "#099302",
+    alignItems: "center",
+    borderBottomStartRadius:100,
+    borderBottomEndRadius:100, 
   },
 
   opcaoPerfil: {
@@ -308,7 +319,8 @@ export const createGlobalStyles = (colors) =>
     borderTopEndRadius:30, 
     borderTopStartRadius:30,
     gap:20,
-    padding:20
+    padding:20,
+    height:"100%"
   },
 
   botoesConf: {

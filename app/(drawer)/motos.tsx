@@ -16,11 +16,17 @@ import { router } from "expo-router";
 import { MotoForm } from "../../src/types/motos";
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function Motos() {
   const [motos, setMotos] = useState<MotoForm[]>([]);
   const [filtroCampo, setFiltroCampo] = useState<keyof MotoForm | "todos">("todos");
   const [filtroValor, setFiltroValor] = useState("");
   const [openOptions, setOpenOptions] = useState(false);
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
     
 
   const { t } = useTranslation();
@@ -61,55 +67,64 @@ export default function Motos() {
   };
   
   return (
-    <View>
-      <Text>{t('titleListBikes')}</Text>
+    <View style={styles.profile}>
+      <View style={styles.motoPerfil} >
+         <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleListBikes')}</Text>
   
-      <View>
-        <Picker
-          selectedValue={filtroCampo}
-          onValueChange={(itemValue) => setFiltroCampo(itemValue)}
-        >
-          <Picker.Item label={t('titleAll')} value="todos" />
-          <Picker.Item label={t('titlePlate')} value="placa" />
-          <Picker.Item label={t('titleModel')} value="modelo" />
-          <Picker.Item label={t('titleCondition')} value="condicao" />
-          <Picker.Item label={t('titleBraking')} value="frenagem" />
-        </Picker>
-  
-        <TextInput
-          placeholder={t('titleSearchBike')}
-          value={filtroValor}
-          onChangeText={(text) => setFiltroValor(text)}
-        />
+        <View>
+          <Picker
+            selectedValue={filtroCampo}
+            onValueChange={(itemValue) => setFiltroCampo(itemValue)}
+          >
+            <Picker.Item label={t('titleAll')} value="todos" />
+            <Picker.Item label={t('titlePlate')} value="placa" />
+            <Picker.Item label={t('titleModel')} value="modelo" />
+            <Picker.Item label={t('titleCondition')} value="condicao" />
+            <Picker.Item label={t('titleBraking')} value="frenagem" />
+          </Picker>
+    
+          <TextInput
+            placeholder={t('titleSearchBike')}
+            value={filtroValor}
+            style={{borderWidth:1, borderColor:"#09BC00",borderRadius:10, width:"60%", color:"#fff"}}
+            onChangeText={(text) => setFiltroValor(text)}
+          />
+        </View>
+
       </View>
+     
   
       <FlatList
         data={filteredMotos}
         keyExtractor={(item) => item.placa}
         renderItem={({ item }) => (
-          <TouchableOpacity
+          <TouchableOpacity style={{backgroundColor:"#099302", gap:20, width:"90%", borderRadius:20, padding:20, alignSelf:"center", marginTop:50}}
             onPress={() => handleItemPress(item)}
           >
-            <Text>{item.modelo}</Text>
-            <Text>{t('titlePlate')}: {item.placa}</Text>
-            <Text>{t('titleCondition')}: {item.condicao}</Text>
+            <Text style={{color:"#fff"}}>{item.modelo}</Text>
+            <Text style={{color:"#fff"}}>{t('titlePlate')}: {item.placa}</Text>
+            <Text style={{color:"#fff"}}>{t('titleCondition')}: {item.condicao}</Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
           <Text>{t('alertContextErroFindAnyBike')}</Text>
         }
       />
-      <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
-        <Image source={require("../../assets/profile/white-logo.png")}/>
+      <TouchableOpacity style={{backgroundColor:"#099302", width:100, marginLeft:40, borderTopEndRadius:20, borderTopStartRadius:20}} onPress={() => setOpenOptions(!openOptions)}>
+        <Image style={{alignSelf:"center"}} source={require("../../assets/profile/white-logo.png")}/>
       </TouchableOpacity>
       {openOptions && (
-        <TouchableOpacity onPress={() => router.push('/cadastro-moto')}>
-          <Ionicons name="create-outline" size={24} color="black" />
-          <View>
-            <Text>{t('titleRegister')}</Text>
-            <Text>{t('contextRegisterBike')}</Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.config}>
+          <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-moto')}>
+            <Ionicons name="create-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
+            <View>
+              <Text style={{color:"#fff"}}>{t('titleRegister')}</Text>
+              <Text style={{color:"#fff", width:"80%"}}>{t('contextRegisterBike')}</Text>
+            </View>
+          </TouchableOpacity>
+
+        </View>
+        
       )}
     </View>
   );

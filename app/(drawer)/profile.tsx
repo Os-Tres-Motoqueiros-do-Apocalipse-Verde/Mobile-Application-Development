@@ -161,6 +161,7 @@ export default function Profile() {
   return (
     <ScrollView contentContainerStyle={styles.profile}>
       <View style={styles.fotoPerfil} >
+        
         <Text style={{fontSize:30, color:"#fff" }} >
           {funcionario?.nome ?? t('loading')}
         </Text>
