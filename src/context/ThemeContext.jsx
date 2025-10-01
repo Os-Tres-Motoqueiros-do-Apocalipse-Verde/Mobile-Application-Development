@@ -29,13 +29,15 @@ export function ThemeProvider({children}){
             background:'#fff',
             text:'#000',
             button:'#007bff',
-            buttonText:'#fff'
+            buttonText:'#fff',
+            border:'#000'
         },
         dark:{
             background:'#000',
             text:'#fff',
             button:'#0bf359ff',
-            buttonText:'#000'
+            buttonText:'#000',
+            border:'#fff'
         }
     }
   

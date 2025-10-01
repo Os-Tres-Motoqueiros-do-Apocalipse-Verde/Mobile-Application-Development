@@ -6,12 +6,19 @@ import { Funcionario } from '../../src/types/funcionario';
 import { useRouter } from 'expo-router'; 
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
+
 export default function Login() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const router = useRouter();
 
@@ -63,58 +70,79 @@ export default function Login() {
   };
 
   return (
-    <ScrollView>
-      <View>
-        <Ionicons name="mail-outline" size={24} color="green"/>
-        <TextInput
-          placeholder={t('emailPlace')}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.organization}>
 
-      <View>
-        <Ionicons
-            name="lock-closed-outline"
-            size={24}
-            color="green"
+        <View style={styles.form}>
+          <Text>Email</Text>
+          <View style={styles.input}>
+            <Ionicons name="mail-outline" size={24} color="green" style={styles.iconForm}/>
+            <TextInput
+              placeholder={t('emailPlace')}
+              value={email}
+              style={styles.textInput}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+          </View>
+          
+        </View>
+
+
+        <View style={styles.organization}>
+          <View style={styles.form}>
+            <Text>Senha</Text>
+            
+            <View style={styles.input}>
+              <Ionicons
+                name="lock-closed-outline"
+                size={24}
+                color="green"
+                style={styles.iconForm}
+              />
+              <TextInput
+                placeholder={t('passwordPlace')}
+                value={senha}
+                style={styles.textInput}
+                onChangeText={setSenha}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+              <Ionicons
+                name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                size={24}
+                color="green"
+                style={styles.olho}
+              />
+              </TouchableOpacity>
+
+            </View>
+          </View>
+
+        </View>
+        
+
+        <TouchableOpacity onPress={() => setRememberMe(!rememberMe)} style={styles.lembre}>
+          <Ionicons 
+            name={rememberMe ? 'checkbox' : 'square-outline'} 
+            size={24} 
+            color="green" 
           />
-        <TextInput
-          placeholder={t('passwordPlace')}
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons
-            name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-            size={24}
-            color="green"
-          />
+          <Text>{t('rememberMe')}</Text>
         </TouchableOpacity>
+
+        <Button title={t('loginTitle')} onPress={handleLogin} />
+
+        <View style={styles.cadastrar}>
+          <Text>{t('noAccountText')}</Text>
+          <TouchableOpacity onPress={() => router.push('/cadastro')}>
+            <Text style={{ color: '#099302' }}>{t('registerTitle')}</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
-
-      <TouchableOpacity 
-        onPress={() => setRememberMe(!rememberMe)} 
-      >
-        <Ionicons 
-          name={rememberMe ? 'checkbox' : 'square-outline'} 
-          size={24} 
-          color="green" 
-        />
-        <Text>{t('rememberMe')}</Text>
-      </TouchableOpacity>
-
-      <Button title={t('loginTitle')} onPress={handleLogin} />
-
-      <View>
-        <Text>{t('noAccountText')}</Text>
-        <TouchableOpacity onPress={() => router.push('/cadastro')}>
-          <Text>{t('registerTitle')}</Text>
-        </TouchableOpacity>
-      </View>
+      
     </ScrollView>
   );
 }
