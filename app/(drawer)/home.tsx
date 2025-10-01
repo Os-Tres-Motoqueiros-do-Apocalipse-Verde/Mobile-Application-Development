@@ -1,6 +1,5 @@
 import { View, Text, Alert, ScrollView, TouchableOpacity, Linking } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
@@ -8,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 
 export default function Home() {
     
-    const router = useRouter();
     const [nome, setNome] = useState<string>("");
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);

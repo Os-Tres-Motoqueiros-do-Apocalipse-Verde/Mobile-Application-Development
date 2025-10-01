@@ -32,7 +32,11 @@ function CustomDrawerContent(props: any) {
         icon={() => <Ionicons name="person-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("profile")}
       />
-
+      <DrawerItem
+        label="Motos"
+        icon={() => <Ionicons name="bicycle-outline" size={24} color="green" />}
+        onPress={() => props.navigation.navigate("motos")}
+      />
       <DrawerItem
         label="Configurações"
         icon={() => <Ionicons name="settings-outline" size={24} color="green" />}
@@ -48,6 +52,7 @@ export default function DrawerLayout() {
       <Drawer.Screen name="Home" />
       <Drawer.Screen name="Sobre Nós" />
       <Drawer.Screen name="Profile" />
+      <Drawer.Screen name="Motos" />
       <Drawer.Screen name="settingsStack" options={{ headerShown: false }} />
     </Drawer>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, ScrollView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { Funcionario } from '../../src/types/funcionario'; 
@@ -18,10 +18,9 @@ export default function Cadastro() {
     const [cargo, setCargo] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     
-
     const router = useRouter();
 
-    const handleCadastro = async () => {
+    const handleRegister = async () => {
         if (!nome || !email || !senha || !telefone || !cpf || !cargo) {
           Alert.alert(t('titleError'), t('alertEmptyInput'));
           return;
@@ -120,7 +119,7 @@ export default function Cadastro() {
           />
         </View>
 
-        <Button title={t('registerTitle')} onPress={handleCadastro} />
+        <Button title={t('registerTitle')} onPress={handleRegister} />
 
         <View>
             <Text>{t('haveAccountText')}</Text>

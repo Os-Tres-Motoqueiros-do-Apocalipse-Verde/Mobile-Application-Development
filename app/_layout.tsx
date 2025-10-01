@@ -6,9 +6,9 @@ import i18n from "../src/services/i18n";
 import LanguageSelector from "../src/components/language";
 
 export default function RootLayout() {
-  const pathname = usePathname(); // pega a rota atual
+  const pathname = usePathname(); 
 
-  const hideOnRoutes = ['/home', '/profile','/about']; 
+  const hideOnRoutes = ['/home', '/profile','/about','/motos']; 
 
   const showLanguage = !hideOnRoutes.includes(pathname);
 
