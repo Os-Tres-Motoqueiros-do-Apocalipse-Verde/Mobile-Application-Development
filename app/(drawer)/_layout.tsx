@@ -4,17 +4,24 @@ import { withLayoutContext } from "expo-router";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
+
 const DrawerNavigator = createDrawerNavigator().Navigator;
 const Drawer = withLayoutContext(DrawerNavigator);
 
 function CustomDrawerContent(props: any) {
 
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
   
   
   return (
     <DrawerContentScrollView {...props}>
       <View>
-        <Ionicons name="grid-outline" size={30} color="green" />
+        <Ionicons name="grid-outline" size={30} color="green" style={{alignSelf:"flex-end", paddingBottom:50}} />
         <Text>Menu</Text>
       </View>
 
@@ -46,14 +53,22 @@ function CustomDrawerContent(props: any) {
 }
 
 export default function DrawerLayout() {
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
+
   return (
     <Drawer
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={{
         headerTitleStyle: { fontWeight: "bold" },
+        drawerStyle: {
+          backgroundColor: "#f8f8f8",
+          width: 240,
+        },
+            
       }}
     >
-      {/* No Expo Router, não precisa de component, apenas o name deve bater com o arquivo */}
       <Drawer.Screen name="home" options={{ title: "Home" }} />
       <Drawer.Screen name="about" options={{ title: "Sobre Nós" }} />
       <Drawer.Screen name="profile" options={{ title: "Perfil" }} />

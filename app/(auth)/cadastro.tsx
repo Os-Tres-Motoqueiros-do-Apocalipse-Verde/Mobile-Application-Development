@@ -6,6 +6,10 @@ import { Funcionario } from '../../src/types/funcionario';
 import { useRouter } from 'expo-router'; 
 import{useTranslation} from 'react-i18next'
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
+
 export default function Cadastro() {
 
   const{t}=useTranslation()
@@ -17,6 +21,9 @@ export default function Cadastro() {
     const [cpf, setCpf] = useState('');
     const [cargo, setCargo] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+
+    const { colors, toggleTheme } = useTheme();
+    const styles = createGlobalStyles(colors);
     
     const router = useRouter();
 
@@ -56,77 +63,111 @@ export default function Cadastro() {
   };
 
   return (
-    <ScrollView>
-        <View>
-          <Ionicons name="person-outline" size={20} color="green" />
-          <TextInput 
-            placeholder={t('namePlace')} 
-            value={nome} 
-            onChangeText={setNome} />
-        </View>
-        <View>
-          <Ionicons name="mail-outline" size={20} color="green" />
-          <TextInput 
-            placeholder={t('emailPlace')}
-            value={email} 
-            onChangeText={setEmail} 
-            keyboardType="email-address" 
-            autoCapitalize="none"
-          />
+    <ScrollView style={styles.container}>
+      <View style={styles.organization}>
+
+        <View style={styles.form}>
+          <Text style={{color: colors.text}} >{t('namePlace')} </Text>
+          <View style={styles.input}>
+            <Ionicons name="person-outline" size={20} color="green" style={styles.iconForm}/>
+            <TextInput 
+              placeholder={t('namePlace')} 
+              value={nome} 
+              onChangeText={setNome} />
+          </View> 
         </View>
 
-        <View>
-          <Ionicons name="lock-closed-outline" size={20} color="green" />
+          <View style={styles.form}>
+            <Text style={{color: colors.text}} >{t('emailPlace')}</Text>
+            <View style={styles.input}>
+              <Ionicons name="mail-outline" size={20} color="green" style={styles.iconForm} />
+              <TextInput 
+                placeholder={t('emailPlace')}
+                value={email} 
+                onChangeText={setEmail} 
+                keyboardType="email-address" 
+                autoCapitalize="none"
+              />
+            </View>
+         
+          </View>
+        
+          <View style={styles.form}>
+          <Text style={{color: colors.text}} >{t('passwordPlace')}</Text>
+          <View style={styles.input}>
+          <Ionicons name="lock-closed-outline" size={20} color="green" style={styles.iconForm} />
           <TextInput
-            placeholder={t('passwordPlace')}
-            value={senha} 
-            onChangeText={setSenha} 
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            <Ionicons
-              name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-              size={24}
-              color="green"
+              placeholder={t('passwordPlace')}
+              value={senha} 
+              onChangeText={setSenha} 
+              style={styles.textInput}
+              secureTextEntry={!showPassword}
             />
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => setShowPassword(!showPassword)}
+            >
+              <Ionicons
+                name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                size={24}
+                color="green"
+                style={styles.olho}
+              />
+            </TouchableOpacity>
+          </View>
+
+          </View>
+        
+        <View style={styles.form}>
+          <Text style={{color: colors.text}} >{t('telephonePlace')}</Text>
+          <View style={styles.input}>
+            <Ionicons name="call-outline" size={20} color="green" style={styles.iconForm}/>
+            <TextInput
+              placeholder={t('telephonePlace')}
+              value={telefone} 
+              onChangeText={setTelefone} 
+              keyboardType="phone-pad"
+            />
+          </View>
         </View>
-        <View>
-          <Ionicons name="call-outline" size={20} color="green" />
-          <TextInput
-            placeholder={t('telephonePlace')}
-            value={telefone} 
-            onChangeText={setTelefone} 
-            keyboardType="phone-pad"
-          />
+        
+        <View style={styles.form}>
+          <Text style={{color: colors.text}} >{t('nationalIdPlace')} </Text>
+          <View style={styles.input}>
+            <Ionicons name="reader-outline" size={20} color="green" style={styles.iconForm} />
+            <TextInput 
+              placeholder={t('nationalIdPlace')} 
+              value={cpf} 
+              onChangeText={setCpf}
+            />
+          </View>
+
         </View>
-        <View>
-          <Ionicons name="reader-outline" size={20} color="green" />
-          <TextInput 
-            placeholder={t('nationalIdPlace')} 
-            value={cpf} 
-            onChangeText={setCpf}
-          />
+
+        <View style={styles.form}>
+          <Text style={{color: colors.text}} >{t('positionPlace')}</Text>
+          <View style={styles.input}>
+            <Ionicons name="storefront-outline" size={20} color="green" style={styles.iconForm} />
+            <TextInput 
+              placeholder={t('positionPlace')}
+              value={cargo} 
+              onChangeText={setCargo}
+            />
+          </View>
+
         </View>
-        <View>
-          <Ionicons name="storefront-outline" size={20} color="green" />
-          <TextInput 
-            placeholder={t('positionPlace')}
-            value={cargo} 
-            onChangeText={setCargo}
-          />
-        </View>
+       
 
         <Button title={t('registerTitle')} onPress={handleRegister} />
 
-        <View>
+        <View style={styles.cadastrar} >
             <Text>{t('haveAccountText')}</Text>
             <TouchableOpacity onPress={() => router.push('/login')}>
-              <Text>{t('loginTitle')}</Text>
+              <Text style={{ color: '#099302' }}>{t('loginTitle')}</Text>
             </TouchableOpacity>
         </View>
+
+      </View>
+        
     </ScrollView>
   );
 }

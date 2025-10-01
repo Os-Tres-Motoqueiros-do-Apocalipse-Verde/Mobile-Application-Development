@@ -74,7 +74,7 @@ export default function Login() {
       <View style={styles.organization}>
 
         <View style={styles.form}>
-          <Text>Email</Text>
+          <Text style={{color: colors.text}} >{t('emailPlace')}</Text>
           <View style={styles.input}>
             <Ionicons name="mail-outline" size={24} color="green" style={styles.iconForm}/>
             <TextInput
@@ -90,9 +90,8 @@ export default function Login() {
         </View>
 
 
-        <View style={styles.organization}>
           <View style={styles.form}>
-            <Text>Senha</Text>
+            <Text style={{color: colors.text}} >{t('passwordPlace')}</Text>
             
             <View style={styles.input}>
               <Ionicons
@@ -119,8 +118,6 @@ export default function Login() {
 
             </View>
           </View>
-
-        </View>
         
 
         <TouchableOpacity onPress={() => setRememberMe(!rememberMe)} style={styles.lembre}>
@@ -135,7 +132,7 @@ export default function Login() {
         <Button title={t('loginTitle')} onPress={handleLogin} />
 
         <View style={styles.cadastrar}>
-          <Text>{t('noAccountText')}</Text>
+          <Text style={{color: colors.text}}>{t('noAccountText')}</Text>
           <TouchableOpacity onPress={() => router.push('/cadastro')}>
             <Text style={{ color: '#099302' }}>{t('registerTitle')}</Text>
           </TouchableOpacity>

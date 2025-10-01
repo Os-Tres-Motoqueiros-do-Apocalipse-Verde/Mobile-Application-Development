@@ -5,13 +5,93 @@ export const createGlobalStyles = (colors) =>
     container: {
       flex: 1,
       backgroundColor: colors.background,
-      padding: 16,
+      marginBottom:50,
+      paddingBottom:100,
+    },
+
+    home: {
+      flex:1,
+      gap:30,
+      paddingVertical:40,
+      paddingHorizontal:20,
+      backgroundColor: colors.background
+    },
+
+    apresentacao: {
+      marginBottom:50,
+      paddingBottom:60,
+      borderBottomWidth:2,
+      borderBottomColor: "#099302",
+      
+    },
+
+    informacao:{
+      flexDirection: 'row', 
+      justifyContent: "space-between", 
+      paddingHorizontal:10, 
+      backgroundColor: "#099302",
+      height: 70,
+      borderRadius: 20
+    },
+
+    MaisInfo:{
+      flexDirection: 'row', 
+      justifyContent: "space-between", 
+      paddingHorizontal:10, 
+      backgroundColor: colors.popUp,
+      padding: 20,
+      borderRadius: 15,
+      
+      // sombra iOS
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 20,
+        height: 10,
+      },
+
+      shadowRadius: 4.65,
+
+      // sombra Android
+      elevation: 30,
+    },
+
+    git:{
+      justifyContent: "space-between", 
+      paddingHorizontal:10, 
+      backgroundColor: colors.popUp,
+      padding: 20,
+      borderRadius: 15,
+      
+      // sombra iOS
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 20,
+        height: 10,
+      },
+
+      shadowRadius: 4.65,
+
+      // sombra Android
+      elevation: 30,
     },
 
 
     text: {
       color: colors.text,
       fontSize: 16,
+    },
+
+    textInfo: {
+      color: colors.text,
+      fontSize: 16,
+      textAlign:"center"
+    },
+
+    textBemVindo: {
+      color: colors.text,
+      fontSize: 25,
+      fontWeight: "bold",
+      
     },
 
 
@@ -30,7 +110,8 @@ export const createGlobalStyles = (colors) =>
 
     organization: {
         flex:1,
-        gap:50,
+        gap:30,
+        paddingVertical:40,
     },
 
     form: {
@@ -78,5 +159,22 @@ export const createGlobalStyles = (colors) =>
         flexDirection: "row", 
         marginLeft:40,
         gap:20,
+    },
+
+    HeaderForm: {
+        flexDirection: "row", 
+        gap: 12, 
+        marginRight: 10, 
+        height:168.14,
+        
+    },
+
+    language: {
+        color: colors.titulo
+    },
+
+    escolhas: {
+        backgroundColor:colors.titulo,
+        padding:10,
     },
   });

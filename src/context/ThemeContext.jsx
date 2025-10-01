@@ -30,14 +30,18 @@ export function ThemeProvider({children}){
             text:'#000',
             button:'#007bff',
             buttonText:'#fff',
-            border:'#000'
+            border:'#000',
+            titulo: '#fff',
+            popUp: '#E4E4E4FF'
         },
         dark:{
             background:'#000',
             text:'#fff',
             button:'#0bf359ff',
             buttonText:'#000',
-            border:'#fff'
+            border:'#fff',
+            titulo: '#373737',
+            popUp: '#272727'
         }
     }
   
