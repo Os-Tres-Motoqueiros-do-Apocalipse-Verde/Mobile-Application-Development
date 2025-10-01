@@ -17,6 +17,9 @@ import { Camera } from "expo-camera";
 import i18n from "../../src/services/i18n";
 import { useTranslation } from "react-i18next";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export interface Funcionario {
   id: number;
   nome: string;
@@ -31,6 +34,11 @@ export default function Profile() {
   const { t } = useTranslation();
   const router = useRouter();
 
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
+
+
   const langs = [
     { code: "pt", label: "Português (BR)" },
     { code: "en", label: "Inglês (US)" },
@@ -41,6 +49,8 @@ export default function Profile() {
     i18n.changeLanguage(lang);
     setOpenLanguage(false);
   };
+
+  
 
   const defaultImage = require("../../assets/profile/avatar.png");
   const [profileImage, setProfileImage] = useState<any>(defaultImage);
@@ -149,15 +159,15 @@ export default function Profile() {
   };
 
   return (
-    <ScrollView>
-      <View>
-        <Text>
+    <ScrollView contentContainerStyle={styles.profile}>
+      <View style={styles.fotoPerfil} >
+        <Text style={{fontSize:30, color:"#fff" }} >
           {funcionario?.nome ?? t('loading')}
         </Text>
 
         <View>
           <Image source={profileImage} style={styles.profileImage} />
-          <View>
+          <View style={{position:"absolute", top:180, left:20}}>
             <TouchableOpacity
               onPress={() => setOpen(!open)}
             >
@@ -167,71 +177,71 @@ export default function Profile() {
             </TouchableOpacity>
 
             {open && (
-              <View>
-                <TouchableOpacity onPress={handleViewPhoto}>
-                  <Text>{t('PhotoSee')}</Text>
+              <View style={styles.opcaoPerfil} >
+                <TouchableOpacity style={{borderBottomWidth:1}} onPress={handleViewPhoto}>
+                  <Text style={styles.text} >{t('PhotoSee')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleChangePhoto}>
-                  <Text>{t('photoChange')}</Text>
+                <TouchableOpacity style={{borderBottomWidth:1}} onPress={handleChangePhoto}>
+                  <Text style={styles.text}>{t('photoChange')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handleTakePhoto}>
-                  <Text>{t('photoWithCamera')}</Text>
+                <TouchableOpacity style={{borderBottomWidth:1}} onPress={handleTakePhoto}>
+                  <Text style={styles.text}>{t('photoWithCamera')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={confirmRemovePhoto}>
-                  <Text style={{ color: "red" }}>{t('photoRemove')}</Text>
+                <TouchableOpacity style={{borderBottomWidth:1}} onPress={confirmRemovePhoto}>
+                  <Text style={{ color: "red", fontSize:16 }}>{t('photoRemove')}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setOpen(false)}>
-                  <Text>{t('titleCancel')}</Text>
+                <TouchableOpacity style={{borderBottomWidth:1}} onPress={() => setOpen(false)}>
+                  <Text style={styles.text}>{t('titleCancel')}</Text>
                 </TouchableOpacity>
               </View>
             )}
           </View>
         </View>
-
-        <Text>{t('titleMydata')}</Text>
+       
       </View>
 
-      <View>
-        <View>
-          <Ionicons name="mail-outline" size={20} color="black" />
+      <View style={styles.dadosProfile} >
+         <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleMydata')}</Text>
+        <View style={styles.dadosPreenchidos}>
+          <Ionicons name="mail-outline" size={30} color="#099302" />
           <Text>{funcionario?.email}</Text>
         </View>
-        <View>
-          <Ionicons name="call-outline" size={20} color="black" />
+        <View style={styles.dadosPreenchidos}>
+          <Ionicons name="call-outline" size={30} color="#099302" />
           <Text>{funcionario?.telefone}</Text>
         </View>
-        <View>
-          <MaterialIcons name="badge" size={20} color="black" />
+        <View style={styles.dadosPreenchidos}>
+          <MaterialIcons name="badge" size={30} color="#099302" />
           <Text>{funcionario?.cpf}</Text>
         </View>
-        <View>
-          <Ionicons name="person-outline" size={20} color="black" />
+        <View style={styles.dadosPreenchidos}>
+          <Ionicons name="person-outline" size={30} color="#099302" />
           <Text>{funcionario?.cargo}</Text>
         </View>
       </View>
 
-      <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
-        <Image source={require("../../assets/profile/white-logo.png")}/>
+      <TouchableOpacity style={{backgroundColor:"#099302", width:100, marginLeft:40, borderTopEndRadius:20, borderTopStartRadius:20}} onPress={() => setOpenOptions(!openOptions)}>
+        <Image style={{alignSelf:"center"}} source={require("../../assets/profile/white-logo.png")}/>
       </TouchableOpacity>
         {openOptions && (
-          <View>
+          <View style={styles.config} >
             {/* Botão de mudar idioma */}
-            <View>
-              <TouchableOpacity onPress={() => setOpenLanguage(!openLanguage)}>
-                <Ionicons name="language" size={24} color="black" />
+            <View style={{paddingHorizontal:40}} >
+              <TouchableOpacity style={styles.botoesConf} onPress={() => setOpenLanguage(!openLanguage)}>
+                <Ionicons name="language" size={30} color="#fff" style={{alignSelf:"center"}} />
                 <View>
-                  <Text>{t('titleChangeLanguage')}</Text>
-                  <Text>{t('contextChangeLanguage')}</Text>
+                  <Text style={{color:"#fff"}} >{t('titleChangeLanguage')}</Text>
+                  <Text style={{color:"#fff"}}>{t('contextChangeLanguage')}</Text>
                 </View>
-                <Ionicons name="chevron-down-outline" size={24} color="green" />
+                <Ionicons name="chevron-down-outline" size={40} color="#fff" style={{alignSelf:"center"}} />
               </TouchableOpacity>
               {openLanguage && (
-                <View>
-                  <Text>{t('ContextLanguage')}</Text>
+                <View style={styles.escolhasProfile} >
+                  <Text style={{fontWeight:"bold"}} >{t('ContextLanguage')}</Text>
                   <View>
                     {langs.map((lang) => (
-                      <TouchableOpacity key={lang.code} onPress={() => changeLanguage(lang.code)}>
-                        <Text>{lang.label}</Text>
+                      <TouchableOpacity style={styles.dadosPreenchidos} key={lang.code} onPress={() => changeLanguage(lang.code)}>
+                        <Text >{lang.label}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -240,7 +250,7 @@ export default function Profile() {
             </View>
             
             {/* Botão de editar usuário */}
-            <TouchableOpacity
+            <TouchableOpacity style={styles.botoesConf}
               onPress={() => {
                 if (funcionario) {
                   router.push(`/editar-funcionario?id=${funcionario.id}`);
@@ -249,19 +259,19 @@ export default function Profile() {
                 }
               }}
             >
-              <Ionicons name="pencil-outline" size={24} color="black" />
+              <Ionicons name="pencil-outline" size={30} color="#fff"  style={{alignSelf:"center"}}/>
               <View>
-                <Text>{t('titleUpdate')}</Text>
-                <Text>{t('contextUpdateUser')}</Text>
+                <Text style={{color:"#fff"}}>{t('titleUpdate')}</Text>
+                <Text style={{color:"#fff"}}>{t('contextUpdateUser')}</Text>
               </View>
             </TouchableOpacity>
             
             {/* Botão de logout */}
-            <TouchableOpacity onPress={confirmarLogout}>
-              <Ionicons name="log-out-outline" size={24} color="black" />
+            <TouchableOpacity style={styles.botoesConf} onPress={confirmarLogout}>
+              <Ionicons name="log-out-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
               <View>
-                <Text>{t('textLogout')}</Text>
-                <Text>{t('contextLogout')}</Text>
+                <Text style={{color:"#fff"}}>{t('textLogout')}</Text>
+                <Text style={{color:"#fff"}}>{t('contextLogout')}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -281,16 +291,3 @@ export default function Profile() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  profileImage: { width: 150, height: 150, borderRadius: 75 },
-  sectionTitle: { fontSize: 18, marginTop: 12, fontWeight: "bold" },
-  zoomContainer: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.9)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  zoomImage: { width: "90%", height: "70%", resizeMode: "contain" },
-  closeZoom: { position: "absolute", top: 40, right: 20 },
-});

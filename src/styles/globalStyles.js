@@ -26,6 +26,11 @@ export const createGlobalStyles = (colors) =>
 
     },
 
+    profile: {
+    backgroundColor: colors.background,
+
+    },
+
     apresentacao: {
       marginBottom:50,
       paddingBottom:60,
@@ -193,6 +198,13 @@ export const createGlobalStyles = (colors) =>
         padding:10,
     },
 
+    escolhasProfile: {
+        backgroundColor:colors.titulo,
+        borderRadius:20,
+        gap:20,
+        padding:20,
+    },
+
 
     dados: {
       flex: 1,
@@ -219,5 +231,94 @@ export const createGlobalStyles = (colors) =>
       flexDirection: 'row', 
     },
 
+    profileImage: { 
+      width: 150, 
+      height: 150, 
+      position:"absolute",
+      top:40,
+      left:-70,
 
-  });
+    },
+
+  sectionTitle: { 
+    fontSize: 18, 
+    marginTop: 12, 
+    fontWeight: "bold" 
+  },
+
+  zoomContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  zoomImage: { 
+    width: "90%", 
+    height: "70%", 
+    resizeMode: "contain" 
+  },
+  
+  closeZoom: { 
+    position: "absolute", 
+    top: 40, 
+    right: 20 
+  },
+
+  fotoPerfil: {
+    flex: 1,
+    height:260,
+    paddingTop:70,
+    backgroundColor: "#099302",
+    alignItems: "center",
+    borderBottomStartRadius:200,
+    borderBottomEndRadius:200, 
+  },
+
+  opcaoPerfil: {
+    flex: 1,
+    position:"relative",
+    backgroundColor: colors.popUp,
+    padding:10,
+    borderRadius:20,
+    gap:5,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1,
+  },
+
+  dadosProfile: {
+    flex:1,
+    paddingHorizontal:40,
+    paddingVertical:80,
+    gap:30,  
+  },
+
+  dadosPreenchidos: {
+    flexDirection:"row",
+    borderBottomWidth:1,
+    borderColor: colors.border,
+    paddingBottom:10,
+    gap:20
+  },
+
+  config: {
+    backgroundColor: "#099302",
+    alignItems: "center",
+    borderTopEndRadius:30, 
+    borderTopStartRadius:30,
+    gap:20,
+    padding:20
+  },
+
+  botoesConf: {
+    flexDirection:"row",
+    width:"99%",
+    borderRadius:20,
+    gap:10,
+    padding:10,
+    backgroundColor:"#09BC00"
+  },
+
+
+});
