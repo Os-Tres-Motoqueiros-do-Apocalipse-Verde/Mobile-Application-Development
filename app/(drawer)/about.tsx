@@ -3,6 +3,9 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, ScrollView } 
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 const pessoas = [
   {
     nome: "Erick",
@@ -36,6 +39,7 @@ const pessoas = [
   }
 ];
 
+
 const calculateAge = (dataNascimento: Date) => {
   const hoje = new Date();
   let idade = hoje.getFullYear() - dataNascimento.getFullYear();
@@ -47,6 +51,9 @@ const calculateAge = (dataNascimento: Date) => {
 };
 
 export default function About() {
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
+
   const { t } = useTranslation();
 
   const handleLinkPress = async (url: string) => {
@@ -54,39 +61,45 @@ export default function About() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.sobre} >
       {pessoas.map((p, index) => {
         const idade = calculateAge(p.nascimento);
         return (
-          <View key={index}>
-            <View>
+          <View key={index} >
+            <View style={styles.dados} >
               <Image source={p.icone}/>
-              <View>
-                <Text>{t('usGreetings')} {p.nome}</Text>
-                <Text>{t('usIHave')} {idade} {t('usAges')}</Text>
+              <View >
+                <Text style={styles.textSobre}>{t('usGreetings')} {p.nome}</Text>
+                <Text style={styles.textSobre}>{t('usIHave')} {idade} {t('usAges')}</Text>
               </View>
             </View>
 
             <View>
-              <View>
-                <View>
-                  <Text>{p.turma}</Text>
-                  <Text>RM:{p.rm}</Text>
-                </View>
+              <View style={styles.dados} >
 
-                <Image source={p.foto}/>
+                 <Image source={p.foto} />
 
-                <View>
-                  <TouchableOpacity onPress={() => handleLinkPress(p.linkedin)}>
-                    <Text>{t('usFollowMe')}</Text>
-                    <Ionicons name="logo-linkedin" size={20} color="black" />
-                  </TouchableOpacity>
+                 <View style={{position:"absolute", right:40, top:15, gap:20}} >
+                    <View>
+                      <Text style={{ color:'white', fontSize:15, textAlign:"center" }}>{p.turma}</Text>
+                      <Text style={{ color:'white', fontSize:13, textAlign:"center" }}>RM:{p.rm}</Text>
+                    </View>
 
-                  <TouchableOpacity onPress={() => handleLinkPress(p.github)}>
-                    <Ionicons name="logo-github" size={20} color="black" />
-                    <Text>{t('usKnowMe')}</Text>
-                  </TouchableOpacity>
-                </View>
+                    <View style={{gap:10}} >
+                      <TouchableOpacity style={styles.links} onPress={() => handleLinkPress(p.linkedin)}>
+                        <Text style={{ color:'white' }}>{t('usFollowMe')}</Text>
+                        <Ionicons name="logo-linkedin" size={20} color="#fff" />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity style={styles.links} onPress={() => handleLinkPress(p.github)}>
+                        <Ionicons name="logo-github" size={20} color="#fff" />
+                        <Text style={{ color:'white' }}>{t('usKnowMe')}</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                 </View>
+
+                
               </View>
             </View>
           </View>

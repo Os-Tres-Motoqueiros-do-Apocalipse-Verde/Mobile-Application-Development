@@ -17,6 +17,15 @@ export const createGlobalStyles = (colors) =>
       backgroundColor: colors.background
     },
 
+    sobre: {
+    flexGrow: 1,
+    paddingHorizontal: 30,
+    paddingVertical: 60,
+    gap:40,
+    backgroundColor: colors.background,
+
+    },
+
     apresentacao: {
       marginBottom:50,
       paddingBottom:60,
@@ -85,6 +94,12 @@ export const createGlobalStyles = (colors) =>
       color: colors.text,
       fontSize: 16,
       textAlign:"center"
+    },
+
+    textSobre: {
+      color: colors.text,
+      fontSize: 14,
+      fontWeight: "bold",
     },
 
     textBemVindo: {
@@ -177,4 +192,32 @@ export const createGlobalStyles = (colors) =>
         backgroundColor:colors.titulo,
         padding:10,
     },
+
+
+    dados: {
+      flex: 1,
+      gap:20,
+      marginBottom:10,
+      flexDirection: 'row', 
+    },
+
+    fundo: {
+      flex: 1,
+      paddingVertical:10,
+      gap: 10,
+      justifyContent: 'center', 
+      alignItems: 'center',   
+      paddingLeft:90,
+    },
+
+    links: {
+      backgroundColor: '#3D3D3D',
+      padding:5,
+      gap:10,
+      justifyContent:"center",
+      borderRadius:15,
+      flexDirection: 'row', 
+    },
+
+
   });
