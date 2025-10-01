@@ -32,7 +32,6 @@
   "titleGithub": "Nuestro Github",
   "contextGithub": "Esta es nuestra organización del proyecto Los Tres Jinetes del Apocalipsis Verde",
   "contextAlertLinkErro": "No se pudo abrir el enlace: ",
-
   "alertTitleLogout": "Cerrar sesión",
   "alertContextLogout": "¿Está seguro de que desea cerrar sesión?",
   "titleRemovePhoto": "Confirmar eliminación",
@@ -55,7 +54,6 @@
   "titleUpdate": "Actualizar",
   "contextUpdateUser": "Serás redirigido(a) para actualizar tus datos",
   "contextLogout": "Haciendo esto regresarás a la página de inicio de sesión",
-
   "usGreetings": "Hola, soy",
   "usIHave": "Tengo",
   "usAges": "Años",

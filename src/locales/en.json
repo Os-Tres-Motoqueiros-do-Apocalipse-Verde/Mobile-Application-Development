@@ -24,7 +24,6 @@
   "positionPlace": "Position",
   "telephonePlace": "Phone",
   "rememberMe": "Remember me",
-
   "welcome": "Hello! ",
   "greetings": "Welcome to The Three Green Apocalypse Motorcyclists",
   "questionOTMAV": "What is OTMAV?",
@@ -32,7 +31,6 @@
   "titleGithub": "Our Github",
   "contextGithub": "This is our organization for the project The Three Green Apocalypse Horsemen",
   "contextAlertLinkErro": "Unable to open the link: ",
-
   "alertTitleLogout": "Log Out",
   "alertContextLogout": "Are you sure you want to log out?",
   "titleRemovePhoto": "Confirm removal",
@@ -55,7 +53,6 @@
   "titleUpdate": "Update",
   "contextUpdateUser": "You will be redirected to update your data",
   "contextLogout": "By doing this you will return to the login page",
-
   "usGreetings": "Hello, I am",
   "usIHave": "I am",
   "usAges": "Years old",
