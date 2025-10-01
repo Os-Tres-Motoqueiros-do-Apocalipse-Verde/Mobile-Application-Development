@@ -1,13 +1,16 @@
 import React from "react";
-import {createDrawerNavigator,DrawerContentScrollView, DrawerItem} from "@react-navigation/drawer";
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
 import { withLayoutContext } from "expo-router";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const DrawerNavigator = createDrawerNavigator().Navigator;
 const Drawer = withLayoutContext(DrawerNavigator);
 
 function CustomDrawerContent(props: any) {
+
+  
+  
   return (
     <DrawerContentScrollView {...props}>
       <View>
@@ -32,15 +35,11 @@ function CustomDrawerContent(props: any) {
         icon={() => <Ionicons name="person-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("profile")}
       />
+
       <DrawerItem
         label="Motos"
         icon={() => <Ionicons name="bicycle-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("motos")}
-      />
-      <DrawerItem
-        label="Configurações"
-        icon={() => <Ionicons name="settings-outline" size={24} color="green" />}
-        onPress={() => props.navigation.navigate("settingStack")}
       />
     </DrawerContentScrollView>
   );
@@ -48,12 +47,17 @@ function CustomDrawerContent(props: any) {
 
 export default function DrawerLayout() {
   return (
-    <Drawer drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="Home" />
-      <Drawer.Screen name="Sobre Nós" />
-      <Drawer.Screen name="Profile" />
-      <Drawer.Screen name="Motos" />
-      <Drawer.Screen name="settingsStack" options={{ headerShown: false }} />
+    <Drawer
+      drawerContent={(props) => <CustomDrawerContent {...props} />}
+      screenOptions={{
+        headerTitleStyle: { fontWeight: "bold" },
+      }}
+    >
+      {/* No Expo Router, não precisa de component, apenas o name deve bater com o arquivo */}
+      <Drawer.Screen name="home" options={{ title: "Home" }} />
+      <Drawer.Screen name="about" options={{ title: "Sobre Nós" }} />
+      <Drawer.Screen name="profile" options={{ title: "Perfil" }} />
+      <Drawer.Screen name="motos" options={{ title: "Motos" }} />
     </Drawer>
   );
 }

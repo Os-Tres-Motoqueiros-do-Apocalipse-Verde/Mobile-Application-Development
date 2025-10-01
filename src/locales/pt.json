@@ -58,6 +58,7 @@
   "contextRegisterBike":"Você ira ser direcionado para o cadastro de motos",
   "titleDelete":"Apagar",
   "contextDeleteBike":"Fazendo isso você ira apagar a moto pesquisada",
+  "alertContextErrorDeletedBike":"Não foi possível deletar a moto",
   "usGreetings":"Olá, eu sou o",
   "usIHave":"Eu tenho",
   "usAges":"Anos",
@@ -83,5 +84,14 @@
   "placeholderFuelType":"Gasolina / Etanol",
   "titleConsumption":"Consumo",
   "placeholderConsumption":"Km/L",
-  "titleSaveBike":"Salvar Moto"
+  "titleSaveBike":"Salvar",
+  "alertConfirmedBike":"Moto Deletada",
+  "titleDataBike":"Dados da Moto",
+  "alertContextErroFindBike":"Moto não encontrada",
+  "alertContextErroFindAnyBike":"Nenhuma moto Encontrada",
+  "alertContextErroLoadBike":"Não foi possível carregar a moto",
+  "alertContextErroLoadingBike":"Não foi possível carregar as motos.",
+  "titleSearchBike":"Pesquisar Moto...",
+  "titleAll":"Todos",
+  "titleListBikes":"Lista de Motos"
 }

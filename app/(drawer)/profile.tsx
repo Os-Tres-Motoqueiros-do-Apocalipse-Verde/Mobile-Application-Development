@@ -215,30 +215,22 @@ export default function Profile() {
       </TouchableOpacity>
         {openOptions && (
           <View>
+            {/* Botão de mudar idioma */}
             <View>
-              <TouchableOpacity
-                onPress={() => setOpenLanguage(!openLanguage)}
-              >
+              <TouchableOpacity onPress={() => setOpenLanguage(!openLanguage)}>
                 <Ionicons name="language" size={24} color="black" />
                 <View>
                   <Text>{t('titleChangeLanguage')}</Text>
                   <Text>{t('contextChangeLanguage')}</Text>
                 </View>
-                <Ionicons
-                  name="chevron-down-outline"
-                  size={24}
-                  color="green"
-                />
+                <Ionicons name="chevron-down-outline" size={24} color="green" />
               </TouchableOpacity>
               {openLanguage && (
                 <View>
                   <Text>{t('ContextLanguage')}</Text>
                   <View>
                     {langs.map((lang) => (
-                      <TouchableOpacity
-                      key={lang.code}
-                      onPress={() => changeLanguage(lang.code)}
-                      >
+                      <TouchableOpacity key={lang.code} onPress={() => changeLanguage(lang.code)}>
                         <Text>{lang.label}</Text>
                       </TouchableOpacity>
                     ))}
@@ -246,14 +238,25 @@ export default function Profile() {
                 </View>
               )}
             </View>
-            <TouchableOpacity>
-              <Ionicons name="trash-outline" size={24} color="black" />
+            
+            {/* Botão de editar usuário */}
+            <TouchableOpacity
+              onPress={() => {
+                if (funcionario) {
+                  router.push(`/editar-funcionario?id=${funcionario.id}`);
+                } else {
+                  Alert.alert(t('titleError'), t('alertUserNotFound'));
+                }
+              }}
+            >
+              <Ionicons name="pencil-outline" size={24} color="black" />
               <View>
                 <Text>{t('titleUpdate')}</Text>
                 <Text>{t('contextUpdateUser')}</Text>
               </View>
             </TouchableOpacity>
-
+            
+            {/* Botão de logout */}
             <TouchableOpacity onPress={confirmarLogout}>
               <Ionicons name="log-out-outline" size={24} color="black" />
               <View>
@@ -263,6 +266,7 @@ export default function Profile() {
             </TouchableOpacity>
           </View>
         )}
+
 
       <Modal visible={zoomVisible} transparent onRequestClose={() => setZoomVisible(false)}>
         <View style={styles.zoomContainer}>

@@ -70,7 +70,7 @@ export default function MotoRegister() {
         {campos.map((item) => (
           <View key={item.key}>
             <View>
-                <Ionicons name={item.iconName} size={20} color="green" style={{ marginRight: 5 }} />
+                <Ionicons name={item.iconName} size={20} color="green"/>
                 <Text>{item.label}</Text>
             </View>
             <TextInput
