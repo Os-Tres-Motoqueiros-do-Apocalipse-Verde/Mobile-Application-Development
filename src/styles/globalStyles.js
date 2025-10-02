@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 export const createGlobalStyles = (colors) =>
   StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: colors.background,
       marginBottom:50,
       paddingBottom:100,

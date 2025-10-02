@@ -81,6 +81,7 @@ export default function MotoRegister() {
               <TextInput
                 value={form[item.key]}
                 onChangeText={(text) => handleChange(item.key, text)}
+                style={{color: colors.text}}
                 placeholder={item.placeholder || `Digite ${item.label.toLowerCase()}`}
                 keyboardType={item.keyboardType || "default"}
               />

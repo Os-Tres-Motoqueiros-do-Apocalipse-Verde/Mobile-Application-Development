@@ -86,18 +86,19 @@ export default function EditUser() {
     <ScrollView contentContainerStyle={styles.sobre}>
       <View style={styles.inputForm}>
         <Ionicons name="person-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput placeholder={t('namePlace')} value={nome} onChangeText={setNome} />
+        <TextInput style={{color:colors.text}} placeholder={t('namePlace')} value={nome} onChangeText={setNome} />
       </View>
 
       <View style={styles.inputForm}>
         <Ionicons name="mail-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput placeholder={t('emailPlace')} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
+        <TextInput style={{color:colors.text}} placeholder={t('emailPlace')} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
       </View>
 
       <View style={styles.inputForm}>
         <Ionicons name="lock-closed-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput
           placeholder={t('passwordPlace')}
+          style={{color:colors.text}}
           value={senha}
           onChangeText={setSenha}
           secureTextEntry={!showPassword}
@@ -109,17 +110,17 @@ export default function EditUser() {
 
       <View style={styles.inputForm}>
         <Ionicons name="call-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput placeholder={t('telephonePlace')} value={telefone} onChangeText={setTelefone} keyboardType="phone-pad" />
+        <TextInput placeholder={t('telephonePlace')} style={{color:colors.text}} value={telefone} onChangeText={setTelefone} keyboardType="phone-pad" />
       </View>
 
       <View style={styles.inputForm}>
         <Ionicons name="reader-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput placeholder={t('nationalIdPlace')} value={cpf} onChangeText={setCpf} />
+        <TextInput placeholder={t('nationalIdPlace')} style={{color:colors.text}}  value={cpf} onChangeText={setCpf} />
       </View>
 
       <View style={styles.inputForm}>
         <Ionicons name="storefront-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput placeholder={t('positionPlace')} value={cargo} onChangeText={setCargo} />
+        <TextInput placeholder={t('positionPlace')} style={{color:colors.text}} value={cargo} onChangeText={setCargo} />
       </View>
 
       <Button title={t('updateTitle')} onPress={handleUpdate} />
