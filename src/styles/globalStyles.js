@@ -297,7 +297,7 @@ export const createGlobalStyles = (colors) =>
   },
 
   motoStatus: {
-    height:80,
+    height:200,
     paddingTop:30,
     backgroundColor: "#099302",
     alignItems: "center",

@@ -45,8 +45,7 @@ export default function Home() {
     }, []);
   
     return (
-      <ScrollView>
-        <View style={styles.home}>
+      <ScrollView contentContainerStyle={styles.home}>
 
             <View style={styles.apresentacao}>
               <Text style={styles.textBemVindo} >{t('welcome')} {nome}</Text>
@@ -101,9 +100,6 @@ export default function Home() {
 
 
           </View>
-
-              
-        </View>
         
       </ScrollView>
     );

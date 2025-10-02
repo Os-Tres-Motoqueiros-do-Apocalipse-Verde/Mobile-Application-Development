@@ -35,7 +35,7 @@ export function ThemeProvider({children}){
             popUp: '#E4E4E4FF'
         },
         dark:{
-            background:'#000',
+            background:'#373737',
             text:'#fff',
             button:'#0bf359ff',
             buttonText:'#000',

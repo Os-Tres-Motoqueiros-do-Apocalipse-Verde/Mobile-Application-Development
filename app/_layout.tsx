@@ -26,12 +26,14 @@ export default function RootLayout() {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>
-        <Stack screenOptions={{ headerShown: false }} />
+        <Stack screenOptions={{ 
+            headerShown: false,
+          }} />
         {showLanguage && <LanguageSelector />}
-        <View>
+        <View style={{position:"absolute", flexDirection:"row" , right: 20, gap:10, bottom:770, zIndex: 2}}>
           {showProfile && 
-            <TouchableOpacity onPress={() => {router.push('/profile')}}>
-              <Ionicons name="person-circle-outline" size={24} color="green" />
+            <TouchableOpacity  onPress={() => {router.push('/profile')}}>
+              <Ionicons name="person-circle-outline" size={35} color="#fff" />
             </TouchableOpacity>
           }
           {showTheme && <ThemeToggle/>}

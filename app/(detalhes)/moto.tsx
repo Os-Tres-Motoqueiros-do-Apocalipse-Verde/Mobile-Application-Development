@@ -79,7 +79,7 @@ export default function Moto() {
       </View>
 
       <View >
-        <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingTop:35 }}>{t('titleDataBike')}</Text>
+        <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingTop:35, color:colors.text }}>{t('titleDataBike')}</Text>
         <View style={styles.dadosProfile}>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="build-outline" size={24} color="#099302"/>            
@@ -87,7 +87,7 @@ export default function Moto() {
           </View>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="checkmark-circle-outline" size={24} color="#099302"/>            
-            <Text>{t('titleCondition')} {moto.condicao}</Text>
+            <Text style={styles.text}>{t('titleCondition')} {moto.condicao}</Text>
           </View>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="bicycle-outline" size={24} color="#099302"/>            

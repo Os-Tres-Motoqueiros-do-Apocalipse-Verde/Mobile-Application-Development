@@ -202,22 +202,22 @@ export default function Profile() {
       </View>
 
       <View style={styles.dadosProfile} >
-         <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleMydata')}</Text>
+         <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30, color:colors.text }} >{t('titleMydata')}</Text>
         <View style={styles.dadosPreenchidos}>
           <Ionicons name="mail-outline" size={30} color="#099302" />
-          <Text>{funcionario?.email}</Text>
+          <Text style={styles.text} >{funcionario?.email}</Text>
         </View>
         <View style={styles.dadosPreenchidos}>
           <Ionicons name="call-outline" size={30} color="#099302" />
-          <Text>{funcionario?.telefone}</Text>
+          <Text style={styles.text}>{funcionario?.telefone}</Text>
         </View>
         <View style={styles.dadosPreenchidos}>
           <MaterialIcons name="badge" size={30} color="#099302" />
-          <Text>{funcionario?.cpf}</Text>
+          <Text style={styles.text}>{funcionario?.cpf}</Text>
         </View>
         <View style={styles.dadosPreenchidos}>
           <Ionicons name="person-outline" size={30} color="#099302" />
-          <Text>{funcionario?.cargo}</Text>
+          <Text style={styles.text}>{funcionario?.cargo}</Text>
         </View>
       </View>
 
@@ -238,11 +238,11 @@ export default function Profile() {
               </TouchableOpacity>
               {openLanguage && (
                 <View style={styles.escolhasProfile} >
-                  <Text style={{fontWeight:"bold"}} >{t('ContextLanguage')}</Text>
+                  <Text style={{fontWeight:"bold", color:colors.text}} >{t('ContextLanguage')}</Text>
                   <View>
                     {langs.map((lang) => (
                       <TouchableOpacity style={styles.dadosPreenchidos} key={lang.code} onPress={() => changeLanguage(lang.code)}>
-                        <Text >{lang.label}</Text>
+                        <Text style={{color:colors.text}} >{lang.label}</Text>
                       </TouchableOpacity>
                     ))}
                   </View>

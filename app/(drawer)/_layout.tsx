@@ -21,30 +21,34 @@ function CustomDrawerContent(props: any) {
   return (
     <DrawerContentScrollView {...props}>
       <View>
-        <Ionicons name="grid-outline" size={30} color="green" style={{alignSelf:"flex-end", paddingBottom:50}} />
-        <Text>Menu</Text>
+        <Ionicons name="grid-outline" size={30} color="green" style={{alignSelf:"flex-end", paddingBottom:50, paddingRight:15}} />
+        <Text style={styles.text} >Menu</Text>
       </View>
 
       <DrawerItem
         label="Home"
+        labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="home-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("home")}
       />
 
       <DrawerItem
         label="Sobre Nós"
+        labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="people-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("about")}
       />
 
       <DrawerItem
         label="Perfil"
+        labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="person-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("profile")}
       />
 
       <DrawerItem
         label="Motos"
+        labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="bicycle-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("motos")}
       />
@@ -63,16 +67,37 @@ export default function DrawerLayout() {
       screenOptions={{
         headerTitleStyle: { fontWeight: "bold" },
         drawerStyle: {
-          backgroundColor: "#f8f8f8",
-          width: 240,
+          backgroundColor: colors.background,
+          zIndex:1,
+          width: 280,
         },
-            
+                
       }}
     >
-      <Drawer.Screen name="home" options={{ title: "Home" }} />
-      <Drawer.Screen name="about" options={{ title: "Sobre Nós" }} />
-      <Drawer.Screen name="profile" options={{ title: "Perfil" }} />
-      <Drawer.Screen name="motos" options={{ title: "Motos" }} />
+      <Drawer.Screen name="home" options={{ 
+        title: "Home", 
+        headerStyle: {
+          backgroundColor: "#099302", // cor de fundo do header
+        },
+      }} />
+      <Drawer.Screen name="about" options={{ 
+        title: "Sobre Nós", 
+        headerStyle: {
+          backgroundColor: "#099302", 
+        }, 
+        
+      }} />
+      <Drawer.Screen name="profile" options={{ 
+        title: "Perfil", 
+        headerStyle: {
+          backgroundColor: "#099302", // cor de fundo do header
+        }, 
+      }} />
+      <Drawer.Screen name="motos" options={{ title: "Motos", 
+        headerStyle: {
+          backgroundColor: "#099302", // cor de fundo do header
+        },
+       }} />
     </Drawer>
   );
 }
