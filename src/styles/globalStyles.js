@@ -153,6 +153,16 @@ export const createGlobalStyles = (colors) =>
         width:300,
     },
 
+    inputForm: {
+        flex:1,
+        flexDirection:"row",
+        borderWidth:1,
+        borderColor: colors.border,
+        borderRadius: 10,
+        height: 50,
+        width:300,
+    },
+
     textInput: {
         alignSelf: "center",
         width:"70%",
@@ -286,6 +296,15 @@ export const createGlobalStyles = (colors) =>
     borderBottomEndRadius:100, 
   },
 
+  motoStatus: {
+    height:80,
+    paddingTop:30,
+    backgroundColor: "#099302",
+    alignItems: "center",
+    borderBottomStartRadius:100,
+    borderBottomEndRadius:100, 
+  },
+
   opcaoPerfil: {
     flex: 1,
     position:"relative",
@@ -330,6 +349,15 @@ export const createGlobalStyles = (colors) =>
     gap:10,
     padding:10,
     backgroundColor:"#09BC00"
+  },
+
+  botao: {
+    backgroundColor: "#09BC00",
+    alignSelf: 'center',
+    height:40,
+    width:150,
+    borderRadius: 25,
+    alignItems: 'center',
   },
 
 

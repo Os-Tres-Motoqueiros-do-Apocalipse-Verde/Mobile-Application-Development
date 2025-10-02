@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   FlatList,
   Alert,
-  Image
+  Image,
+  ScrollView
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
@@ -67,9 +68,9 @@ export default function Motos() {
   };
   
   return (
-    <View style={styles.profile}>
+    <ScrollView contentContainerStyle={styles.profile}>
       <View style={styles.motoPerfil} >
-         <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleListBikes')}</Text>
+         <Text style={{color:"#fff", fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleListBikes')}</Text>
   
         <View>
           <Picker
@@ -86,7 +87,7 @@ export default function Motos() {
           <TextInput
             placeholder={t('titleSearchBike')}
             value={filtroValor}
-            style={{borderWidth:1, borderColor:"#09BC00",borderRadius:10, width:"60%", color:"#fff"}}
+            style={{borderWidth:1, borderColor:"#09BC00",borderRadius:10, width:"90%", color:"#fff"}}
             onChangeText={(text) => setFiltroValor(text)}
           />
         </View>
@@ -101,9 +102,9 @@ export default function Motos() {
           <TouchableOpacity style={{backgroundColor:"#099302", gap:20, width:"90%", borderRadius:20, padding:20, alignSelf:"center", marginTop:50}}
             onPress={() => handleItemPress(item)}
           >
-            <Text style={{color:"#fff"}}>{item.modelo}</Text>
-            <Text style={{color:"#fff"}}>{t('titlePlate')}: {item.placa}</Text>
-            <Text style={{color:"#fff"}}>{t('titleCondition')}: {item.condicao}</Text>
+            <Text style={{color:"#fff", fontSize:30, textAlign:"center"}}>{item.modelo}</Text>
+            <Text style={{color:"#fff", fontSize:20}}>{t('titlePlate')}: {item.placa}</Text>
+            <Text style={{color:"#fff", fontSize:20}}>{t('titleCondition')}: {item.condicao}</Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
@@ -126,6 +127,6 @@ export default function Motos() {
         </View>
         
       )}
-    </View>
+    </ScrollView>
   );
 }

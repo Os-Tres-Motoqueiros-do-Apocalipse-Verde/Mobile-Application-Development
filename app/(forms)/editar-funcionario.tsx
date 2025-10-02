@@ -6,10 +6,19 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Funcionario } from '../../src/types/funcionario';
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function EditUser() {
   const { t } = useTranslation();
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();
+
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
+
+
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -74,19 +83,19 @@ export default function EditUser() {
   };
 
   return (
-    <ScrollView>
-      <View>
-        <Ionicons name="person-outline" size={20} color="green" />
+    <ScrollView contentContainerStyle={styles.sobre}>
+      <View style={styles.inputForm}>
+        <Ionicons name="person-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput placeholder={t('namePlace')} value={nome} onChangeText={setNome} />
       </View>
 
-      <View>
-        <Ionicons name="mail-outline" size={20} color="green" />
+      <View style={styles.inputForm}>
+        <Ionicons name="mail-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput placeholder={t('emailPlace')} value={email} onChangeText={setEmail} keyboardType="email-address" autoCapitalize="none" />
       </View>
 
-      <View>
-        <Ionicons name="lock-closed-outline" size={20} color="green" />
+      <View style={styles.inputForm}>
+        <Ionicons name="lock-closed-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput
           placeholder={t('passwordPlace')}
           value={senha}
@@ -94,22 +103,22 @@ export default function EditUser() {
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons name={showPassword ? 'eye-outline' : 'eye-off-outline'} size={24} color="green" />
+          <Ionicons  name={showPassword ? 'eye-outline' : 'eye-off-outline'} size={30} color="green" style={styles.olho} />
         </TouchableOpacity>
       </View>
 
-      <View>
-        <Ionicons name="call-outline" size={20} color="green" />
+      <View style={styles.inputForm}>
+        <Ionicons name="call-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput placeholder={t('telephonePlace')} value={telefone} onChangeText={setTelefone} keyboardType="phone-pad" />
       </View>
 
-      <View>
-        <Ionicons name="reader-outline" size={20} color="green" />
+      <View style={styles.inputForm}>
+        <Ionicons name="reader-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput placeholder={t('nationalIdPlace')} value={cpf} onChangeText={setCpf} />
       </View>
 
-      <View>
-        <Ionicons name="storefront-outline" size={20} color="green" />
+      <View style={styles.inputForm}>
+        <Ionicons name="storefront-outline" size={30} color="green" style={styles.iconForm}/>
         <TextInput placeholder={t('positionPlace')} value={cargo} onChangeText={setCargo} />
       </View>
 

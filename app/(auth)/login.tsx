@@ -70,7 +70,7 @@ export default function Login() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.organization}>
 
         <View style={styles.form}>

@@ -13,9 +13,15 @@ import { useRouter, useLocalSearchParams  } from 'expo-router';
 import { MotoForm } from '../../src/types/motos';
 import { useTranslation } from 'react-i18next';
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function Moto() {
   const [openOptions, setOpenOptions] = useState(false);
   const [moto, setMoto] = useState<MotoForm | null>(null);
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const router = useRouter();
   const params = useLocalSearchParams ();
@@ -67,55 +73,56 @@ export default function Moto() {
   if (!moto) return null;
 
   return (
-    <ScrollView>
-      <View>
-        <Text>{moto.placa}</Text>
+    <ScrollView contentContainerStyle={styles.profile}>
+      <View style={styles.motoStatus}>
+        <Text style={{fontSize:30, color:"#fff" }}>{moto.placa}</Text>
       </View>
 
-      <View>
-        <Text>{t('titleDataBike')}</Text>
-        <View>
-          <View>
-            <Ionicons name="build-outline" size={24} color="black"/>            
-            <Text>{t('titleChassis')} {moto.chassi}</Text>
+      <View >
+        <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingTop:35 }}>{t('titleDataBike')}</Text>
+        <View style={styles.dadosProfile}>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="build-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleChassis')} {moto.chassi}</Text>
           </View>
-          <View>
-            <Ionicons name="checkmark-circle-outline" size={24} color="black"/>            
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="checkmark-circle-outline" size={24} color="#099302"/>            
             <Text>{t('titleCondition')} {moto.condicao}</Text>
           </View>
-          <View>
-            <Ionicons name="bicycle-outline" size={24} color="black"/>            
-            <Text>{t('titleModel')} {moto.modelo}</Text>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="bicycle-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleModel')} {moto.modelo}</Text>
           </View>
-          <View>
-            <Ionicons name="speedometer-outline" size={24} color="black"/>            
-            <Text>{t('titleBraking')} {moto.frenagem}</Text>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="speedometer-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleBraking')} {moto.frenagem}</Text>
           </View>
-          <View>
-            <Ionicons name="battery-charging-outline" size={24} color="black"/>            
-            <Text>{t('titleStartingSystem')} {moto.sistemaPartida}</Text>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="battery-charging-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleStartingSystem')} {moto.sistemaPartida}</Text>
           </View>
-          <View>
-            <Ionicons name="water-outline" size={24} color="black"/>            
-            <Text>{t('titleTank')} {moto.tanque}</Text>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="water-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleTank')} {moto.tanque}</Text>
           </View>
-          <View>
-            <Ionicons name="flame-outline" size={24} color="black"/>            
-            <Text>{t('titleFuelType')} {moto.tipoCombustivel}</Text>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="flame-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleFuelType')} {moto.tipoCombustivel}</Text>
           </View>
-          <View>
-            <Ionicons name="speedometer-outline" size={24} color="black"/>            
-            <Text>{t('titleConsumption')} {moto.consumo}</Text>
+          <View style={styles.dadosPreenchidos}>
+            <Ionicons name="speedometer-outline" size={24} color="#099302"/>            
+            <Text style={styles.text}>{t('titleConsumption')} {moto.consumo}</Text>
           </View>
         </View>
       </View>
 
-      <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
-        <Image source={require("../../assets/profile/white-logo.png")}/>
+      <TouchableOpacity style={{backgroundColor:"#099302", width:100, marginLeft:40, borderTopEndRadius:20, borderTopStartRadius:20}} onPress={() => setOpenOptions(!openOptions)}>
+        <Image style={{alignSelf:"center"}} source={require("../../assets/profile/white-logo.png")}/>
       </TouchableOpacity>    
       {openOptions && (
-        <View>
+        <View style={styles.config} >
           <TouchableOpacity
+            style={styles.botoesConf}
             onPress={() =>
               router.push({
                 pathname: '/editar-moto', 
@@ -123,26 +130,26 @@ export default function Moto() {
               })
             }
           >
-            <Ionicons name="pencil-outline" size={24} color="black" />
+            <Ionicons name="pencil-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
             <View>
-              <Text>{t('titleUpdate')}</Text>
-              <Text>{t('contextUpdateMoto')}</Text>
+              <Text style={{color:"#fff"}}>{t('titleUpdate')}</Text>
+              <Text style={{color:"#fff", width:"80%"}}>{t('contextUpdateMoto')}</Text>
             </View>
           </TouchableOpacity>
           
-          <TouchableOpacity onPress={() => router.push('/cadastro-moto')}>
-            <Ionicons name="create-outline" size={24} color="black" />
+          <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-moto')}>
+            <Ionicons name="create-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
             <View>
-              <Text>{t('titleRegister')}</Text>
-              <Text>{t('contextRegisterBike')}</Text>
+              <Text style={{color:"#fff"}}>{t('titleRegister')}</Text>
+              <Text style={{color:"#fff", width:"80%"}}>{t('contextRegisterBike')}</Text>
             </View>
           </TouchableOpacity>
           
-          <TouchableOpacity onPress={handleDelete}>
-            <Ionicons name="trash-outline" size={24} color="black" />
+          <TouchableOpacity style={styles.botoesConf} onPress={handleDelete}>
+            <Ionicons name="trash-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
             <View>
-              <Text>{t('titleDelete')}</Text>
-              <Text>{t('contextDeleteBike')}</Text>
+              <Text style={{color:"#fff"}}>{t('titleDelete')}</Text>
+              <Text style={{color:"#fff", width:"80%"}}>{t('contextDeleteBike')}</Text>
             </View>
           </TouchableOpacity>
         </View>

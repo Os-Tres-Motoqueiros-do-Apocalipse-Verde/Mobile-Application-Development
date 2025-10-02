@@ -63,7 +63,7 @@ export default function Cadastro() {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.organization}>
 
         <View style={styles.form}>
