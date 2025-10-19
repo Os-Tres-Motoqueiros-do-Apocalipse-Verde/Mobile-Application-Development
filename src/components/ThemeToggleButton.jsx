@@ -1,0 +1,20 @@
+// ThemeToggle.tsx
+import React from "react";
+import { TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { useTheme } from "../context/ThemeContext"; // ajuste o caminho se necessário
+
+export default function ThemeToggle() {
+  const { theme, toggleTheme } = useTheme();
+  const isDark = theme === "dark";
+
+  return (
+    <TouchableOpacity onPress={toggleTheme} style={{ padding: 10 }}>
+      <Ionicons
+        name={isDark ? "sunny-outline" : "moon-outline"}
+        size={28}
+        color={isDark ? "#FFD700" : "#4B5563"} // dourado para o sol, cinza para lua
+      />
+    </TouchableOpacity>
+  );
+}
