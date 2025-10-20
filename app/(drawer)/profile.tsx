@@ -4,11 +4,11 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  StyleSheet,
   ScrollView,
   Alert,
   Modal
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -159,7 +159,7 @@ export default function Profile() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.profile}>
+    <SafeAreaView>
       <View style={styles.fotoPerfil} >
         
         <Text style={{fontSize:30, color:"#fff" }} >
@@ -289,6 +289,6 @@ export default function Profile() {
           </TouchableOpacity>
         </View>
       </Modal>
-    </ScrollView>
+    </SafeAreaView>
   );
 }

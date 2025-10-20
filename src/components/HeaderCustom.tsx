@@ -6,7 +6,6 @@ import LanguageSelector from "./language";
 export default function HeaderCustom() {
   const pathname = usePathname();
 
-  // Mapeia rotas -> nomes
   const titles: Record<string, string> = {
     "/login": "Login",
     "/cadastro": "Cadastro",

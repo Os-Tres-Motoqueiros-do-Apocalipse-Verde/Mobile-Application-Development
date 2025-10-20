@@ -3,13 +3,12 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   TouchableOpacity,
   FlatList,
   Alert,
-  Image,
-  ScrollView
+  Image
 } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from "@react-native-picker/picker";
@@ -68,7 +67,7 @@ export default function Motos() {
   };
   
   return (
-    <ScrollView contentContainerStyle={styles.profile}>
+    <SafeAreaView>
       <View style={styles.motoPerfil} >
          <Text style={{color:"#fff", fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleListBikes')}</Text>
   
@@ -127,6 +126,6 @@ export default function Motos() {
         </View>
         
       )}
-    </ScrollView>
+    </SafeAreaView>
   );
 }

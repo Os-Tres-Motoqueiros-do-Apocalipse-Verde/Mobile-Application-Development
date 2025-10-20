@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { useTranslation } from 'react-i18next';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "..//../src/styles/globalStyles";
 
@@ -45,7 +45,8 @@ export default function Home() {
     }, []);
   
     return (
-      <ScrollView contentContainerStyle={styles.home}>
+      <SafeAreaView>
+        <ScrollView>
 
             <View style={styles.apresentacao}>
               <Text style={styles.textBemVindo} >{t('welcome')} {nome}</Text>
@@ -81,7 +82,7 @@ export default function Home() {
                         name="logo-github"
                         size={70}
                         color="green"
-                    />
+                        />
                   
                     <Text style={styles.textInfo}>{t('contextGithub')}</Text>
 
@@ -101,6 +102,7 @@ export default function Home() {
 
           </View>
         
-      </ScrollView>
+        </ScrollView>
+      </SafeAreaView>
     );
 }

@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, Linking, FlatList } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 
@@ -61,50 +62,53 @@ export default function About() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.sobre} >
-      {pessoas.map((p, index) => {
+    <SafeAreaView>
+      <FlatList
+        data={pessoas}
+        keyExtractor={(p, index) => p.rm.toString() || index.toString()}
+        contentContainerStyle={{ padding: 20 }}
+        renderItem={({ item: p }) => {
         const idade = calculateAge(p.nascimento);
-        return (
-          <View key={index} >
-            <View style={styles.dados} >
-              <Image source={p.icone}/>
-              <View >
-                <Text style={styles.textSobre}>{t('usGreetings')} {p.nome}</Text>
-                <Text style={styles.textSobre}>{t('usIHave')} {idade} {t('usAges')}</Text>
-              </View>
-            </View>
-
+      return (
+        <View style={{ marginBottom: 30 }}>
+          <View style={styles.dados}>
+            <Image source={p.icone} />
             <View>
-              <View style={styles.dados} >
+              <Text style={styles.textSobre}>{t('usGreetings')} {p.nome}</Text>
+              <Text style={styles.textSobre}>{t('usIHave')} {idade} {t('usAges')}</Text>
+            </View>
+          </View>
 
-                 <Image source={p.foto} />
+          <View style={styles.dados}>
+            <Image source={p.foto} />
+            <View style={{ position: "absolute", right: 40, top: 15, gap: 20 }}>
+              <View>
+                <Text style={{ color: 'white', fontSize: 15, textAlign: "center" }}>{p.turma}</Text>
+                <Text style={{ color: 'white', fontSize: 13, textAlign: "center" }}>RM:{p.rm}</Text>
+              </View>
 
-                 <View style={{position:"absolute", right:40, top:15, gap:20}} >
-                    <View>
-                      <Text style={{ color:'white', fontSize:15, textAlign:"center" }}>{p.turma}</Text>
-                      <Text style={{ color:'white', fontSize:13, textAlign:"center" }}>RM:{p.rm}</Text>
-                    </View>
+              <View style={{ gap: 10 }}>
+                <TouchableOpacity style={styles.links} onPress={() => handleLinkPress(p.linkedin)}>
+                  <Text style={{ color: 'white' }}>{t('usFollowMe')}</Text>
+                  <Ionicons name="logo-linkedin" size={20} color="#fff" />
+                </TouchableOpacity>
 
-                    <View style={{gap:10}} >
-                      <TouchableOpacity style={styles.links} onPress={() => handleLinkPress(p.linkedin)}>
-                        <Text style={{ color:'white' }}>{t('usFollowMe')}</Text>
-                        <Ionicons name="logo-linkedin" size={20} color="#fff" />
-                      </TouchableOpacity>
-
-                      <TouchableOpacity style={styles.links} onPress={() => handleLinkPress(p.github)}>
-                        <Ionicons name="logo-github" size={20} color="#fff" />
-                        <Text style={{ color:'white' }}>{t('usKnowMe')}</Text>
-                      </TouchableOpacity>
-                    </View>
-
-                 </View>
-
-                
+                <TouchableOpacity style={styles.links} onPress={() => handleLinkPress(p.github)}>
+                  <Ionicons name="logo-github" size={20} color="#fff" />
+                  <Text style={{ color: 'white' }}>{t('usKnowMe')}</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
-        )
-      })}
-    </ScrollView>
+        </View>
+      );
+    }}
+    ListEmptyComponent={
+      <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>
+        {t('alertContextErroFindAnyBike')}
+      </Text>
+    }
+  />
+    </SafeAreaView>
   );
 }

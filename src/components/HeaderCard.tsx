@@ -6,7 +6,6 @@ import { usePathname } from "expo-router";
 export default function HeaderCard() {
   const pathname = usePathname();
 
-  // mapeia os títulos com base na rota
   const titles: Record<string, string> = {
     "/login": "Login",
     "/cadastro": "Cadastro",
@@ -18,15 +17,12 @@ export default function HeaderCard() {
 
   return (
     <View style={styles.card}>
-      {/* seletor de idioma no canto superior direito */}
       <View style={styles.language}>
         <LanguageSelector />
       </View>
 
-      {/* título da página */}
       <Text style={styles.title}>{title}</Text>
 
-      {/* mascote / logo */}
       <View style={styles.mascote}>
         <Text style={{ fontSize: 28 }}>🏍️</Text>
       </View>

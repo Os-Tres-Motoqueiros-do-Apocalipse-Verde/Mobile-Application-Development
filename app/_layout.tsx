@@ -30,7 +30,7 @@ export default function RootLayout() {
             headerShown: false,
           }} />
         {showLanguage && <LanguageSelector />}
-        <View style={{position:"absolute", flexDirection:"row" , right: 20, gap:10, bottom:770, zIndex: 2}}>
+        <View>
           {showProfile && 
             <TouchableOpacity  onPress={() => {router.push('/profile')}}>
               <Ionicons name="person-circle-outline" size={35} color="#fff" />

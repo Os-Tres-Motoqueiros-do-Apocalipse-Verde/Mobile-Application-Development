@@ -93,5 +93,7 @@
   "alertContextErroLoadingBike":"Não foi possível carregar as motos.",
   "titleSearchBike":"Pesquisar Moto...",
   "titleAll":"Todos",
-  "titleListBikes":"Lista de Motos"
+  "titleListBikes":"Lista de Motos",
+  "alertUpdateMoto":"Moto atualizada com sucesso!",
+  "alertErroUpdateMoto":"Erro ao atualizar a moto"
 }
