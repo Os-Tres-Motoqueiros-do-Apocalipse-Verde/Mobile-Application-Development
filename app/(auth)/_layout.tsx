@@ -3,9 +3,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "../../src/services/i18n"; 
 import { ThemeProvider } from "../../src/context/ThemeContext";
 import LanguageSelector from "../../src/components/language";
-import ThemeToggle from "../../src/components/ThemeToggleButton";
-import { View, TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View } from "react-native";
 
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "..//../src/styles/globalStyles";
@@ -17,8 +15,6 @@ export default function AuthLayout() {
   const { colors, toggleTheme } = useTheme();
   const styles = createGlobalStyles(colors);
   
-
-  // Se quiser controlar visibilidade dentro do /auth
   const hideLanguageOnRoutes = ['/auth/cadastro']; 
   const showLanguage = !hideLanguageOnRoutes.includes(pathname);
 

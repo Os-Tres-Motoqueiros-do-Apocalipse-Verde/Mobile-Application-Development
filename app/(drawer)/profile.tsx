@@ -4,11 +4,12 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  ScrollView,
   Alert,
-  Modal
+  Modal,
+  StyleSheet,
+  ScrollView,
 } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,9 +17,6 @@ import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import i18n from "../../src/services/i18n";
 import { useTranslation } from "react-i18next";
-
-import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "..//../src/styles/globalStyles";
 
 export interface Funcionario {
   id: number;
@@ -34,11 +32,6 @@ export default function Profile() {
   const { t } = useTranslation();
   const router = useRouter();
 
-
-  const { colors, toggleTheme } = useTheme();
-  const styles = createGlobalStyles(colors);
-
-
   const langs = [
     { code: "pt", label: "Português (BR)" },
     { code: "en", label: "Inglês (US)" },
@@ -49,8 +42,6 @@ export default function Profile() {
     i18n.changeLanguage(lang);
     setOpenLanguage(false);
   };
-
-  
 
   const defaultImage = require("../../assets/profile/avatar.png");
   const [profileImage, setProfileImage] = useState<any>(defaultImage);
@@ -75,7 +66,7 @@ export default function Profile() {
           setProfileImage({ uri: savedImage });
         }
       } catch (error) {
-        console.error(t('consoleErroLoading'), error);
+        console.error(t("consoleErroLoading"), error);
       }
     };
     loadUser();
@@ -97,14 +88,10 @@ export default function Profile() {
   };
 
   const confirmarLogout = () => {
-    Alert.alert(
-      t('alertTitleLogout'),
-      t('alertContextLogout'),
-      [
-        { text: t('titleCancel')},
-        { text: t('textLogout'), onPress: handleLogout },
-      ]
-    );
+    Alert.alert(t("alertTitleLogout"), t("alertContextLogout"), [
+      { text: t("titleCancel") },
+      { text: t("textLogout"), onPress: handleLogout },
+    ]);
   };
 
   const handleViewPhoto = () => setZoomVisible(true);
@@ -112,7 +99,7 @@ export default function Profile() {
   const handleChangePhoto = async () => {
     const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permission.granted) {
-      Alert.alert(t('titlePermission'), t('contextPermissionPhotos'));
+      Alert.alert(t("titlePermission"), t("contextPermissionPhotos"));
       return;
     }
 
@@ -130,7 +117,7 @@ export default function Profile() {
   const handleTakePhoto = async () => {
     const { status } = await Camera.requestCameraPermissionsAsync();
     if (status !== "granted") {
-      Alert.alert(t('titlePermission'), t('contextPermissionCamera'));
+      Alert.alert(t("titlePermission"), t("contextPermissionCamera"));
       return;
     }
 
@@ -148,147 +135,158 @@ export default function Profile() {
   };
 
   const confirmRemovePhoto = () => {
-    Alert.alert(
-      t('titleRemovePhoto'),
-      t('ContextRemovePhoto'),
-      [
-        { text: t('titleCancel'), style: "cancel" },
-        { text: t('textRemovePhoto'), onPress: handleRemovePhoto },
-      ]
-    );
+    Alert.alert(t("titleRemovePhoto"), t("ContextRemovePhoto"), [
+      { text: t("titleCancel") },
+      { text: t("textRemovePhoto"), onPress: handleRemovePhoto },
+    ]);
   };
 
   return (
     <SafeAreaView>
-      <View style={styles.fotoPerfil} >
-        
-        <Text style={{fontSize:30, color:"#fff" }} >
-          {funcionario?.nome ?? t('loading')}
-        </Text>
-
+      <ScrollView>
         <View>
-          <Image source={profileImage} style={styles.profileImage} />
-          <View style={{position:"absolute", top:180, left:20}}>
-            <TouchableOpacity
-              onPress={() => setOpen(!open)}
-            >
-              <View>
-                <MaterialIcons name="edit" size={20} color="#000000" />
-              </View>
-            </TouchableOpacity>
+          <Text>{funcionario?.nome ?? t("loading")}</Text>
 
-            {open && (
-              <View style={styles.opcaoPerfil} >
-                <TouchableOpacity style={{borderBottomWidth:1}} onPress={handleViewPhoto}>
-                  <Text style={styles.text} >{t('PhotoSee')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{borderBottomWidth:1}} onPress={handleChangePhoto}>
-                  <Text style={styles.text}>{t('photoChange')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{borderBottomWidth:1}} onPress={handleTakePhoto}>
-                  <Text style={styles.text}>{t('photoWithCamera')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{borderBottomWidth:1}} onPress={confirmRemovePhoto}>
-                  <Text style={{ color: "red", fontSize:16 }}>{t('photoRemove')}</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{borderBottomWidth:1}} onPress={() => setOpen(false)}>
-                  <Text style={styles.text}>{t('titleCancel')}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </View>
-       
-      </View>
+          <View>
+            <Image
+              source={profileImage}
+              style={styles.profileImage}
+              resizeMode="cover"
+            />
 
-      <View style={styles.dadosProfile} >
-         <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30, color:colors.text }} >{t('titleMydata')}</Text>
-        <View style={styles.dadosPreenchidos}>
-          <Ionicons name="mail-outline" size={30} color="#099302" />
-          <Text style={styles.text} >{funcionario?.email}</Text>
-        </View>
-        <View style={styles.dadosPreenchidos}>
-          <Ionicons name="call-outline" size={30} color="#099302" />
-          <Text style={styles.text}>{funcionario?.telefone}</Text>
-        </View>
-        <View style={styles.dadosPreenchidos}>
-          <MaterialIcons name="badge" size={30} color="#099302" />
-          <Text style={styles.text}>{funcionario?.cpf}</Text>
-        </View>
-        <View style={styles.dadosPreenchidos}>
-          <Ionicons name="person-outline" size={30} color="#099302" />
-          <Text style={styles.text}>{funcionario?.cargo}</Text>
-        </View>
-      </View>
-
-      <TouchableOpacity style={{backgroundColor:"#099302", width:100, marginLeft:40, borderTopEndRadius:20, borderTopStartRadius:20}} onPress={() => setOpenOptions(!openOptions)}>
-        <Image style={{alignSelf:"center"}} source={require("../../assets/profile/white-logo.png")}/>
-      </TouchableOpacity>
-        {openOptions && (
-          <View style={styles.config} >
-            {/* Botão de mudar idioma */}
-            <View style={{paddingHorizontal:40}} >
-              <TouchableOpacity style={styles.botoesConf} onPress={() => setOpenLanguage(!openLanguage)}>
-                <Ionicons name="language" size={30} color="#fff" style={{alignSelf:"center"}} />
-                <View>
-                  <Text style={{color:"#fff"}} >{t('titleChangeLanguage')}</Text>
-                  <Text style={{color:"#fff"}}>{t('contextChangeLanguage')}</Text>
-                </View>
-                <Ionicons name="chevron-down-outline" size={40} color="#fff" style={{alignSelf:"center"}} />
+            <View>
+              <TouchableOpacity onPress={() => setOpen(!open)}>
+                <MaterialIcons name="edit" size={20} color="#000" />
               </TouchableOpacity>
-              {openLanguage && (
-                <View style={styles.escolhasProfile} >
-                  <Text style={{fontWeight:"bold", color:colors.text}} >{t('ContextLanguage')}</Text>
-                  <View>
-                    {langs.map((lang) => (
-                      <TouchableOpacity style={styles.dadosPreenchidos} key={lang.code} onPress={() => changeLanguage(lang.code)}>
-                        <Text style={{color:colors.text}} >{lang.label}</Text>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
+
+              {open && (
+                <View>
+                  <TouchableOpacity onPress={handleViewPhoto}>
+                    <Text>{t("PhotoSee")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleChangePhoto}>
+                    <Text>{t("photoChange")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={handleTakePhoto}>
+                    <Text>{t("photoWithCamera")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={confirmRemovePhoto}>
+                    <Text>{t("photoRemove")}</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setOpen(false)}>
+                    <Text>{t("titleCancel")}</Text>
+                  </TouchableOpacity>
                 </View>
               )}
             </View>
-            
-            {/* Botão de editar usuário */}
-            <TouchableOpacity style={styles.botoesConf}
+          </View>
+        </View>
+
+        <View>
+          <Text>{t("titleMydata")}</Text>
+          <View>
+            <Ionicons name="mail-outline" size={30} color="#099302" />
+            <Text>{funcionario?.email}</Text>
+          </View>
+          <View>
+            <Ionicons name="call-outline" size={30} color="#099302" />
+            <Text>{funcionario?.telefone}</Text>
+          </View>
+          <View>
+            <MaterialIcons name="badge" size={30} color="#099302" />
+            <Text>{funcionario?.cpf}</Text>
+          </View>
+          <View>
+            <Ionicons name="person-outline" size={30} color="#099302" />
+            <Text>{funcionario?.cargo}</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
+          <Image source={require("../../assets/profile/white-logo.png")}/>
+        </TouchableOpacity>
+
+        {openOptions && (
+          <View>
+            <View>
+              <TouchableOpacity onPress={() => setOpenLanguage(!openLanguage)}>
+                <Ionicons
+                  name="language"
+                  size={30}
+                  color="#fff"
+                  style={{ alignSelf: "center" }}
+                />
+                <View>
+                  <Text>{t("titleChangeLanguage")}</Text>
+                  <Text>
+                    {t("contextChangeLanguage")}
+                  </Text>
+                </View>
+                <Ionicons
+                  name="chevron-down-outline"
+                  size={40}
+                  color="#fff"
+                />
+              </TouchableOpacity>
+
+              {openLanguage && (
+                <View>
+                  <Text>{t("ContextLanguage")}</Text>
+                  {langs.map((lang) => (
+                    <TouchableOpacity key={lang.code} onPress={() => changeLanguage(lang.code)}>
+                      <Text>{lang.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+            </View>
+
+            <TouchableOpacity
               onPress={() => {
                 if (funcionario) {
                   router.push(`/editar-funcionario?id=${funcionario.id}`);
                 } else {
-                  Alert.alert(t('titleError'), t('alertUserNotFound'));
+                  Alert.alert(t("titleError"), t("alertUserNotFound"));
                 }
               }}
             >
-              <Ionicons name="pencil-outline" size={30} color="#fff"  style={{alignSelf:"center"}}/>
+              <Ionicons name="pencil-outline" size={30} color="#fff" />
               <View>
-                <Text style={{color:"#fff"}}>{t('titleUpdate')}</Text>
-                <Text style={{color:"#fff"}}>{t('contextUpdateUser')}</Text>
+                <Text>{t("titleUpdate")}</Text>
+                <Text>{t("contextUpdateUser")}</Text>
               </View>
             </TouchableOpacity>
-            
-            {/* Botão de logout */}
-            <TouchableOpacity style={styles.botoesConf} onPress={confirmarLogout}>
-              <Ionicons name="log-out-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
+
+            <TouchableOpacity onPress={confirmarLogout}>
+              <Ionicons name="log-out-outline" size={30} color="#fff" />
               <View>
-                <Text style={{color:"#fff"}}>{t('textLogout')}</Text>
-                <Text style={{color:"#fff"}}>{t('contextLogout')}</Text>
+                <Text>{t("textLogout")}</Text>
+                <Text>{t("contextLogout")}</Text>
               </View>
             </TouchableOpacity>
           </View>
         )}
 
-
-      <Modal visible={zoomVisible} transparent onRequestClose={() => setZoomVisible(false)}>
-        <View style={styles.zoomContainer}>
-          <Image source={profileImage} style={styles.zoomImage} />
-          <TouchableOpacity
-            onPress={() => setZoomVisible(false)}
-          >
-            <Ionicons name="close-circle" size={36} color="white" />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+        <Modal visible={zoomVisible} transparent onRequestClose={() => setZoomVisible(false)}>
+          <View>
+            <Image
+              source={profileImage}
+              resizeMode="cover"
+            />
+            <TouchableOpacity onPress={() => setZoomVisible(false)}>
+              <Ionicons name="close-circle" size={36} color="white" />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      </ScrollView>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  profileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+  },
+});

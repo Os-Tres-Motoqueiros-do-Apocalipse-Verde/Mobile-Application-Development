@@ -7,8 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "..//../src/styles/globalStyles";
 
-
-
 export default function Home() {
 
     const { colors, toggleTheme } = useTheme();
@@ -47,7 +45,6 @@ export default function Home() {
     return (
       <SafeAreaView>
         <ScrollView>
-
             <View style={styles.apresentacao}>
               <Text style={styles.textBemVindo} >{t('welcome')} {nome}</Text>
               <Text style={styles.text} >{t('greetings')}</Text>

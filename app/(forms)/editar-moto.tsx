@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  ScrollView
-} from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, TextInput, TouchableOpacity, Alert, FlatList, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { MotoForm } from "../../src/types/motos";
 import { useTranslation } from "react-i18next";
-
 import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "..//../src/styles/globalStyles";
+import { createGlobalStyles } from "../../src/styles/globalStyles";
+import { MotoForm, CampoForm } from "../../src/types/motos";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function MotoEdit() {
   const [form, setForm] = useState<MotoForm>({
@@ -30,11 +23,13 @@ export default function MotoEdit() {
   });
 
   const router = useRouter();
-  const params = useLocalSearchParams(); 
+  const params = useLocalSearchParams();
   const { t } = useTranslation();
 
-  const { colors, toggleTheme } = useTheme();
+  const { colors } = useTheme();
   const styles = createGlobalStyles(colors);
+
+  const flatListRef = useRef<FlatList>(null);
 
   useEffect(() => {
     loadMoto();
@@ -53,7 +48,7 @@ export default function MotoEdit() {
   };
 
   const handleChange = (key: keyof MotoForm, value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
+    setForm((prev: MotoForm) => ({ ...prev, [key]: value }));
   };
 
   const handleSave = async () => {
@@ -64,20 +59,15 @@ export default function MotoEdit() {
       motos = motos.map((m) => (m.placa === form.placa ? form : m));
 
       await AsyncStorage.setItem("motos", JSON.stringify(motos));
-      Alert.alert(t('alertSuccessEmployeeTitle'), t('alertUpdateMoto') || "Moto atualizada com sucesso!");
+      Alert.alert(t('alertSuccessEmployeeTitle'), t('alertUpdateMoto'));
+
       router.back();
     } catch (error) {
-      Alert.alert(t('titleError'), t('alertErroUpdateMoto') || "Erro ao atualizar a moto");
+      Alert.alert(t('titleError'), t('alertErroUpdateMoto'));
     }
   };
 
-  const campos: {
-    key: keyof MotoForm;
-    label: string;
-    placeholder?: string;
-    keyboardType?: "default" | "numeric" | "email-address";
-    iconName: keyof typeof Ionicons.glyphMap;
-  }[] = [
+  const campos: CampoForm[] = [
     { key: "placa", label: t('titlePlate'), placeholder: t('placeholderPlate'), keyboardType: "default", iconName: "card-outline" },
     { key: "chassi", label: t('titleChassis'), placeholder: t('placeholderChassis'), keyboardType: "default", iconName: "barcode-outline" },
     { key: "condicao", label: t('titleCondition'), placeholder: t('placeholderCondition'), keyboardType: "default", iconName: "checkmark-circle-outline" },
@@ -90,28 +80,52 @@ export default function MotoEdit() {
   ];
 
   return (
-    <ScrollView contentContainerStyle={styles.sobre}>
-      {campos.map((item) => (
-        <View key={item.key} style={styles.form}>
-          <Text style={{color: colors.text}}>{item.label}</Text>
-          <View style={styles.inputForm}>
-            <Ionicons name={item.iconName} size={30} color="green"  style={styles.iconForm}/>
-            <TextInput
-              value={form[item.key]}
-              style={{color:colors.text}}
-              onChangeText={(text) => handleChange(item.key, text)}
-              placeholder={item.placeholder || `Digite ${item.label.toLowerCase()}`}
-              keyboardType={item.keyboardType || "default"}
-            />
-              
-          </View>
-          
-        </View>
-      ))}
-
-      <TouchableOpacity style={styles.botao}  onPress={handleSave}>
-        <Text style={{color:"#fff"}} >{t('titleSaveBike')}</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <FlatList
+            ref={flatListRef}
+            data={campos}
+            keyExtractor={(item) => item.key}
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ paddingBottom: 20 }}
+            renderItem={({ item, index }) => (
+              <View style={styles.form}>
+                <Text style={{ color: colors.text }}>{item.label}</Text>
+                <View style={styles.inputForm}>
+                  <Ionicons name={item.iconName} size={30} color="green" style={styles.iconForm} />
+                  <TextInput
+                    value={form[item.key as keyof MotoForm]}
+                    style={{ color: colors.text, flex: 1 }}
+                    onChangeText={(text) => handleChange(item.key, text)}
+                    placeholder={item.placeholder || `Digite ${item.label.toLowerCase()}`}
+                    keyboardType={item.keyboardType || "default"}
+                    placeholderTextColor={colors.textSecondary || "#888"}
+                    onFocus={() => {
+                      flatListRef.current?.scrollToIndex({
+                        index,
+                        animated: true,
+                        viewPosition: 0.3,
+                      });
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+            ListFooterComponent={
+              <View style={{ height: 120 }}>
+                <TouchableOpacity style={styles.botao} onPress={handleSave}>
+                  <Text style={{ color: "#fff" }}>{t("titleSaveBike")}</Text>
+                </TouchableOpacity>
+              </View>
+            }
+          />
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

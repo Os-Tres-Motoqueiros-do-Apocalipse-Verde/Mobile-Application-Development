@@ -1,3 +1,5 @@
+import { Ionicons } from "@expo/vector-icons";
+
 export interface MotoForm {
   placa: string;
   chassi: string;
@@ -8,4 +10,12 @@ export interface MotoForm {
   tanque: string;
   tipoCombustivel: string;
   consumo: string;
-};
+}
+
+export interface CampoForm {
+  key: keyof MotoForm;
+  label: string;      
+  placeholder?: string;
+  keyboardType?: "default" | "numeric" | "email-address";
+  iconName: keyof typeof Ionicons.glyphMap; 
+}

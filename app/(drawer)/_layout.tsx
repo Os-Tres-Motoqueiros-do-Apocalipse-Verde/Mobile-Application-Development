@@ -3,25 +3,32 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@rea
 import { withLayoutContext } from "expo-router";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-
-
+import { useRouter } from "expo-router";
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "..//../src/styles/globalStyles";
-
+import ThemeToggle from "../../src/components/ThemeToggleButton";
 
 const DrawerNavigator = createDrawerNavigator().Navigator;
 const Drawer = withLayoutContext(DrawerNavigator);
+const router = useRouter();
 
 function CustomDrawerContent(props: any) {
 
   const { colors, toggleTheme } = useTheme();
   const styles = createGlobalStyles(colors);
   
-  
   return (
     <DrawerContentScrollView {...props}>
       <View>
-        <Ionicons name="grid-outline" size={30} color="green" style={{alignSelf:"flex-end", paddingBottom:50, paddingRight:15}} />
+        <View>
+          <View>
+            <TouchableOpacity  onPress={() => {router.push('/profile')}}>
+              <Ionicons name="person-circle-outline" size={35} color="#000000" />
+            </TouchableOpacity>
+            <ThemeToggle/>
+          </View>
+          <Ionicons name="grid-outline" size={30} color="green" style={{alignSelf:"flex-end", paddingBottom:50, paddingRight:15}} />
+        </View>
         <Text style={styles.text} >Menu</Text>
       </View>
 
@@ -74,10 +81,11 @@ export default function DrawerLayout() {
                 
       }}
     >
+
       <Drawer.Screen name="home" options={{ 
         title: "Home", 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302", 
         },
       }} />
       <Drawer.Screen name="about" options={{ 
@@ -90,12 +98,12 @@ export default function DrawerLayout() {
       <Drawer.Screen name="profile" options={{ 
         title: "Perfil", 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302", 
         }, 
       }} />
       <Drawer.Screen name="motos" options={{ title: "Motos", 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302", 
         },
        }} />
     </Drawer>
