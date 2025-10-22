@@ -7,18 +7,18 @@ export default function AuthLayout() {
       <Stack.Screen name="cadastro-moto" options={{
         title:"Cadastro Moto", 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302", 
         }, 
         }}/>      
       <Stack.Screen name="editar-moto" options={{
         title:"Editar Moto", 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302",
         }, }}/>      
       <Stack.Screen name="editar-funcionario" options={{
         title:"Editar Conta", 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302",
         }, }}/>      
     </Stack>
   );

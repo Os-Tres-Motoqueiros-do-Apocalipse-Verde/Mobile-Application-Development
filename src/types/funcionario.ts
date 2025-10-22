@@ -1,9 +1,7 @@
+import { Dados } from './dados';
 export interface Funcionario{
-id: number;
-nome: string;
-email: string;
-senha:string;
-telefone:string;
-cpf:string;
-cargo:string;
+    nome: string;
+    id: number;
+    cargo:string;
+    dados: Dados;
 }

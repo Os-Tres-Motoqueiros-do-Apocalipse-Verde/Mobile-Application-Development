@@ -17,16 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import i18n from "../../src/services/i18n";
 import { useTranslation } from "react-i18next";
-
-export interface Funcionario {
-  id: number;
-  nome: string;
-  email: string;
-  senha: string;
-  telefone: string;
-  cpf: string;
-  cargo: string;
-}
+import { Funcionario } from "../../src/types/funcionario"; // ✅ usa o novo tipo
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -145,7 +136,7 @@ export default function Profile() {
     <SafeAreaView>
       <ScrollView>
         <View>
-          <Text>{funcionario?.nome ?? t("loading")}</Text>
+          <Text>{funcionario?.dados?.nome ?? t("loading")}</Text>
 
           <View>
             <Image
@@ -186,15 +177,15 @@ export default function Profile() {
           <Text>{t("titleMydata")}</Text>
           <View>
             <Ionicons name="mail-outline" size={30} color="#099302" />
-            <Text>{funcionario?.email}</Text>
+            <Text>{funcionario?.dados?.email}</Text>
           </View>
           <View>
             <Ionicons name="call-outline" size={30} color="#099302" />
-            <Text>{funcionario?.telefone}</Text>
+            <Text>{funcionario?.dados?.telefone}</Text>
           </View>
           <View>
             <MaterialIcons name="badge" size={30} color="#099302" />
-            <Text>{funcionario?.cpf}</Text>
+            <Text>{funcionario?.dados?.cpf}</Text>
           </View>
           <View>
             <Ionicons name="person-outline" size={30} color="#099302" />
@@ -203,7 +194,7 @@ export default function Profile() {
         </View>
 
         <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
-          <Image source={require("../../assets/profile/white-logo.png")}/>
+          <Image source={require("../../assets/profile/white-logo.png")} />
         </TouchableOpacity>
 
         {openOptions && (
@@ -218,22 +209,19 @@ export default function Profile() {
                 />
                 <View>
                   <Text>{t("titleChangeLanguage")}</Text>
-                  <Text>
-                    {t("contextChangeLanguage")}
-                  </Text>
+                  <Text>{t("contextChangeLanguage")}</Text>
                 </View>
-                <Ionicons
-                  name="chevron-down-outline"
-                  size={40}
-                  color="#fff"
-                />
+                <Ionicons name="chevron-down-outline" size={40} color="#fff" />
               </TouchableOpacity>
 
               {openLanguage && (
                 <View>
                   <Text>{t("ContextLanguage")}</Text>
                   {langs.map((lang) => (
-                    <TouchableOpacity key={lang.code} onPress={() => changeLanguage(lang.code)}>
+                    <TouchableOpacity
+                      key={lang.code}
+                      onPress={() => changeLanguage(lang.code)}
+                    >
                       <Text>{lang.label}</Text>
                     </TouchableOpacity>
                   ))}
@@ -267,12 +255,13 @@ export default function Profile() {
           </View>
         )}
 
-        <Modal visible={zoomVisible} transparent onRequestClose={() => setZoomVisible(false)}>
+        <Modal
+          visible={zoomVisible}
+          transparent
+          onRequestClose={() => setZoomVisible(false)}
+        >
           <View>
-            <Image
-              source={profileImage}
-              resizeMode="cover"
-            />
+            <Image source={profileImage} resizeMode="cover" />
             <TouchableOpacity onPress={() => setZoomVisible(false)}>
               <Ionicons name="close-circle" size={36} color="white" />
             </TouchableOpacity>

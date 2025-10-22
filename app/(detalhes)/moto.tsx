@@ -9,22 +9,22 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter, useLocalSearchParams  } from 'expo-router';
-import { MotoForm } from '../../src/types/motos';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { Moto } from '../../src/types/motos';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "..//../src/styles/globalStyles";
+import { createGlobalStyles } from "../../src/styles/globalStyles";
 
-export default function Moto() {
+export default function MotoDetails() {
   const [openOptions, setOpenOptions] = useState(false);
-  const [moto, setMoto] = useState<MotoForm | null>(null);
+  const [moto, setMoto] = useState<Moto | null>(null);
 
-  const { colors, toggleTheme } = useTheme();
+  const { colors } = useTheme();
   const styles = createGlobalStyles(colors);
 
   const router = useRouter();
-  const params = useLocalSearchParams ();
+  const params = useLocalSearchParams();
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -34,12 +34,12 @@ export default function Moto() {
   const loadMoto = async () => {
     try {
       const data = await AsyncStorage.getItem('motos');
-      const motos: MotoForm[] = data ? JSON.parse(data) : [];
+      const motos: Moto[] = data ? JSON.parse(data) : [];
       const found = motos.find((m) => m.placa === params.placa);
       if (found) setMoto(found);
       else Alert.alert(t('titleError'), t('alertContextErroFindBike'));
     } catch (error) {
-      Alert.alert(t(''), t('alertContextErroLoadBike'));
+      Alert.alert(t('titleError'), t('alertContextErroLoadBike'));
     }
   };
 
@@ -55,20 +55,19 @@ export default function Moto() {
           onPress: async () => {
             try {
               const data = await AsyncStorage.getItem('motos');
-              let motos: MotoForm[] = data ? JSON.parse(data) : [];
+              let motos: Moto[] = data ? JSON.parse(data) : [];
               motos = motos.filter((m) => m.placa !== moto?.placa);
               await AsyncStorage.setItem('motos', JSON.stringify(motos));
               Alert.alert(t('alertSuccessEmployeeTitle') , t('alertConfirmedBike'));
               router.back();
             } catch (error) {
-              Alert.alert(t('titleError'), t('alertContextErrorDeletedBike') );
+              Alert.alert(t('titleError'), t('alertContextErrorDeletedBike'));
             }
           }
         }
       ]
     );
   };
-
 
   if (!moto) return null;
 
@@ -79,40 +78,54 @@ export default function Moto() {
           <Text style={{fontSize:30, color:"#fff" }}>{moto.placa}</Text>
         </View>
 
-        <View >
-          <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingTop:35, color:colors.text }}>{t('titleDataBike')}</Text>
+        <View>
+          <Text style={{ fontSize:25, fontWeight:"bold", textAlign:"center", paddingTop:35, color:colors.text }}>
+            {t('titleDataBike')}
+          </Text>
           <View style={styles.dadosProfile}>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="build-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleChassis')} {moto.chassi}</Text>
+              <Text style={styles.text}>{t('titleChassis')}: {moto.chassi}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="checkmark-circle-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleCondition')} {moto.condicao}</Text>
+              <Text style={styles.text}>{t('titleCondition')}: {moto.condicao}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="bicycle-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleModel')} {moto.modelo}</Text>
+              <Text style={styles.text}>{t('titleModel')}: {moto.modelo?.nome || '-'}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="speedometer-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleBraking')} {moto.frenagem}</Text>
+              <Text style={styles.text}>{t('titleBraking')}: {moto.modelo?.frenagem || '-'}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="battery-charging-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleStartingSystem')} {moto.sistemaPartida}</Text>
+              <Text style={styles.text}>{t('titleStartingSystem')}: {moto.modelo?.sisPartida || '-'}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="water-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleTank')} {moto.tanque}</Text>
+              <Text style={styles.text}>{t('titleTank')}: {moto.modelo?.tanque ?? '-'}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="flame-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleFuelType')} {moto.tipoCombustivel}</Text>
+              <Text style={styles.text}>{t('titleFuelType')}: {moto.modelo?.tipoCombustivel || '-'}</Text>
             </View>
             <View style={styles.dadosPreenchidos}>
               <Ionicons name="speedometer-outline" size={24} color="#099302"/>            
-              <Text style={styles.text}>{t('titleConsumption')} {moto.consumo}</Text>
+              <Text style={styles.text}>{t('titleConsumption')}: {moto.modelo?.consumo ?? '-'}</Text>
+            </View>
+            <View style={styles.dadosPreenchidos}>
+              <Ionicons name="person-outline" size={24} color="#099302"/>            
+              <Text style={styles.text}>{t('titleDriver')}: {moto.motorista?.dados.nome || t('titleNoDriver')}</Text>
+            </View>
+            <View style={styles.dadosPreenchidos}>
+              <Ionicons name="business-outline" size={24} color="#099302"/>            
+              <Text style={styles.text}>{t('titleSector')}: {moto.setor?.nome || '-'}</Text>
+            </View>
+            <View style={styles.dadosPreenchidos}>
+              <Ionicons name="shield-checkmark-outline" size={24} color="#099302"/>            
+              <Text style={styles.text}>{t('titleSituation')}: {moto.situacao?.nome || '-'}</Text>
             </View>
           </View>
         </View>
@@ -120,8 +133,9 @@ export default function Moto() {
         <TouchableOpacity style={{backgroundColor:"#099302", width:100, marginLeft:40, borderTopEndRadius:20, borderTopStartRadius:20}} onPress={() => setOpenOptions(!openOptions)}>
           <Image style={{alignSelf:"center"}} source={require("../../assets/profile/white-logo.png")}/>
         </TouchableOpacity>    
+
         {openOptions && (
-          <View style={styles.config} >
+          <View style={styles.config}>
             <TouchableOpacity
               style={styles.botoesConf}
               onPress={() =>
