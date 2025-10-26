@@ -16,52 +16,22 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "../../src/styles/globalStyles";
 import { Moto, CampoForm } from "../../src/types/motos";
 import { Modelo } from "../../src/types/modelo";
 import { Setor } from "../../src/types/setor";
 import { Situacao } from "../../src/types/situacao";
 import { SafeAreaView } from "react-native-safe-area-context";
+import RNPickerSelect from "react-native-picker-select";
 
-// Mocks para seleção
+// ===== MOCKS =====
 const modelosMock: Modelo[] = [
   { id: "1", nome: "Honda CG 160", frenagem: "ABS", sisPartida: "Elétrica", tanque: 14, tipoCombustivel: "Gasolina", consumo: 35 },
   { id: "2", nome: "Yamaha MT-03", frenagem: "CBS", sisPartida: "Elétrica", tanque: 14, tipoCombustivel: "Gasolina", consumo: 28 },
 ];
 
 const setoresMock: Setor[] = [
-  {
-    id: "1",
-    nome: "Setor A",
-    qtdMoto: 10,
-    capacidade: 20,
-    patio: {
-      id: "1",
-      totalMotos: 10,
-      capacidadeMoto: 20,
-      filial: { id: "1", nome: "Filial 1", endereco: { id: "1", numero: "100", estado: "SP", codigoPais: "BR", codigoPostal: "01000-000", complemento: "", rua: "Rua A" } },
-      localizacao: "Local A",
-    },
-    cor: "#f00",
-    descricao: "Setor de teste",
-    localizacao: "Local A",
-  },
-  {
-    id: "2",
-    nome: "Setor B",
-    qtdMoto: 5,
-    capacidade: 10,
-    patio: {
-      id: "2",
-      totalMotos: 5,
-      capacidadeMoto: 10,
-      filial: { id: "2", nome: "Filial 2", endereco: { id: "2", numero: "200", estado: "RJ", codigoPais: "BR", codigoPostal: "20000-000", complemento: "", rua: "Rua B" } },
-      localizacao: "Local B",
-    },
-    cor: "#0f0",
-    descricao: "Setor B",
-    localizacao: "Local B",
-  },
+  { id: "1", nome: "Setor A", qtdMoto: 10, capacidade: 20, patio: { id: "1", totalMotos: 10, capacidadeMoto: 20, filial: { id: "1", nome: "Filial 1", endereco: { id: "1", numero: "100", estado: "SP", codigoPais: "BR", codigoPostal: "01000-000", complemento: "", rua: "Rua A" } }, localizacao: "Local A" }, cor: "#f00", descricao: "Setor de teste", localizacao: "Local A" },
+  { id: "2", nome: "Setor B", qtdMoto: 5, capacidade: 10, patio: { id: "2", totalMotos: 5, capacidadeMoto: 10, filial: { id: "2", nome: "Filial 2", endereco: { id: "2", numero: "200", estado: "RJ", codigoPais: "BR", codigoPostal: "20000-000", complemento: "", rua: "Rua B" } }, localizacao: "Local B" }, cor: "#0f0", descricao: "Setor B", localizacao: "Local B" },
 ];
 
 const situacoesMock: Situacao[] = [
@@ -69,11 +39,25 @@ const situacoesMock: Situacao[] = [
   { id: "2", nome: "Manutenção", descricao: "Moto em manutenção", status: "WARN" },
 ];
 
+// ===== FUNÇÃO AUX =====
+const getCampoValor = (moto: Moto, key: keyof Moto) => {
+  const valor = moto[key];
+  if (!valor) return "";
+  if (typeof valor === "object") return (valor as any).nome ?? "";
+  return String(valor);
+};
+
+// ===== COMPONENTE =====
 export default function MotoEdit() {
+  const router = useRouter();
+  const params = useLocalSearchParams();
+  const { t } = useTranslation();
+  const flatListRef = useRef<FlatList>(null);
+
   const [form, setForm] = useState<Moto>({
     id: "",
     placa: "",
-    chassi: "",
+    chassi: 0,
     condicao: "",
     localizacao: "",
     modelo: modelosMock[0],
@@ -82,30 +66,22 @@ export default function MotoEdit() {
     motorista: undefined,
   });
 
-  const router = useRouter();
-  const params = useLocalSearchParams();
-  const { t } = useTranslation();
-  const { colors } = useTheme();
-  const styles = createGlobalStyles(colors);
-  const flatListRef = useRef<FlatList>(null);
-
   useEffect(() => {
+    const loadMoto = async () => {
+      try {
+        const data = await AsyncStorage.getItem("motos");
+        const motos: Moto[] = data ? JSON.parse(data) : [];
+        const found = motos.find((m) => m.placa === params.placa);
+        if (found) setForm(found);
+        else Alert.alert(t("titleError"), t("alertMotoNotFound") || "Moto não encontrada");
+      } catch (error) {
+        Alert.alert(t("titleError"), t("alertErroLoadMoto") || "Não foi possível carregar os dados");
+      }
+    };
     loadMoto();
-  }, []);
+  }, [params.placa]);
 
-  const loadMoto = async () => {
-    try {
-      const data = await AsyncStorage.getItem("motos");
-      const motos: Moto[] = data ? JSON.parse(data) : [];
-      const found = motos.find((m) => m.placa === params.placa);
-      if (found) setForm(found);
-      else Alert.alert(t("titleError"), t("alertMotoNotFound") || "Moto não encontrada");
-    } catch (error) {
-      Alert.alert(t("titleError"), t("alertErroLoadMoto") || "Não foi possível carregar os dados");
-    }
-  };
-
-  const handleChange = (key: keyof Moto, value: string | Modelo | Setor | Situacao) => {
+  const handleChange = (key: keyof Moto, value: any) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -124,9 +100,9 @@ export default function MotoEdit() {
 
   const campos: CampoForm[] = [
     { key: "placa", label: t("titlePlate"), placeholder: t("placeholderPlate"), keyboardType: "default", iconName: "card-outline" },
-    { key: "chassi", label: t("titleChassis"), placeholder: t("placeholderChassis"), keyboardType: "default", iconName: "barcode-outline" },
+    { key: "chassi", label: t("titleChassis"), placeholder: t("placeholderChassis"), keyboardType: "numeric", iconName: "barcode-outline" },
     { key: "condicao", label: t("titleCondition"), placeholder: t("placeholderCondition"), keyboardType: "default", iconName: "checkmark-circle-outline" },
-    { key: "localizacao", label: t("titleLocation"), placeholder: t("placeholderLocation"), keyboardType: "default", iconName: "location-outline" },
+    // { key: "localizacao", label: t("titleLocation"), placeholder: t("placeholderLocation"), keyboardType: "default", iconName: "location-outline" },
   ];
 
   return (
@@ -142,58 +118,72 @@ export default function MotoEdit() {
             data={campos}
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{ paddingBottom: 20 }}
             renderItem={({ item, index }) => (
-              <View style={styles.form}>
-                <Text style={{ color: colors.text }}>{item.label}</Text>
-                <View style={styles.inputForm}>
-                  <Ionicons name={item.iconName} size={30} color="green" style={styles.iconForm} />
+              <View>
+                <Text>{item.label}</Text>
+                <View>
+                  <Ionicons name={item.iconName} size={30} color="green" />
                   <TextInput
-                    value={typeof form[item.key] === "string" ? (form[item.key] as string) : ""}
-                    style={{ color: colors.text, flex: 1 }}
-                    onChangeText={(text) => handleChange(item.key, text)}
-                    placeholder={item.placeholder || `Digite ${item.label.toLowerCase()}`}
-                    keyboardType={item.keyboardType || "default"}
-                    placeholderTextColor={colors.textSecondary || "#888"}
-                    onFocus={() => {
-                      flatListRef.current?.scrollToIndex({
-                        index,
-                        animated: true,
-                        viewPosition: 0.3,
-                      });
+                    value={
+                      item.key === "chassi"
+                        ? form.chassi?.toString() ?? ""
+                        : (form[item.key as keyof Moto] as string) ?? ""
+                    }
+                    onChangeText={(text) => {
+                      if (item.key === "chassi") {
+                        const num = text.replace(/[^0-9]/g, "");
+                        handleChange("chassi", num ? Number(num) : 0);
+                      } else {
+                        handleChange(item.key as keyof Moto, text);
+                      }
                     }}
                   />
                 </View>
               </View>
             )}
             ListHeaderComponent={
-              <View style={{ padding: 10 }}>
-                <Text style={{ color: colors.text }}>Modelo:</Text>
-                {modelosMock.map((m) => (
-                  <TouchableOpacity key={m.id} onPress={() => handleChange("modelo", m)}>
-                    <Text style={{ color: form.modelo.id === m.id ? "green" : colors.text }}>{m.nome}</Text>
-                  </TouchableOpacity>
-                ))}
+              <View>
+                {/* Modelo */}
+                <Text>{t("titleModel")}</Text>
+                <RNPickerSelect
+                  placeholder={{}}
+                  value={form.modelo?.id}
+                  onValueChange={(value) => {
+                    const m = modelosMock.find((m) => m.id === value);
+                    if (m) handleChange("modelo", m);
+                  }}
+                  items={modelosMock.map((m) => ({ label: m.nome, value: m.id }))}
+                />
 
-                <Text style={{ color: colors.text, marginTop: 10 }}>Setor:</Text>
-                {setoresMock.map((s) => (
-                  <TouchableOpacity key={s.id} onPress={() => handleChange("setor", s)}>
-                    <Text style={{ color: form.setor.id === s.id ? "green" : colors.text }}>{s.nome}</Text>
-                  </TouchableOpacity>
-                ))}
+                {/* Setor */}
+                <Text>{t("titleSector")}</Text>
+                <RNPickerSelect
+                  placeholder={{}}
+                  value={form.setor?.id}
+                  onValueChange={(value) => {
+                    const s = setoresMock.find((s) => s.id === value);
+                    handleChange("setor", s);
+                  }}
+                  items={[{ label: "Não possui setor", value: null }, ...setoresMock.map((s) => ({ label: s.nome, value: s.id }))]}
+                />
 
-                <Text style={{ color: colors.text, marginTop: 10 }}>Situação:</Text>
-                {situacoesMock.map((s) => (
-                  <TouchableOpacity key={s.id} onPress={() => handleChange("situacao", s)}>
-                    <Text style={{ color: form.situacao.id === s.id ? "green" : colors.text }}>{s.nome}</Text>
-                  </TouchableOpacity>
-                ))}
+                {/* Situação */}
+                <Text>{t("titleSituation")}</Text>
+                <RNPickerSelect
+                  placeholder={{}}
+                  value={form.situacao?.id}
+                  onValueChange={(value) => {
+                    const s = situacoesMock.find((s) => s.id === value);
+                    handleChange("situacao", s);
+                  }}
+                  items={situacoesMock.map((s) => ({ label: s.nome, value: s.id }))}
+                />
               </View>
             }
             ListFooterComponent={
-              <View style={{ height: 120 }}>
-                <TouchableOpacity style={styles.botao} onPress={handleSave}>
-                  <Text style={{ color: "#fff" }}>{t("titleSaveBike")}</Text>
+              <View>
+                <TouchableOpacity onPress={handleSave}>
+                  <Text>{t("titleSaveBike")}</Text>
                 </TouchableOpacity>
               </View>
             }

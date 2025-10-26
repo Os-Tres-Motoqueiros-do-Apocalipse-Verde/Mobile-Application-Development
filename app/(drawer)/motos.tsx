@@ -5,24 +5,22 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
-import { MotoForm } from "../../src/types/motos";
+import { Moto } from "../../src/types/motos";
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "..//../src/styles/globalStyles";
+import { createGlobalStyles } from "../../src/styles/globalStyles";
 
 export default function Motos() {
-  const [motos, setMotos] = useState<MotoForm[]>([]);
-  const [filtroCampo, setFiltroCampo] = useState<keyof MotoForm | "todos">("todos");
+  const [motos, setMotos] = useState<Moto[]>([]);
+  const [filtroCampo, setFiltroCampo] = useState<keyof Moto | "todos">("todos");
   const [filtroValor, setFiltroValor] = useState("");
   const [openOptions, setOpenOptions] = useState(false);
 
-  const { colors, toggleTheme } = useTheme();
+  const { colors } = useTheme();
   const styles = createGlobalStyles(colors);
     
-
   const { t } = useTranslation();
-  
 
   useEffect(() => {
     loadMotos();
@@ -31,42 +29,59 @@ export default function Motos() {
   const loadMotos = async () => {
     try {
       const data = await AsyncStorage.getItem("motos");
-      const list: MotoForm[] = data ? JSON.parse(data) : [];
+      const list: Moto[] = data ? JSON.parse(data) : [];
       setMotos(list);
     } catch (error) {
       Alert.alert(t('titleError'), t('alertContextErroLoadingBike'));
     }
   };
-  
+
+  // Função auxiliar para pegar valor do campo, mesmo se for objeto
+  const getCampoValor = (moto: Moto, campo: keyof Moto) => {
+    const valor = moto[campo];
+    if (valor === undefined || valor === null) return "";
+    if (typeof valor === "object") {
+      return (valor as any).nome ?? "";
+    }
+    return String(valor);
+  };
+
+  // Filtragem
   const filteredMotos = motos.filter((moto) => {
+    const valorFiltro = filtroValor.toLowerCase();
     if (filtroCampo === "todos") {
       return (
-        moto.placa.toLowerCase().includes(filtroValor.toLowerCase()) ||
-        moto.modelo.toLowerCase().includes(filtroValor.toLowerCase()) ||
-        moto.condicao.toLowerCase().includes(filtroValor.toLowerCase()) ||
-        moto.frenagem.toLowerCase().includes(filtroValor.toLowerCase())
+        moto.placa.toLowerCase().includes(valorFiltro) ||
+        getCampoValor(moto, "modelo").toLowerCase().includes(valorFiltro) ||
+        moto.condicao.toLowerCase().includes(valorFiltro) ||
+        getCampoValor(moto, "setor").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(moto, "motorista").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(moto, "situacao").toLowerCase().includes(valorFiltro)
       );
     } else {
-      return moto[filtroCampo].toLowerCase().includes(filtroValor.toLowerCase());
+      return getCampoValor(moto, filtroCampo as keyof Moto).toLowerCase().includes(valorFiltro);
     }
   });
-  
-  const handleItemPress = (moto: MotoForm) => {
+
+  const handleItemPress = (moto: Moto) => {
     router.push({
       pathname: "/moto",
       params: { placa: moto.placa },
     });
   };
-  
+
   return (
-    <SafeAreaView>
-      <View style={styles.motoPerfil} >
-         <Text style={{color:"#fff", fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t('titleListBikes')}</Text>
-  
-        <View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <View style={styles.motoPerfil}>
+        <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
+          {t('titleListBikes')}
+        </Text>
+
+        <View style={{ marginBottom: 20 }}>
           <Picker
             selectedValue={filtroCampo}
             onValueChange={(itemValue) => setFiltroCampo(itemValue)}
+            style={{ color: "#fff", backgroundColor: "#099302", borderRadius: 10 }}
           >
             <Picker.Item label={t('titleAll')} value="todos" />
             <Picker.Item label={t('titlePlate')} value="placa" />
@@ -74,49 +89,82 @@ export default function Motos() {
             <Picker.Item label={t('titleCondition')} value="condicao" />
             <Picker.Item label={t('titleBraking')} value="frenagem" />
           </Picker>
-    
+
           <TextInput
             placeholder={t('titleSearchBike')}
+            placeholderTextColor="#ccc"
             value={filtroValor}
-            style={{borderWidth:1, borderColor:"#09BC00",borderRadius:10, width:"90%", color:"#fff"}}
-            onChangeText={(text) => setFiltroValor(text)}
+            onChangeText={setFiltroValor}
+            style={{
+              borderWidth: 1,
+              borderColor: "#09BC00",
+              borderRadius: 10,
+              width: "90%",
+              color: "#fff",
+              padding: 10,
+              marginTop: 10
+            }}
           />
         </View>
-
       </View>
-     
-  
+
       <FlatList
         data={filteredMotos}
         keyExtractor={(item) => item.placa}
+        contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({ item }) => (
-          <TouchableOpacity style={{backgroundColor:"#099302", gap:20, width:"90%", borderRadius:20, padding:20, alignSelf:"center", marginTop:50}}
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#099302",
+              gap: 20,
+              width: "90%",
+              borderRadius: 20,
+              padding: 20,
+              alignSelf: "center",
+              marginTop: 20,
+            }}
             onPress={() => handleItemPress(item)}
           >
-            <Text style={{color:"#fff", fontSize:30, textAlign:"center"}}>{item.modelo}</Text>
-            <Text style={{color:"#fff", fontSize:20}}>{t('titlePlate')}: {item.placa}</Text>
-            <Text style={{color:"#fff", fontSize:20}}>{t('titleCondition')}: {item.condicao}</Text>
+            <Text style={{ color: "#fff", fontSize: 30, textAlign: "center" }}>
+              {getCampoValor(item, "modelo")}
+            </Text>
+            <Text style={{ color: "#fff", fontSize: 20 }}>
+              {t('titlePlate')}: {item.placa}
+            </Text>
+            <Text style={{ color: "#fff", fontSize: 20 }}>
+              {t('titleCondition')}: {item.condicao}
+            </Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
-          <Text>{t('alertContextErroFindAnyBike')}</Text>
+          <Text style={{ textAlign: "center", marginTop: 20 }}>{t('alertContextErroFindAnyBike')}</Text>
         }
       />
-      <TouchableOpacity style={{backgroundColor:"#099302", width:100, marginLeft:40, borderTopEndRadius:20, borderTopStartRadius:20}} onPress={() => setOpenOptions(!openOptions)}>
-        <Image style={{alignSelf:"center"}} source={require("../../assets/profile/white-logo.png")}/>
+
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#099302",
+          width: 100,
+          marginLeft: 40,
+          borderTopEndRadius: 20,
+          borderTopStartRadius: 20,
+          marginTop: 10
+        }}
+        onPress={() => setOpenOptions(!openOptions)}
+      >
+        <Image style={{ alignSelf: "center", width: 50, height: 50 }} source={require("../../assets/profile/white-logo.png")} />
       </TouchableOpacity>
+
       {openOptions && (
         <View style={styles.config}>
           <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-moto')}>
-            <Ionicons name="create-outline" size={30} color="#fff" style={{alignSelf:"center"}}/>
+            <Ionicons name="create-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
             <View>
-              <Text style={{color:"#fff"}}>{t('titleRegister')}</Text>
-              <Text style={{color:"#fff", width:"80%"}}>{t('contextRegisterBike')}</Text>
+              <Text style={{ color: "#fff" }}>{t('titleRegister')}</Text>
+              <Text style={{ color: "#fff", width: "80%" }}>{t('contextRegisterBike')}</Text>
             </View>
           </TouchableOpacity>
-
         </View>
-        
       )}
     </SafeAreaView>
   );

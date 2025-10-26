@@ -8,7 +8,7 @@ export default function MotoListLayout() {
         title: "Moto", 
         headerShown:true, 
         headerStyle: {
-          backgroundColor: "#099302", // cor de fundo do header
+          backgroundColor: "#099302",
         },  }} />
     </Stack>
   );

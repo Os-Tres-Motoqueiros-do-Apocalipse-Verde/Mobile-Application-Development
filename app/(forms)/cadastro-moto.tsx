@@ -146,7 +146,7 @@ export default function MotoRegister() {
     if (!form.placa || typeof form.placa !== "string") erros.push(t("alertErrorRegisterPlate"));
     if (form.chassi === undefined || typeof form.chassi !== "number" || isNaN(form.chassi)) erros.push(t("alertErrorRegisterChassis"));
     if (!form.condicao || typeof form.condicao !== "string") erros.push(t("alertErrorRegisterCondition"));
-    if (!form.localizacao || typeof form.localizacao !== "string") erros.push(t("alertErrorRegisterLocation"));
+    if (form.localizacao && typeof form.localizacao !== "string") erros.push(t("alertErrorRegisterLocation"));
     if (!form.modelo || typeof form.modelo !== "object" || !form.modelo.id) erros.push(t("alertErrorRegisterModel"));
     if (!form.situacao || typeof form.situacao !== "object" || !form.situacao.id) erros.push(t("alertErrorRegisterSituation"));
 
@@ -172,7 +172,7 @@ export default function MotoRegister() {
     { key: "placa", label: t("titlePlate"), placeholder: t("placeholderPlate"), keyboardType: "default", iconName: "card-outline" },
     { key: "chassi", label: t("titleChassis"), placeholder: t("placeholderChassis"), keyboardType: "numeric", iconName: "barcode-outline" },
     { key: "condicao", label: t("titleCondition"), placeholder: t("placeholderCondition"), keyboardType: "default", iconName: "checkmark-circle-outline" },
-    { key: "localizacao", label: t("titleLocation"), placeholder: t("placeholderLocation"), keyboardType: "default", iconName: "location-outline" },
+    // { key: "localizacao", label: t("titleLocation"), placeholder: t("placeholderLocation"), keyboardType: "default", iconName: "location-outline" },
   ];
 
   return (
