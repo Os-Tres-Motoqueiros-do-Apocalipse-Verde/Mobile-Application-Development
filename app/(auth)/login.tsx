@@ -122,6 +122,16 @@ export default function Login() {
             <Text>{t('loginTitle')}</Text>
           </TouchableOpacity>
 
+          {/* Botão para limpar o AsyncStorage */}
+          {/* <TouchableOpacity
+            style={{ backgroundColor: 'red', padding: 10, borderRadius: 8 }}
+            onPress={async () => {
+              await AsyncStorage.clear();
+              alert('AsyncStorage limpo!');}}>
+            <Text style={{ color: 'white', textAlign: 'center' }}>Limpar Funcionários</Text>
+          </TouchableOpacity> */}
+
+          
           <View>
             <Text>{t('noAccountText')}</Text>
             <TouchableOpacity onPress={() => router.push('/cadastro')}>

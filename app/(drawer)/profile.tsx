@@ -17,7 +17,7 @@ import * as ImagePicker from "expo-image-picker";
 import { Camera } from "expo-camera";
 import i18n from "../../src/services/i18n";
 import { useTranslation } from "react-i18next";
-import { Funcionario } from "../../src/types/funcionario"; // ✅ usa o novo tipo
+import { Funcionario } from "../../src/types/funcionario";
 
 export default function Profile() {
   const { t } = useTranslation();
@@ -255,15 +255,24 @@ export default function Profile() {
           </View>
         )}
 
+        {/* Modal de Zoom da Foto */}
         <Modal
           visible={zoomVisible}
           transparent
+          animationType="fade"
           onRequestClose={() => setZoomVisible(false)}
         >
-          <View>
-            <Image source={profileImage} resizeMode="cover" />
-            <TouchableOpacity onPress={() => setZoomVisible(false)}>
-              <Ionicons name="close-circle" size={36} color="white" />
+          <View style={styles.modalContainer}>
+            <Image
+              source={profileImage}
+              style={styles.zoomedImage}
+              resizeMode="contain"
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setZoomVisible(false)}
+            >
+              <Ionicons name="close-circle" size={50} color="white" />
             </TouchableOpacity>
           </View>
         </Modal>
@@ -277,5 +286,21 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.9)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  zoomedImage: {
+    width: "90%",
+    height: "70%",
+    borderRadius: 10,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 50,
+    right: 30,
   },
 });

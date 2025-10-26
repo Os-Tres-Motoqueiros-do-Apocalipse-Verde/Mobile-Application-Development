@@ -6,14 +6,10 @@ import { Funcionario } from '../../src/types/funcionario';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useTheme } from '../../src/context/ThemeContext';
-import { createGlobalStyles } from '../../src/styles/globalStyles';
 
 export default function Cadastro() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { colors } = useTheme();
-  const styles = createGlobalStyles(colors);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -78,23 +74,21 @@ export default function Cadastro() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <ScrollView contentContainerStyle={styles.sobre}>
-        <View style={{ padding: 16 }}>
-          <View style={styles.inputForm}>
-            <Ionicons name="person-outline" size={24} color="green" style={styles.iconForm} />
+    <SafeAreaView>
+      <ScrollView>
+        <View>
+          <View>
+            <Ionicons name="person-outline" size={24} color="green"/>
             <TextInput
-              style={{ color: colors.text }}
               placeholder={t('namePlace')}
               value={nome}
               onChangeText={setNome}
             />
           </View>
 
-          <View style={styles.inputForm}>
-            <Ionicons name="mail-outline" size={24} color="green" style={styles.iconForm} />
+          <View>
+            <Ionicons name="mail-outline" size={24} color="green"/>
             <TextInput
-              style={{ color: colors.text }}
               placeholder={t('emailPlace')}
               value={email}
               onChangeText={setEmail}
@@ -103,10 +97,9 @@ export default function Cadastro() {
             />
           </View>
 
-          <View style={styles.inputForm}>
-            <Ionicons name="lock-closed-outline" size={24} color="green" style={styles.iconForm} />
+          <View>
+            <Ionicons name="lock-closed-outline" size={24} color="green"/>
             <TextInput
-              style={{ color: colors.text }}
               placeholder={t('passwordPlace')}
               value={senha}
               onChangeText={setSenha}
@@ -117,15 +110,13 @@ export default function Cadastro() {
                 name={showPassword ? 'eye-outline' : 'eye-off-outline'}
                 size={24}
                 color="green"
-                style={styles.olho}
               />
             </TouchableOpacity>
           </View>
 
-          <View style={styles.inputForm}>
-            <Ionicons name="call-outline" size={24} color="green" style={styles.iconForm} />
+          <View>
+            <Ionicons name="call-outline" size={24} color="green"/>
             <TextInput
-              style={{ color: colors.text }}
               placeholder={t('telephonePlace')}
               value={telefone}
               onChangeText={setTelefone}
@@ -133,10 +124,9 @@ export default function Cadastro() {
             />
           </View>
 
-          <View style={styles.inputForm}>
-            <Ionicons name="reader-outline" size={24} color="green" style={styles.iconForm} />
+          <View>
+            <Ionicons name="reader-outline" size={24} color="green"/>
             <TextInput
-              style={{ color: colors.text }}
               placeholder={t('nationalIdPlace')}
               value={cpf}
               onChangeText={setCpf}
@@ -145,29 +135,27 @@ export default function Cadastro() {
             
           </View>
 
-          <View style={styles.inputForm}>
-            <Ionicons name="storefront-outline" size={24} color="green" style={styles.iconForm} />
+          <View>
+            <Ionicons name="storefront-outline" size={24} color="green"/>
             <TextInput
-              style={{ color: colors.text }}
               placeholder={t('positionPlace')}
               value={cargo}
               onChangeText={setCargo}
             />
           </View>
 
-          <TouchableOpacity style={styles.botao} onPress={handleRegister}>
+          <TouchableOpacity onPress={handleRegister}>
             <Text>{t('registerTitle')}</Text>
           </TouchableOpacity>
 
-          <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 20 }}>
-            <Text style={{ color: colors.text }}>{t('haveAccountText')} </Text>
+          <View>
+            <Text>{t('haveAccountText')} </Text>
             <TouchableOpacity onPress={() => router.push('/login')}>
-              <Text style={{ color: 'green', fontWeight: 'bold' }}>{t('loginTitle')}</Text>
+              <Text>{t('loginTitle')}</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
-      
     </SafeAreaView>
   );
 }
