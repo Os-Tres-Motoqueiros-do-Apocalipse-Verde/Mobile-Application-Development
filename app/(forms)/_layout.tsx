@@ -1,22 +1,32 @@
-
 import { Stack } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function AuthLayout() {
+
+  const { t } = useTranslation();
+  
   return (
     <Stack>
       <Stack.Screen name="cadastro-moto" options={{
-        title:"Cadastro Moto", 
+        title:t("titleRegisterBike"), 
         headerStyle: {
           backgroundColor: "#099302", 
         }, 
         }}/>      
+      <Stack.Screen name="cadastrar-motorista" options={{
+        title:t("titleRegisterBiker"), 
+        headerStyle: {
+          backgroundColor: "#099302", 
+        }, 
+      }}
+      />
       <Stack.Screen name="editar-moto" options={{
-        title:"Editar Moto", 
+        title:t("titleEditBike"), 
         headerStyle: {
           backgroundColor: "#099302",
         }, }}/>      
       <Stack.Screen name="editar-funcionario" options={{
-        title:"Editar Conta", 
+        title:t("titleEditAccount"), 
         headerStyle: {
           backgroundColor: "#099302",
         }, }}/>      

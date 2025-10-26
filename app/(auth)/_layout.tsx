@@ -4,11 +4,12 @@ import i18n from "../../src/services/i18n";
 import { ThemeProvider } from "../../src/context/ThemeContext";
 import LanguageSelector from "../../src/components/language";
 import { View } from "react-native";
-
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "..//../src/styles/globalStyles";
 
 export default function AuthLayout() {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -39,8 +40,8 @@ export default function AuthLayout() {
             )
           }}
         >
-          <Stack.Screen name="login" options={{ title: "Login" }} />
-          <Stack.Screen name="cadastro" options={{ title: "Cadastro" }} />
+          <Stack.Screen name="login" options={{ title: t("titleLogin") }} />
+          <Stack.Screen name="cadastro" options={{ title: t("titleRegister") }} />
         </Stack>
       </ThemeProvider>
     </I18nextProvider>

@@ -6,6 +6,7 @@ import i18n from "../src/services/i18n";
 import { ThemeProvider } from '../src/context/ThemeContext';
 
 export default function RootLayout() {
+  
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>

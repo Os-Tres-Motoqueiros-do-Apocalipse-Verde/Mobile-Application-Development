@@ -1,67 +1,80 @@
 import React from "react";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import { withLayoutContext } from "expo-router";
+import { withLayoutContext, useRouter } from "expo-router";
 import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "..//../src/styles/globalStyles";
+import { createGlobalStyles } from "../../src/styles/globalStyles";
 import ThemeToggle from "../../src/components/ThemeToggleButton";
 import { useTranslation } from "react-i18next";
 
 const DrawerNavigator = createDrawerNavigator().Navigator;
 const Drawer = withLayoutContext(DrawerNavigator);
-const router = useRouter();
 
 function CustomDrawerContent(props: any) {
-
   const { t } = useTranslation();
-  const { colors, toggleTheme } = useTheme();
+  const { colors } = useTheme();
   const styles = createGlobalStyles(colors);
-  
+  const router = useRouter();
+
+  const isLoggedIn = true; 
+
   return (
-    <DrawerContentScrollView {...props}>
-      <View>
-        <View>
-          <View>
-            <TouchableOpacity  onPress={() => {router.push('/profile')}}>
-              <Ionicons name="person-circle-outline" size={35} color="#000000" />
-            </TouchableOpacity>
-            <ThemeToggle/>
-          </View>
-          <Ionicons name="grid-outline" size={30} color="green" style={{alignSelf:"flex-end", paddingBottom:50, paddingRight:15}} />
-        </View>
-        <Text style={styles.text} >Menu</Text>
+    <DrawerContentScrollView {...props} contentContainerStyle={{ flexGrow: 1 }}>
+      {/* Header do Drawer */}
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 16 }}>
+        <TouchableOpacity onPress={() => router.push("/profile")}>
+          <Ionicons name="person-circle-outline" size={35} color={colors.text} />
+        </TouchableOpacity>
+        <ThemeToggle />
       </View>
 
+      <Ionicons
+        name="grid-outline"
+        size={30}
+        color="green"
+        style={{ alignSelf: "flex-end", paddingBottom: 30, paddingRight: 15 }}
+      />
+      <Text style={[styles.text, { marginLeft: 16, marginBottom: 10 }]}>Menu</Text>
+
+      {/* Itens do Drawer */}
       <DrawerItem
-        label={t("pageTitleHome")}
+        label={t("titleHome")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="home-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("home")}
       />
 
       <DrawerItem
-        label={t("pageTitleAboutUs")}
+        label={t("titleAboutUs")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="people-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("about")}
       />
 
       <DrawerItem
-        label={t("pageTitleBikes")}
+        label={t("titleProfile")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="bicycle-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("motos")}
       />
+
+      {isLoggedIn && (
+        <DrawerItem
+          label={t("titleBikes")}
+          labelStyle={{ color: colors.text, fontSize: 14 }}
+          icon={() => <Ionicons name="person-outline" size={24} color="green" />}
+          onPress={() => props.navigation.navigate("profile")}
+        />
+      )}
     </DrawerContentScrollView>
   );
 }
 
 export default function DrawerLayout() {
 
-  const { colors, toggleTheme } = useTheme();
-  const styles = createGlobalStyles(colors);
+  const { t } = useTranslation();
+  const { colors } = useTheme();
 
   return (
     <Drawer
@@ -70,37 +83,38 @@ export default function DrawerLayout() {
         headerTitleStyle: { fontWeight: "bold" },
         drawerStyle: {
           backgroundColor: colors.background,
-          zIndex:1,
           width: 280,
         },
-                
       }}
     >
-
-      <Drawer.Screen name="home" options={{ 
-        title: "Home", 
-        headerStyle: {
-          backgroundColor: "#099302", 
-        },
-      }} />
-      <Drawer.Screen name="about" options={{ 
-        title: "Sobre Nós", 
-        headerStyle: {
-          backgroundColor: "#099302", 
-        }, 
-        
-      }} />
-      <Drawer.Screen name="profile" options={{ 
-        title: "Perfil", 
-        headerStyle: {
-          backgroundColor: "#099302", 
-        }, 
-      }} />
-      <Drawer.Screen name="motos" options={{ title: "Motos", 
-        headerStyle: {
-          backgroundColor: "#099302", 
-        },
-       }} />
+      <Drawer.Screen
+        name="home"
+        options={{
+          title: t("titleHome"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
+      <Drawer.Screen
+        name="about"
+        options={{
+          title: t("titleAboutUs"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
+      <Drawer.Screen
+        name="profile"
+        options={{
+          title: t("titleProfile"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
+      <Drawer.Screen
+        name="motos"
+        options={{
+          title: t("titleBikes"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
     </Drawer>
   );
 }

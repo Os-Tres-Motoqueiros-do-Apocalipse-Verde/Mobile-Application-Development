@@ -269,17 +269,22 @@ export default function MotoRegister() {
                 {/* Botões */}
                 <View>
                   <TouchableOpacity onPress={() => router.push('/cadastro-modelo')}>
-                    <Text>{t("registerModelTitle")}</Text>
+                    <Text>{t("titleRegisterModel")}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => router.push('/cadastro-setor')}>
-                    <Text>{t("registerSectorTitle")}</Text>
+                    <Text>{t("titleRegisterSector")}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => router.push('/cadastro-situacao')}>
-                    <Text>{t("registerSituationTitle")}</Text>
+                    <Text>{t("titleRegisterSituation")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={handleSave}>
-                    <Text>{t("titleSaveBike")}</Text>
+                  <TouchableOpacity onPress={() => router.push('/cadastro-motorista')}>
+                    <Text>{t("titleRegisterBiker")}</Text>
                   </TouchableOpacity>
+                  <View>
+                    <TouchableOpacity onPress={handleSave}>
+                      <Text>{t("titleSaveBike")}</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             }
