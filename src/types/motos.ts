@@ -7,7 +7,7 @@ import { Motorista } from "./motorista";
 export interface Moto {
   id: string;
   placa: string;
-  chassi: string;
+  chassi: number;
   condicao: string;
   localizacao?:string;
   modelo: Modelo;

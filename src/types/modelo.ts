@@ -1,5 +1,5 @@
 export interface Modelo{
-    id:String;
+    id:string;
     nome:string;
     frenagem:string;
     sisPartida:string;
