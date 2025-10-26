@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "..//../src/styles/globalStyles";
 import ThemeToggle from "../../src/components/ThemeToggleButton";
+import { useTranslation } from "react-i18next";
 
 const DrawerNavigator = createDrawerNavigator().Navigator;
 const Drawer = withLayoutContext(DrawerNavigator);
@@ -14,6 +15,7 @@ const router = useRouter();
 
 function CustomDrawerContent(props: any) {
 
+  const { t } = useTranslation();
   const { colors, toggleTheme } = useTheme();
   const styles = createGlobalStyles(colors);
   
@@ -33,28 +35,21 @@ function CustomDrawerContent(props: any) {
       </View>
 
       <DrawerItem
-        label="Home"
+        label={t("pageTitleHome")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="home-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("home")}
       />
 
       <DrawerItem
-        label="Sobre Nós"
+        label={t("pageTitleAboutUs")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="people-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("about")}
       />
 
       <DrawerItem
-        label="Perfil"
-        labelStyle={{ color: colors.text, fontSize: 14 }}
-        icon={() => <Ionicons name="person-outline" size={24} color="green" />}
-        onPress={() => props.navigation.navigate("profile")}
-      />
-
-      <DrawerItem
-        label="Motos"
+        label={t("pageTitleBikes")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="bicycle-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("motos")}
