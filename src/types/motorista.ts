@@ -12,5 +12,5 @@ export interface CampoForm {
   placeholder?: string;
   keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
   iconName: string;
+  secure?: boolean;
 }
-

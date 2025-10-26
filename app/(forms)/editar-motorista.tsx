@@ -1,31 +1,20 @@
 import React, { useState, useRef } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  FlatList,
-  KeyboardAvoidingView,
-  Platform,
-  Keyboard,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert, FlatList, KeyboardAvoidingView, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import { Motorista, CampoForm } from "../../src/types/motorista";
-import { Dados } from "../../src/types/dados";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RNPickerSelect from "react-native-picker-select";
+import { Motorista, CampoForm } from "../../src/types/motorista";
+import { Dados } from "../../src/types/dados";
 
 export default function MotoristaCreate() {
   const router = useRouter();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
 
-  const planos = ["Básico", "Premium", "VIP"];
+  const planos = ["Básico", "Intermediário", "Premium"];
 
   const [form, setForm] = useState<Motorista>({
     id: Date.now().toString(),
@@ -41,62 +30,66 @@ export default function MotoristaCreate() {
   });
 
   const handleChange = (key: keyof Motorista | keyof Dados, value: string) => {
-    if (Object.keys(form.dados).includes(key as string)) {
-      setForm((prev) => ({
+    if (["id", "nome", "cpf", "telefone", "email", "senha"].includes(key as string)) {
+      setForm(prev => ({
         ...prev,
         dados: { ...prev.dados, [key as keyof Dados]: value },
       }));
     } else {
-      setForm((prev) => ({ ...prev, [key as keyof Motorista]: value }));
+      setForm(prev => ({ ...prev, [key as keyof Motorista]: value }));
     }
   };
 
   const handleSave = async () => {
-    const errors: string[] = [];
-
-    if (!form.plano) errors.push(t("alertErrorRegisterPlan"));
-    if (!form.dados.nome) errors.push(t("alertErrorRegisterName"));
-    if (!form.dados.cpf) errors.push(t("alertErrorRegisterCPF"));
-    if (!form.dados.telefone) errors.push(t("alertErrorRegisterPhone"));
-    if (!form.dados.email) errors.push(t("alertErrorRegisterEmail"));
-
-    if (errors.length > 0) {
-      Alert.alert(t("titleError"), errors.join("\n"));
+    // Validação simples
+    if (!form.dados.nome || !form.dados.cpf || !form.dados.telefone || !form.dados.email || !form.dados.senha) {
+      Alert.alert(t("titleError"), t("alertEmptyInput"));
       return;
     }
 
     try {
       const data = await AsyncStorage.getItem("motoristas");
       const motoristas: Motorista[] = data ? JSON.parse(data) : [];
+
+      // Verificar duplicados
+      const existe = motoristas.some(
+        m => m.dados.cpf === form.dados.cpf || m.dados.email.toLowerCase() === form.dados.email.toLowerCase()
+      );
+      if (existe) {
+        Alert.alert(t("titleError"), t("alertDuplicateUser"));
+        return;
+      }
+
       motoristas.push(form);
       await AsyncStorage.setItem("motoristas", JSON.stringify(motoristas));
 
-      Alert.alert(t("alertSuccessEmployeeTitle"), t("alertCreateMotorista"));
+      Alert.alert(t("alertSuccessEmployeeTitle"), t("alertUpdateMotorista"));
       router.back();
     } catch (error) {
-      Alert.alert(t("titleError"), t("alertErroCreateMotorista"));
+      console.log(error);
+      Alert.alert(t("titleError"), t("alertErroUpdateMotorista"));
     }
   };
 
   const campos: CampoForm[] = [
-    { key: "nome", label: t("titleName"), placeholder: t("placeholderName"), keyboardType: "default", iconName: "person-outline" },
-    { key: "cpf", label: t("titleCPF"), placeholder: t("placeholderCPF"), keyboardType: "numeric", iconName: "barcode-outline" },
-    { key: "telefone", label: t("titlePhone"), placeholder: t("placeholderPhone"), keyboardType: "phone-pad", iconName: "call-outline" },
-    { key: "email", label: t("titleEmail"), placeholder: t("placeholderEmail"), keyboardType: "email-address", iconName: "mail-outline" },
+    { key: "nome", label: t("namePlace"), placeholder: t("namePlace"), keyboardType: "default", iconName: "person-outline" },
+    { key: "cpf", label: t("nationalIdPlace"), placeholder: t("nationalIdPlace"), keyboardType: "numeric", iconName: "reader-outline" },
+    { key: "telefone", label: t("telephonePlace"), placeholder: t("telephonePlace"), keyboardType: "phone-pad", iconName: "call-outline" },
+    { key: "email", label: t("emailPlace"), placeholder: t("emailPlace"), keyboardType: "email-address", iconName: "mail-outline" },
+    { key: "senha", label: t("passwordPlace"), placeholder: t("passwordPlace"), keyboardType: "default", iconName: "lock-closed-outline" },
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
-        style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
             ref={flatListRef}
             data={campos}
-            keyExtractor={(item, index) => item.key + index}
+            keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
               <View>
@@ -105,19 +98,16 @@ export default function MotoristaCreate() {
                   <Ionicons name={item.iconName} size={30} color="green"/>
                   <TextInput
                     value={
-                      Object.keys(form.dados).includes(item.key as string)
-                        ? String(form.dados[item.key as keyof Dados] ?? "")
-                        : String(form[item.key as keyof Motorista] ?? "")
+                      ["nome", "cpf", "telefone", "email", "senha"].includes(item.key as string)
+                        ? form.dados[item.key as keyof Dados]
+                        : (form[item.key as keyof Motorista] as string)
                     }
-                    onChangeText={(text) => handleChange(item.key as keyof Motorista | keyof Dados, text)}
+                    onChangeText={(text) => handleChange(item.key, text)}
                     placeholder={item.placeholder}
-                    keyboardType={item.keyboardType || "default"}
+                    keyboardType={item.keyboardType}
+                    secureTextEntry={item.key === "senha"}
                     onFocus={() => {
-                      flatListRef.current?.scrollToIndex({
-                        index,
-                        animated: true,
-                        viewPosition: 0.3,
-                      });
+                      flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.3 });
                     }}
                   />
                 </View>
@@ -127,14 +117,14 @@ export default function MotoristaCreate() {
               <View>
                 <Text>{t("titlePlan")}</Text>
                 <RNPickerSelect
-                  placeholder={{}}
                   value={form.plano}
                   onValueChange={(value) => handleChange("plano", value)}
                   items={planos.map((p) => ({ label: p, value: p }))}
+                  placeholder={{}}
                 />
 
                 <TouchableOpacity onPress={handleSave}>
-                  <Text>{t("titleSave")}</Text>
+                  <Text>{t("registerTitle")}</Text>
                 </TouchableOpacity>
               </View>
             }

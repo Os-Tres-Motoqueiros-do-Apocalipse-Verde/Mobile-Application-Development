@@ -3,6 +3,6 @@ export interface Dados{
     cpf:string;
     telefone:string;
     email:string;
-    senha:string;
+    senha?:string;
     nome:string;
 }

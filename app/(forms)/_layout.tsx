@@ -13,20 +13,24 @@ export default function AuthLayout() {
           backgroundColor: "#099302", 
         }, 
         }}/>      
-      <Stack.Screen name="cadastrar-motorista" options={{
+      <Stack.Screen name="cadastro-motorista" options={{
         title:t("titleRegisterBiker"), 
         headerStyle: {
           backgroundColor: "#099302", 
         }, 
-      }}
-      />
+      }}/>
+      <Stack.Screen name="editar-funcionario" options={{
+        title:t("titleEditAccount"), 
+        headerStyle: {
+          backgroundColor: "#099302",
+        }, }}/>
       <Stack.Screen name="editar-moto" options={{
-        title:t("titleEditBike"), 
+        title:t("titleEditBike"),
         headerStyle: {
           backgroundColor: "#099302",
         }, }}/>      
-      <Stack.Screen name="editar-funcionario" options={{
-        title:t("titleEditAccount"), 
+      <Stack.Screen name="editar-motorista" options={{
+        title:t("titleEditBiker"), 
         headerStyle: {
           backgroundColor: "#099302",
         }, }}/>      
