@@ -53,20 +53,11 @@ function CustomDrawerContent(props: any) {
       />
 
       <DrawerItem
-        label={t("titleProfile")}
+        label={t("titleBikes")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
-        icon={() => <Ionicons name="bicycle-outline" size={24} color="green" />}
+        icon={() => <Ionicons name="person-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("motos")}
       />
-
-      {isLoggedIn && (
-        <DrawerItem
-          label={t("titleBikes")}
-          labelStyle={{ color: colors.text, fontSize: 14 }}
-          icon={() => <Ionicons name="person-outline" size={24} color="green" />}
-          onPress={() => props.navigation.navigate("profile")}
-        />
-      )}
     </DrawerContentScrollView>
   );
 }

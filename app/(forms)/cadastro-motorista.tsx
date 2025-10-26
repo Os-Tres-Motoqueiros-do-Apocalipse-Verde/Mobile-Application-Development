@@ -9,37 +9,36 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "../../src/styles/globalStyles";
 import { Motorista, CampoForm } from "../../src/types/motorista";
 import { Dados } from "../../src/types/dados";
 import { SafeAreaView } from "react-native-safe-area-context";
+import RNPickerSelect from "react-native-picker-select";
 
 export default function MotoristaCreate() {
+  const router = useRouter();
+  const { t } = useTranslation();
+  const flatListRef = useRef<FlatList>(null);
+
+  const planos = ["Básico", "Premium", "VIP"];
+
   const [form, setForm] = useState<Motorista>({
-    id: "",
-    plano: "",
+    id: Date.now().toString(),
+    plano: planos[0],
     dados: {
-      id: "",
+      id: Date.now().toString(),
+      nome: "",
       cpf: "",
       telefone: "",
       email: "",
       senha: "",
-      nome: "",
     },
   });
-
-  const router = useRouter();
-  const { t } = useTranslation();
-  const { colors } = useTheme();
-  const styles = createGlobalStyles(colors);
-  const flatListRef = useRef<FlatList>(null);
 
   const handleChange = (key: keyof Motorista | keyof Dados, value: string) => {
     if (Object.keys(form.dados).includes(key as string)) {
@@ -53,33 +52,39 @@ export default function MotoristaCreate() {
   };
 
   const handleSave = async () => {
+    const errors: string[] = [];
+
+    if (!form.plano) errors.push(t("alertErrorRegisterPlan"));
+    if (!form.dados.nome) errors.push(t("alertErrorRegisterName"));
+    if (!form.dados.cpf) errors.push(t("alertErrorRegisterCPF"));
+    if (!form.dados.telefone) errors.push(t("alertErrorRegisterPhone"));
+    if (!form.dados.email) errors.push(t("alertErrorRegisterEmail"));
+    if (!form.dados.senha) errors.push(t("alertErrorRegisterPassword"));
+
+    if (errors.length > 0) {
+      Alert.alert(t("titleError"), errors.join("\n"));
+      return;
+    }
+
     try {
       const data = await AsyncStorage.getItem("motoristas");
-      let motoristas: Motorista[] = data ? JSON.parse(data) : [];
+      const motoristas: Motorista[] = data ? JSON.parse(data) : [];
       motoristas.push(form);
       await AsyncStorage.setItem("motoristas", JSON.stringify(motoristas));
-      Alert.alert(
-        t("alertSuccessEmployeeTitle") || "Sucesso",
-        t("alertCreateMotorista") || "Motorista criado com sucesso"
-      );
+
+      Alert.alert(t("alertSuccessEmployeeTitle"), t("alertCreateMotorista"));
       router.back();
     } catch (error) {
-      Alert.alert(
-        t("titleError") || "Erro",
-        t("alertErroCreateMotorista") || "Erro ao criar motorista"
-      );
+      Alert.alert(t("titleError"), t("alertErroCreateMotorista"));
     }
   };
 
   const campos: CampoForm[] = [
-    { key: "id", label: "ID Motorista", placeholder: "Digite o ID do motorista", keyboardType: "default", iconName: "id-card-outline" },
-    { key: "plano", label: "Plano", placeholder: "Digite o plano", keyboardType: "default", iconName: "ribbon-outline" },
-    { key: "id", label: "ID Dados", placeholder: "Digite o ID dos dados", keyboardType: "default", iconName: "id-card-outline" },
-    { key: "nome", label: "Nome", placeholder: "Digite o nome", keyboardType: "default", iconName: "person-outline" },
-    { key: "cpf", label: "CPF", placeholder: "Digite o CPF", keyboardType: "numeric", iconName: "barcode-outline" },
-    { key: "telefone", label: "Telefone", placeholder: "Digite o telefone", keyboardType: "phone-pad", iconName: "call-outline" },
-    { key: "email", label: "Email", placeholder: "Digite o email", keyboardType: "email-address", iconName: "mail-outline" },
-    { key: "senha", label: "Senha", placeholder: "Digite a senha", keyboardType: "default", iconName: "lock-closed-outline" },
+    { key: "nome", label: t("titleName"), placeholder: t("placeholderName"), keyboardType: "default", iconName: "person-outline" },
+    { key: "cpf", label: t("titleCPF"), placeholder: t("placeholderCPF"), keyboardType: "numeric", iconName: "barcode-outline" },
+    { key: "telefone", label: t("titlePhone"), placeholder: t("placeholderPhone"), keyboardType: "phone-pad", iconName: "call-outline" },
+    { key: "email", label: t("titleEmail"), placeholder: t("placeholderEmail"), keyboardType: "email-address", iconName: "mail-outline" },
+    { key: "senha", label: t("titlePassword"), placeholder: t("placeholderPassword"), keyboardType: "default", iconName: "lock-closed-outline" },
   ];
 
   return (
@@ -95,33 +100,20 @@ export default function MotoristaCreate() {
             data={campos}
             keyExtractor={(item, index) => item.key + index}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={{ paddingBottom: 20 }}
             renderItem={({ item, index }) => (
-              <View style={styles.form}>
-                <Text style={{ color: colors.text }}>{item.label}</Text>
-                <View style={styles.inputForm}>
-                  <Ionicons
-                    name={item.iconName}
-                    size={30}
-                    color="green"
-                    style={styles.iconForm}
-                  />
+              <View>
+                <Text>{item.label}</Text>
+                <View>
+                  <Ionicons name={item.iconName} size={30} color="green"/>
                   <TextInput
                     value={
                       Object.keys(form.dados).includes(item.key as string)
                         ? String(form.dados[item.key as keyof Dados] ?? "")
                         : String(form[item.key as keyof Motorista] ?? "")
                     }
-                    style={{ color: colors.text, flex: 1 }}
-                    onChangeText={(text) =>
-                      handleChange(
-                        item.key as keyof Motorista | keyof Dados,
-                        text
-                      )
-                    }
+                    onChangeText={(text) => handleChange(item.key as keyof Motorista | keyof Dados, text)}
                     placeholder={item.placeholder}
                     keyboardType={item.keyboardType || "default"}
-                    placeholderTextColor={colors.textSecondary || "#888"}
                     secureTextEntry={item.key === "senha"}
                     onFocus={() => {
                       flatListRef.current?.scrollToIndex({
@@ -135,9 +127,17 @@ export default function MotoristaCreate() {
               </View>
             )}
             ListFooterComponent={
-              <View style={{ height: 120 }}>
-                <TouchableOpacity style={styles.botao} onPress={handleSave}>
-                  <Text style={{ color: "#fff" }}>Salvar Motorista</Text>
+              <View>
+                <Text>{t("titlePlan")}</Text>
+                <RNPickerSelect
+                  placeholder={{}}
+                  value={form.plano}
+                  onValueChange={(value) => handleChange("plano", value)}
+                  items={planos.map((p) => ({ label: p, value: p }))}
+                />
+
+                <TouchableOpacity onPress={handleSave}>
+                  <Text>{t("titleSaveDriver")}</Text>
                 </TouchableOpacity>
               </View>
             }
