@@ -33,6 +33,12 @@ export default function MotoListLayout() {
         headerStyle: {
           backgroundColor: "#099302",
         },  }} />
+      <Stack.Screen name="patio" options={{ 
+        title: t("titlePatio"), 
+        headerShown:true, 
+        headerStyle: {
+          backgroundColor: "#099302",
+        },  }} />
       <Stack.Screen name="situacao" options={{ 
         title: t("titleSituation"), 
         headerShown:true, 

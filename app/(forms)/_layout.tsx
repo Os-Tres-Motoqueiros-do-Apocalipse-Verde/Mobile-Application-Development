@@ -31,6 +31,12 @@ export default function AuthLayout() {
           backgroundColor: "#099302", 
         }, 
       }}/>
+      <Stack.Screen name="cadastro-patio" options={{
+        title:t("titleRegisterSituation"), 
+        headerStyle: {
+          backgroundColor: "#099302", 
+        }, 
+      }}/>
       <Stack.Screen name="cadastro-situacao" options={{
         title:t("titleRegisterSituation"), 
         headerStyle: {
@@ -59,6 +65,11 @@ export default function AuthLayout() {
         }, }}/>      
       <Stack.Screen name="editar-motorista" options={{
         title:t("titleEditBiker"), 
+        headerStyle: {
+          backgroundColor: "#099302",
+        }, }}/>      
+      <Stack.Screen name="editar-patio" options={{
+        title:t("titleEditPatio"), 
         headerStyle: {
           backgroundColor: "#099302",
         }, }}/>      
