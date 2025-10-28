@@ -1,6 +1,6 @@
 import { Patio } from "./patio";
 
-export interface Setor{
+export interface Setor {
     id:string;
     qtdMoto:number;
     capacidade:number;

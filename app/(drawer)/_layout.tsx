@@ -58,6 +58,12 @@ function CustomDrawerContent(props: any) {
         onPress={() => props.navigation.navigate("motos")}
       />
       <DrawerItem
+        label={t("titleSectors")}
+        labelStyle={{ color: colors.text, fontSize: 14 }}
+        icon={() => <Ionicons name="person-outline" size={24} color="green" />}
+        onPress={() => props.navigation.navigate("setores")}
+      />
+      <DrawerItem
         label={t("titleFiliais")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="person-outline" size={24} color="green" />}
