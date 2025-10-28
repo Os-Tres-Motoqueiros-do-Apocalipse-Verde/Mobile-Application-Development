@@ -1,62 +1,72 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Button, Alert, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, useLocalSearchParams } from 'expo-router';
-import { Funcionario } from '../../src/types/funcionario';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from "../../src/context/ThemeContext";
-import { createGlobalStyles } from "../../src/styles/globalStyles";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Funcionario } from '../../src/types/funcionario';
 
 export default function EditUser() {
-  const { t } = useTranslation();
   const router = useRouter();
-  const params = useLocalSearchParams<{ id: string }>();
-  const { colors } = useTheme();
-  const styles = createGlobalStyles(colors);
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { t } = useTranslation();
+  const flatListRef = useRef<FlatList>(null);
 
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [cargo, setCargo] = useState('');
+  const [form, setForm] = useState<Funcionario | null>(null);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    if (params.id) {
-      loadUser(params.id);
-    }
-  }, [params.id]);
+    const loadUser = async () => {
+      try {
+        const storage = await AsyncStorage.getItem('funcionarios');
+        if (!storage) return;
 
-  const loadUser = async (id: string) => {
-    try {
-      const storage = await AsyncStorage.getItem('funcionarios');
-      const funcionarios: Funcionario[] = storage ? JSON.parse(storage) : [];
-
-      const user = funcionarios.find(f => f.id.toString() === id);
-
-      if (!user) {
-        Alert.alert(t('titleError'), t('alertUserNotFound'));
-        return;
+        const funcionarios: Funcionario[] = JSON.parse(storage);
+        const user = funcionarios.find(f => f.id.toString() === id);
+        if (user) setForm(user);
+      } catch (error) {
+        console.log(error);
+        Alert.alert(t('titleError'), t('alertErrorLoadUser'));
       }
+    };
+    if (id) loadUser();
+  }, [id]);
 
-      setNome(user.nome);
-      setEmail(user.dados.email);
-      setSenha(user.dados.senha);
-      setTelefone(user.dados.telefone);
-      setCpf(user.dados.cpf);
-      setCargo(user.cargo);
-
-    } catch (error) {
-      Alert.alert(t('titleError'), t('alertErrorLoadUser'));
-      console.log(error);
+  const handleChange = (key: keyof Funcionario | keyof Funcionario['dados'], value: string) => {
+    if (!form) return;
+    if (['nome', 'cpf', 'telefone', 'email', 'senha'].includes(key as string)) {
+      setForm(prev => ({ ...prev!, dados: { ...prev!.dados, [key]: value } }));
+    } else {
+      setForm(prev => ({ ...prev!, [key]: value }));
     }
   };
 
-  const handleUpdate = async () => {
-    if (!nome || !email || !senha || !telefone || !cpf || !cargo) {
-      Alert.alert(t('titleError'), t('alertEmptyInput'));
+  const handleSave = async () => {
+    if (!form) return;
+
+    const erros: string[] = [];
+    if (!form.nome) erros.push(t('alertEmptyName'));
+    if (!form.cargo) erros.push(t('alertEmptyPosition'));
+    if (!form.dados.nome) erros.push(t('alertEmptyName'));
+    if (!form.dados.cpf) erros.push(t('alertEmptyCPF'));
+    if (!form.dados.email) erros.push(t('alertEmptyEmail'));
+    if (!form.dados.senha) erros.push(t('alertEmptyPassword'));
+    if (!form.dados.telefone) erros.push(t('alertEmptyPhone'));
+
+    if (erros.length > 0) {
+      Alert.alert(t('titleError'), erros.join('\n'));
       return;
     }
 
@@ -64,113 +74,95 @@ export default function EditUser() {
       const storage = await AsyncStorage.getItem('funcionarios');
       const funcionarios: Funcionario[] = storage ? JSON.parse(storage) : [];
 
-      const index = funcionarios.findIndex(f => f.id.toString() === params.id);
-
+      const index = funcionarios.findIndex(f => f.id.toString() === id);
       if (index === -1) {
         Alert.alert(t('titleError'), t('alertUserNotFound'));
         return;
       }
 
-      funcionarios[index] = {
-        ...funcionarios[index],
-        nome,
-        cargo,
-        dados: {
-          ...funcionarios[index].dados,
-          cpf,
-          telefone,
-          email,
-          senha,
-          nome 
-        }
-      };
-
+      funcionarios[index] = form;
       await AsyncStorage.setItem('funcionarios', JSON.stringify(funcionarios));
 
       Alert.alert(t('alertSuccessEmployeeTitle'), t('alertUpdateEmployeeContext'));
       router.back();
-
     } catch (error) {
-      Alert.alert(t('titleError'), t('alertErrorUpdateUser'));
       console.log(error);
+      Alert.alert(t('titleError'), t('alertErrorUpdateUser'));
     }
   };
 
+  if (!form) {
+    return (
+      <SafeAreaView>
+        <Text>{t('loading')}</Text>
+      </SafeAreaView>
+    );
+  }
+
+  const campos = [
+    { key: 'nome', label: t('namePlace'), placeholder: t('namePlace'), iconName: 'person-outline' },
+    { key: 'email', label: t('emailPlace'), placeholder: t('emailPlace'), iconName: 'mail-outline' },
+    { key: 'senha', label: t('passwordPlace'), placeholder: t('passwordPlace'), iconName: 'lock-closed-outline', secure: true },
+    { key: 'telefone', label: t('telephonePlace'), placeholder: t('telephonePlace'), iconName: 'call-outline' },
+    { key: 'cpf', label: t('nationalIdPlace'), placeholder: t('nationalIdPlace'), iconName: 'reader-outline' },
+    { key: 'cargo', label: t('positionPlace'), placeholder: t('positionPlace'), iconName: 'storefront-outline' },
+  ];
+
   return (
-    <ScrollView contentContainerStyle={styles.sobre}>
-      <View style={styles.inputForm}>
-        <Ionicons name="person-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput
-          style={{ color: colors.text }}
-          placeholder={t('namePlace')}
-          value={nome}
-          onChangeText={setNome}
-        />
-      </View>
-
-      <View style={styles.inputForm}>
-        <Ionicons name="mail-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput
-          style={{ color: colors.text }}
-          placeholder={t('emailPlace')}
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
-
-      <View style={styles.inputForm}>
-        <Ionicons name="lock-closed-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput
-          placeholder={t('passwordPlace')}
-          style={{ color: colors.text }}
-          value={senha}
-          onChangeText={setSenha}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Ionicons
-            name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-            size={30}
-            color="green"
-            style={styles.olho}
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
+        style={{ flex: 1 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <FlatList
+            ref={flatListRef}
+            data={campos}
+            keyExtractor={item => item.key}
+            keyboardShouldPersistTaps="handled"
+            renderItem={({ item, index }) => (
+              <View>
+                <Text>{item.label}</Text>
+                <View>
+                  <Ionicons name={item.iconName as any} size={24} color="green"/>
+                  <TextInput
+                    placeholder={item.placeholder}
+                    value={
+                      ['nome', 'cpf', 'telefone', 'email', 'senha'].includes(item.key)
+                        ? form.dados[item.key as keyof Funcionario['dados']]
+                        : (form[item.key as keyof Funcionario] as string)
+                    }
+                    secureTextEntry={item.key === 'senha' && !showPassword}
+                    onChangeText={text => handleChange(item.key as keyof Funcionario, text)}
+                    onFocus={() =>
+                      flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.3 })
+                    }
+                  />
+                  {item.key === 'senha' && (
+                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                      <Ionicons
+                        name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                        size={24}
+                        color="green"
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
+              </View>
+            )}
+            ListFooterComponent={
+              <View>
+                <TouchableOpacity
+                  onPress={handleSave}
+                >
+                  <Text>{t('titleUpdate')}</Text>
+                </TouchableOpacity>
+              </View>
+            }
           />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.inputForm}>
-        <Ionicons name="call-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput
-          placeholder={t('telephonePlace')}
-          style={{ color: colors.text }}
-          value={telefone}
-          onChangeText={setTelefone}
-          keyboardType="phone-pad"
-        />
-      </View>
-
-      <View style={styles.inputForm}>
-        <Ionicons name="reader-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput
-          placeholder={t('nationalIdPlace')}
-          style={{ color: colors.text }}
-          value={cpf}
-          onChangeText={setCpf}
-        />
-      </View>
-
-      <View style={styles.inputForm}>
-        <Ionicons name="storefront-outline" size={30} color="green" style={styles.iconForm}/>
-        <TextInput
-          placeholder={t('positionPlace')}
-          style={{ color: colors.text }}
-          value={cargo}
-          onChangeText={setCargo}
-        />
-      </View>
-
-      <Button title={t('titleUpdate')} onPress={handleUpdate} />
-    </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
