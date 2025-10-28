@@ -229,7 +229,7 @@ export default function MotoRegister() {
                     handleChange("setor", setorSelecionado);
                   }}
                   value={form.setor?.id ?? null}
-                  items={[{ label: "Não possui Setor", value: null }, ...setores.map(s => ({ label: s.nome, value: s.id }))]}
+                  items={[{ label: t('EmptySector'), value: null }, ...setores.map(s => ({ label: s.nome, value: s.id }))]}
                 />
 
                 {/* Situação */}
@@ -253,7 +253,7 @@ export default function MotoRegister() {
                     else handleChange("motorista", motoristas.find(m => m.id === value));
                   }}
                   value={form.motorista?.id ?? null}
-                  items={[{ label: "Não possui motorista", value: null }, ...motoristas.map(m => ({ label: m.dados.nome, value: m.id }))]}
+                  items={[{ label: t('EmptyDriver'), value: null }, ...motoristas.map(m => ({ label: m.dados.nome, value: m.id }))]}
                 />
 
                 {/* Botões */}

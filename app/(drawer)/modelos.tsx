@@ -5,72 +5,64 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from "@react-native-picker/picker";
 import { router } from "expo-router";
-import { Motorista } from "../../src/types/motorista";
 import { useTranslation } from 'react-i18next';
 
 import { useTheme } from "../../src/context/ThemeContext";
 import { createGlobalStyles } from "../../src/styles/globalStyles";
+import { Modelo } from "../../src/types/modelo";
 
-export default function Motoristas() {
-  const [motoristas, setMotoristas] = useState<Motorista[]>([]);
-  const [filtroCampo, setFiltroCampo] = useState<keyof Motorista | keyof Motorista['dados'] | "todos">("todos");
+export default function Modelos() {
+  const [modelos, setModelos] = useState<Modelo[]>([]);
+  const [filtroCampo, setFiltroCampo] = useState<keyof Modelo | "todos">("todos");
   const [filtroValor, setFiltroValor] = useState("");
   const [openOptions, setOpenOptions] = useState(false);
 
   const { colors } = useTheme();
   const styles = createGlobalStyles(colors);
-    
   const { t } = useTranslation();
 
   useEffect(() => {
-    loadMotoristas();
+    loadModelos();
   }, []);
-  
-  const loadMotoristas = async () => {
+
+  const loadModelos = async () => {
     try {
-      const data = await AsyncStorage.getItem("motoristas");
-      const list: Motorista[] = data ? JSON.parse(data) : [];
-      setMotoristas(list);
+      const data = await AsyncStorage.getItem("modelos");
+      const list: Modelo[] = data ? JSON.parse(data) : [];
+      setModelos(list);
     } catch (error) {
-      Alert.alert(t('titleError'), t('alertContextErroLoadingBikers'));
+      Alert.alert(t('titleError'), t('alertContextErroLoadingModels'));
     }
   };
 
-  // Função auxiliar para pegar valor do campo, mesmo se for objeto
-  const getCampoValor = (motorista: Motorista, campo: keyof Motorista | keyof Motorista['dados']) => {
-    if (campo in motorista) {
-      const valor = motorista[campo as keyof Motorista];
-      if (valor === undefined || valor === null) return "";
-      if (typeof valor === "object") return JSON.stringify(valor);
-      return String(valor);
-    } else if (campo in motorista.dados) {
-      const valor = motorista.dados[campo as keyof Motorista['dados']];
-      if (valor === undefined || valor === null) return "";
-      return String(valor);
-    }
-    return "";
+  // Função auxiliar para ler valor dinamicamente
+  const getCampoValor = (modelo: Modelo, campo: keyof Modelo) => {
+    const valor = modelo[campo];
+    if (valor === undefined || valor === null) return "";
+    return String(valor);
   };
 
   // Filtragem
-  const filteredMotoristas = motoristas.filter((motorista) => {
+  const filteredModelos = modelos.filter((modelo) => {
     const valorFiltro = filtroValor.toLowerCase();
     if (filtroCampo === "todos") {
       return (
-        motorista.plano.toLowerCase().includes(valorFiltro) ||
-        getCampoValor(motorista, "nome").toLowerCase().includes(valorFiltro) ||
-        getCampoValor(motorista, "cpf").toLowerCase().includes(valorFiltro) ||
-        getCampoValor(motorista, "telefone").toLowerCase().includes(valorFiltro) ||
-        getCampoValor(motorista, "email").toLowerCase().includes(valorFiltro)
+        getCampoValor(modelo, "nome").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(modelo, "frenagem").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(modelo, "sisPartida").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(modelo, "tipoCombustivel").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(modelo, "tanque").toLowerCase().includes(valorFiltro) ||
+        getCampoValor(modelo, "consumo").toLowerCase().includes(valorFiltro)
       );
     } else {
-      return getCampoValor(motorista, filtroCampo).toLowerCase().includes(valorFiltro);
+      return getCampoValor(modelo, filtroCampo).toLowerCase().includes(valorFiltro);
     }
   });
 
-  const handleItemPress = (motorista: Motorista) => {
+  const handleItemPress = (modelo: Modelo) => {
     router.push({
-      pathname: "/motorista",
-      params: { id: motorista.id },
+      pathname: "/modelo",
+      params: { id: modelo.id },
     });
   };
 
@@ -78,7 +70,7 @@ export default function Motoristas() {
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={styles.motoPerfil}>
         <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
-          {t('titleListBikers')}
+          {t('titleListModels')}
         </Text>
 
         <View style={{ marginBottom: 20 }}>
@@ -89,14 +81,15 @@ export default function Motoristas() {
           >
             <Picker.Item label={t('titleAll')} value="todos" />
             <Picker.Item label={t('titleName')} value="nome" />
-            <Picker.Item label={t('titleID')} value="cpf" />
-            <Picker.Item label={t('titlePhone')} value="telefone" />
-            <Picker.Item label={t('titleEmail')} value="email" />
-            <Picker.Item label={t('titlePlan')} value="plano" />
+            <Picker.Item label={t('titleBraking')} value="frenagem" />
+            <Picker.Item label={t('titleStartingSystem')} value="sisPartida" />
+            <Picker.Item label={t('titleFuelType')} value="tipoCombustivel" />
+            <Picker.Item label={t('titleTank')} value="tanque" />
+            <Picker.Item label={t('titleConsumption')} value="consumo" />
           </Picker>
 
           <TextInput
-            placeholder={t('titleSearchBikers')}
+            placeholder={t('titleSearchModels')}
             placeholderTextColor="#ccc"
             value={filtroValor}
             onChangeText={setFiltroValor}
@@ -114,14 +107,14 @@ export default function Motoristas() {
       </View>
 
       <FlatList
-        data={filteredMotoristas}
+        data={filteredModelos}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 100 }}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={{
               backgroundColor: "#099302",
-              gap: 20,
+              gap: 10,
               width: "90%",
               borderRadius: 20,
               padding: 20,
@@ -130,22 +123,30 @@ export default function Motoristas() {
             }}
             onPress={() => handleItemPress(item)}
           >
-            <Text style={{ color: "#fff", fontSize: 30, textAlign: "center" }}>
-              {getCampoValor(item, "nome")}
+            <Text style={{ color: "#fff", fontSize: 26, textAlign: "center", fontWeight: "bold" }}>
+              {item.nome}
             </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titleID')}: {getCampoValor(item, "cpf")}
+            <Text style={{ color: "#fff", fontSize: 18 }}>
+              {t('titleBraking')}: {item.frenagem}
             </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titlePhone')}: {getCampoValor(item, "telefone")}
+            <Text style={{ color: "#fff", fontSize: 18 }}>
+              {t('titleStartSystem')}: {item.sisPartida}
             </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titlePlan')}: {item.plano}
+            <Text style={{ color: "#fff", fontSize: 18 }}>
+              {t('titleFuelType')}: {item.tipoCombustivel}
+            </Text>
+            <Text style={{ color: "#fff", fontSize: 18 }}>
+              {t('titleTank')}: {item.tanque} L
+            </Text>
+            <Text style={{ color: "#fff", fontSize: 18 }}>
+              {t('titleConsumption')}: {item.consumo} km/L
             </Text>
           </TouchableOpacity>
         )}
         ListEmptyComponent={
-          <Text>{t('alertContextErroFindAnyBikers')}</Text>
+          <Text>
+            {t('alertContextErroFindAnyModels')}
+          </Text>
         }
       />
 
@@ -165,11 +166,11 @@ export default function Motoristas() {
 
       {openOptions && (
         <View style={styles.config}>
-          <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-motorista')}>
+          <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-modelo')}>
             <Ionicons name="create-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
             <View>
               <Text style={{ color: "#fff" }}>{t('titleRegister')}</Text>
-              <Text style={{ color: "#fff", width: "80%" }}>{t('contextRegisterBikers')}</Text>
+              <Text style={{ color: "#fff", width: "80%" }}>{t('contextRegisterModels')}</Text>
             </View>
           </TouchableOpacity>
         </View>

@@ -7,6 +7,12 @@ export default function AuthLayout() {
   
   return (
     <Stack>
+      <Stack.Screen name="cadastro-modelo" options={{
+        title:t("titleRegisterModel"), 
+        headerStyle: {
+          backgroundColor: "#099302", 
+        }, 
+      }}/>
       <Stack.Screen name="cadastro-moto" options={{
         title:t("titleRegisterBike"), 
         headerStyle: {
@@ -19,6 +25,11 @@ export default function AuthLayout() {
           backgroundColor: "#099302", 
         }, 
       }}/>
+      <Stack.Screen name="editar-modelo" options={{
+        title:t("titleEditModel"), 
+        headerStyle: {
+          backgroundColor: "#099302",
+        }, }}/>
       <Stack.Screen name="editar-funcionario" options={{
         title:t("titleEditAccount"), 
         headerStyle: {

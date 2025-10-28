@@ -9,6 +9,12 @@ export default function MotoListLayout() {
   
   return (
     <Stack screenOptions={{ headerShown: true }}>
+      <Stack.Screen name="modelo" options={{ 
+        title: t("titleJustModel"), 
+        headerShown:true, 
+        headerStyle: {
+          backgroundColor: "#099302",
+        },  }} />
       <Stack.Screen name="moto" options={{ 
         title: t("titleBike"), 
         headerShown:true, 
