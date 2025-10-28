@@ -51,12 +51,17 @@ function CustomDrawerContent(props: any) {
         icon={() => <Ionicons name="people-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("about")}
       />
-
       <DrawerItem
         label={t("titleBikes")}
         labelStyle={{ color: colors.text, fontSize: 14 }}
         icon={() => <Ionicons name="person-outline" size={24} color="green" />}
         onPress={() => props.navigation.navigate("motos")}
+      />
+      <DrawerItem
+        label={t("titleFilial")}
+        labelStyle={{ color: colors.text, fontSize: 14 }}
+        icon={() => <Ionicons name="person-outline" size={24} color="green" />}
+        onPress={() => props.navigation.navigate("filiais")}
       />
       <DrawerItem
         label={t("titleModels")}
@@ -121,6 +126,13 @@ export default function DrawerLayout() {
         name="motos"
         options={{
           title: t("titleBikes"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
+      <Drawer.Screen
+        name="filiais"
+        options={{
+          title: t("titleFiliais"),
           headerStyle: { backgroundColor: "#099302" },
         }}
       />
