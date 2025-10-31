@@ -62,7 +62,7 @@ export default function About() {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.home}>
       <FlatList
         data={pessoas}
         keyExtractor={(p, index) => p.rm.toString() || index.toString()}
@@ -101,14 +101,14 @@ export default function About() {
             </View>
           </View>
         </View>
-      );
-    }}
-    ListEmptyComponent={
-      <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>
-        {t('alertContextErroFindAnyBike')}
-      </Text>
-    }
-  />
+          );
+        }}
+        ListEmptyComponent={
+          <Text style={{ color: '#fff', textAlign: 'center', marginTop: 20 }}>
+            {t('alertContextErroFindAnyBike')}
+          </Text>
+        }
+      />
     </SafeAreaView>
   );
 }

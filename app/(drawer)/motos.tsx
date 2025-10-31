@@ -71,7 +71,7 @@ export default function Motos() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <SafeAreaView style={{ backgroundColor: colors.background }}>
       <View style={styles.motoPerfil}>
         <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
           {t('titleListBikes')}

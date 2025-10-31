@@ -43,8 +43,8 @@ export default function Home() {
     }, []);
   
     return (
-      <SafeAreaView>
-        <ScrollView>
+      <SafeAreaView style={styles.home}>
+        <ScrollView >
             <View style={styles.apresentacao}>
               <Text style={styles.textBemVindo} >{t('welcome')} {nome}</Text>
               <Text style={styles.text} >{t('greetings')}</Text>

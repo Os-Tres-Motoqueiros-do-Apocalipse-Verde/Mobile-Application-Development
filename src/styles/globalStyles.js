@@ -9,20 +9,10 @@ export const createGlobalStyles = (colors) =>
     },
 
     home: {
-      flex:1,
       gap:30,
       paddingVertical:40,
       paddingHorizontal:20,
       backgroundColor: colors.background
-    },
-
-    sobre: {
-    flexGrow: 1,
-    paddingHorizontal: 30,
-    paddingVertical: 60,
-    gap:40,
-    backgroundColor: colors.background,
-
     },
 
     profile: {
