@@ -19,7 +19,14 @@ import i18n from "../../src/services/i18n";
 import { useTranslation } from "react-i18next";
 import { Funcionario } from "../../src/types/funcionario";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function Profile() {
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
+
   const { t } = useTranslation();
   const router = useRouter();
 
@@ -133,39 +140,39 @@ export default function Profile() {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.profile}>
       <ScrollView>
-        <View>
-          <Text>{funcionario?.dados?.nome ?? t("loading")}</Text>
+        <View style={styles.fotoPerfil}>
+          <Text style={{fontSize:30, color:"#fff" }} >{funcionario?.dados?.nome ?? t("loading")}</Text>
 
-          <View>
+          <View >
             <Image
               source={profileImage}
               style={styles.profileImage}
               resizeMode="cover"
             />
 
-            <View>
+            <View style={{position:"absolute", top:180, left:20}}>
               <TouchableOpacity onPress={() => setOpen(!open)}>
                 <MaterialIcons name="edit" size={20} color="#000" />
               </TouchableOpacity>
 
               {open && (
-                <View>
-                  <TouchableOpacity onPress={handleViewPhoto}>
-                    <Text>{t("PhotoSee")}</Text>
+                <View style={styles.opcaoPerfil} >
+                  <TouchableOpacity style={{borderBottomWidth:1}}  onPress={handleViewPhoto}>
+                    <Text style={styles.text} >{t("PhotoSee")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={handleChangePhoto}>
-                    <Text>{t("photoChange")}</Text>
+                  <TouchableOpacity style={{borderBottomWidth:1}}  onPress={handleChangePhoto}>
+                    <Text style={styles.text} >{t("photoChange")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={handleTakePhoto}>
-                    <Text>{t("photoWithCamera")}</Text>
+                  <TouchableOpacity style={{borderBottomWidth:1}}  onPress={handleTakePhoto}>
+                    <Text style={styles.text} >{t("photoWithCamera")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={confirmRemovePhoto}>
-                    <Text>{t("photoRemove")}</Text>
+                  <TouchableOpacity style={{borderBottomWidth:1}}  onPress={confirmRemovePhoto}>
+                    <Text style={styles.text} >{t("photoRemove")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setOpen(false)}>
-                    <Text>{t("titleCancel")}</Text>
+                  <TouchableOpacity style={{borderBottomWidth:1}}  onPress={() => setOpen(false)}>
+                    <Text style={styles.text} >{t("titleCancel")}</Text>
                   </TouchableOpacity>
                 </View>
               )}
@@ -173,52 +180,53 @@ export default function Profile() {
           </View>
         </View>
 
-        <View>
-          <Text>{t("titleMydata")}</Text>
-          <View>
+        <View style={styles.dadosProfile}>
+          <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t("titleMydata")}</Text>
+          <View style={styles.dadosPreenchidos}>
             <Ionicons name="mail-outline" size={30} color="#099302" />
             <Text>{funcionario?.dados?.email}</Text>
           </View>
-          <View>
+          <View style={styles.dadosPreenchidos}>
             <Ionicons name="call-outline" size={30} color="#099302" />
             <Text>{funcionario?.dados?.telefone}</Text>
           </View>
-          <View>
+          <View style={styles.dadosPreenchidos}>
             <MaterialIcons name="badge" size={30} color="#099302" />
             <Text>{funcionario?.dados?.cpf}</Text>
           </View>
-          <View>
+          <View style={styles.dadosPreenchidos}>
             <Ionicons name="person-outline" size={30} color="#099302" />
             <Text>{funcionario?.cargo}</Text>
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => setOpenOptions(!openOptions)}>
+        <TouchableOpacity style={styles.botaoConfig} onPress={() => setOpenOptions(!openOptions)}>
           <Image source={require("../../assets/profile/white-logo.png")} />
         </TouchableOpacity>
 
         {openOptions && (
-          <View>
-            <View>
-              <TouchableOpacity onPress={() => setOpenLanguage(!openLanguage)}>
+          <View style={styles.config}>
+            <View style={{paddingHorizontal:40}} >
+              <TouchableOpacity style={styles.botoesConf} onPress={() => setOpenLanguage(!openLanguage)}>
                 <Ionicons
                   name="language"
                   size={30}
                   color="#fff"
                   style={{ alignSelf: "center" }}
                 />
-                <View>
-                  <Text>{t("titleChangeLanguage")}</Text>
-                  <Text>{t("contextChangeLanguage")}</Text>
+                <View >
+                  <Text style={{color:"#fff"}}>{t("titleChangeLanguage")}</Text>
+                  <Text style={{color:"#fff"}}>{t("contextChangeLanguage")}</Text>
                 </View>
                 <Ionicons name="chevron-down-outline" size={40} color="#fff" />
               </TouchableOpacity>
 
               {openLanguage && (
-                <View>
-                  <Text>{t("ContextLanguage")}</Text>
+                <View style={styles.escolhasProfile}>
+                  <Text style={{fontWeight:"bold"}} >{t("ContextLanguage")}</Text>
                   {langs.map((lang) => (
                     <TouchableOpacity
+                      style={styles.dadosPreenchidos}
                       key={lang.code}
                       onPress={() => changeLanguage(lang.code)}
                     >
@@ -230,6 +238,7 @@ export default function Profile() {
             </View>
 
             <TouchableOpacity
+              style={styles.botoesConf}
               onPress={() => {
                 if (funcionario) {
                   router.push(`/editar-funcionario?id=${funcionario.id}`);
@@ -240,16 +249,16 @@ export default function Profile() {
             >
               <Ionicons name="pencil-outline" size={30} color="#fff" />
               <View>
-                <Text>{t("titleUpdate")}</Text>
-                <Text>{t("contextUpdateUser")}</Text>
+                <Text style={{color:"#fff"}}>{t("titleUpdate")}</Text>
+                <Text style={{color:"#fff"}}>{t("contextUpdateUser")}</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={confirmarLogout}>
+            <TouchableOpacity style={styles.botoesConf} onPress={confirmarLogout}>
               <Ionicons name="log-out-outline" size={30} color="#fff" />
               <View>
-                <Text>{t("textLogout")}</Text>
-                <Text>{t("contextLogout")}</Text>
+                <Text style={{color:"#fff"}}>{t("textLogout")}</Text>
+                <Text style={{color:"#fff"}}>{t("contextLogout")}</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -262,14 +271,13 @@ export default function Profile() {
           animationType="fade"
           onRequestClose={() => setZoomVisible(false)}
         >
-          <View style={styles.modalContainer}>
+          <View >
             <Image
               source={profileImage}
-              style={styles.zoomedImage}
+        
               resizeMode="contain"
             />
             <TouchableOpacity
-              style={styles.closeButton}
               onPress={() => setZoomVisible(false)}
             >
               <Ionicons name="close-circle" size={50} color="white" />
@@ -280,27 +288,3 @@ export default function Profile() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-  },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: "rgba(0,0,0,0.9)",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  zoomedImage: {
-    width: "90%",
-    height: "70%",
-    borderRadius: 10,
-  },
-  closeButton: {
-    position: "absolute",
-    top: 50,
-    right: 30,
-  },
-});

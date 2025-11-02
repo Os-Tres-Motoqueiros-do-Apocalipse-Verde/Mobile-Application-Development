@@ -266,7 +266,6 @@ export const createGlobalStyles = (colors) =>
   },
 
   fotoPerfil: {
-    flex: 1,
     height:260,
     paddingTop:70,
     backgroundColor: "#099302",
@@ -348,6 +347,14 @@ export const createGlobalStyles = (colors) =>
     borderRadius: 25,
     alignItems: 'center',
   },
+
+  botaoConfig: {
+    backgroundColor:"#099302", 
+    width:100, 
+    marginLeft:40, 
+    borderTopEndRadius:20, 
+    borderTopStartRadius:20
+  }
 
 
 });

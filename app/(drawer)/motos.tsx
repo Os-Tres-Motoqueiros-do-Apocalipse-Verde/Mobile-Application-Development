@@ -71,13 +71,13 @@ export default function Motos() {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: colors.background }}>
+    <SafeAreaView >
       <View style={styles.motoPerfil}>
         <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
           {t('titleListBikes')}
         </Text>
 
-        <View style={{ marginBottom: 20 }}>
+        <View>
           <Picker
             selectedValue={filtroCampo}
             onValueChange={(itemValue) => setFiltroCampo(itemValue)}
@@ -141,15 +141,7 @@ export default function Motos() {
         }
       />
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#099302",
-          width: 100,
-          marginLeft: 40,
-          borderTopEndRadius: 20,
-          borderTopStartRadius: 20,
-          marginTop: 10
-        }}
+      <TouchableOpacity style={styles.botaoConfig}
         onPress={() => setOpenOptions(!openOptions)}
       >
         <Image style={{ alignSelf: "center", width: 50, height: 50 }} source={require("../../assets/profile/white-logo.png")} />
