@@ -20,7 +20,7 @@ export function ThemeProvider({children}){
         light:{
             background:'#fff',
             text:'#000',
-            button:'#007bff',
+            button:'#099302',
             buttonText:'#fff',
             border:'#000',
             titulo: '#fff',
@@ -29,7 +29,7 @@ export function ThemeProvider({children}){
         dark:{
             background:'#373737',
             text:'#fff',
-            button:'#0bf359ff',
+            button:'#099302',
             buttonText:'#000',
             border:'#fff',
             titulo: '#373737',

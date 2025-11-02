@@ -60,7 +60,7 @@ export default function Patios() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+        <SafeAreaView style={styles.profile}>
         <View style={styles.motoPerfil}>
             <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
             {t('titleListPatios')}
@@ -125,18 +125,10 @@ export default function Patios() {
             }
         />
 
-        <TouchableOpacity
-            style={{
-            backgroundColor: "#099302",
-            width: 100,
-            marginLeft: 40,
-            borderTopEndRadius: 20,
-            borderTopStartRadius: 20,
-            marginTop: 10
-            }}
+        <TouchableOpacity style={styles.botaoConfig}
             onPress={() => setOpenOptions(!openOptions)}
         >
-            <Image style={{ alignSelf: "center", width: 50, height: 50 }} source={require("../../assets/profile/white-logo.png")} />
+            <Image style={{ alignSelf: "center" }} source={require("../../assets/profile/white-logo.png")} />
         </TouchableOpacity>
 
         {openOptions && (

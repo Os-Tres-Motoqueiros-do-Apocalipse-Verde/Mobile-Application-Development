@@ -127,19 +127,26 @@ export const createGlobalStyles = (colors) =>
     form: {
         flex:1,
         alignSelf: "center",
-        gap:5,
+        gap:20,
         
        },
 
 
     input: {
-        flex:1,
         flexDirection:"row",
         borderWidth:1,
         borderColor: colors.border,
         borderRadius: 10,
         height: 50,
         width:300,
+    },
+
+    inputSelecao: {
+      borderWidth:1,
+      borderColor: colors.border,
+      borderRadius: 10,
+      height: 50,
+      width:300,
     },
 
     inputForm: {
@@ -155,6 +162,7 @@ export const createGlobalStyles = (colors) =>
     textInput: {
         alignSelf: "center",
         width:"70%",
+        color: colors.text,
     },
 
     cadastrar: {

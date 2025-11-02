@@ -68,7 +68,7 @@ export default function Setores() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <SafeAreaView style={styles.profile}>
       <View style={styles.motoPerfil}>
         <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
           {t('titleListSetores')}
@@ -142,18 +142,10 @@ export default function Setores() {
         }
       />
 
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#099302",
-          width: 100,
-          marginLeft: 40,
-          borderTopEndRadius: 20,
-          borderTopStartRadius: 20,
-          marginTop: 10
-        }}
+      <TouchableOpacity style={styles.botaoConfig}
         onPress={() => router.push('/setor-register')}
       >
-        <Image style={{ alignSelf: "center", width: 50, height: 50 }} source={require("../../assets/profile/white-logo.png")} />
+        <Image source={require("../../assets/profile/white-logo.png")} />
       </TouchableOpacity>
     </SafeAreaView>
   );

@@ -184,24 +184,24 @@ export default function Profile() {
           <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t("titleMydata")}</Text>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="mail-outline" size={30} color="#099302" />
-            <Text>{funcionario?.dados?.email}</Text>
+            <Text style={styles.text} >{funcionario?.dados?.email}</Text>
           </View>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="call-outline" size={30} color="#099302" />
-            <Text>{funcionario?.dados?.telefone}</Text>
+            <Text style={styles.text} >{funcionario?.dados?.telefone}</Text>
           </View>
           <View style={styles.dadosPreenchidos}>
             <MaterialIcons name="badge" size={30} color="#099302" />
-            <Text>{funcionario?.dados?.cpf}</Text>
+            <Text style={styles.text} >{funcionario?.dados?.cpf}</Text>
           </View>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="person-outline" size={30} color="#099302" />
-            <Text>{funcionario?.cargo}</Text>
+            <Text style={styles.text} >{funcionario?.cargo}</Text>
           </View>
         </View>
 
         <TouchableOpacity style={styles.botaoConfig} onPress={() => setOpenOptions(!openOptions)}>
-          <Image source={require("../../assets/profile/white-logo.png")} />
+          <Image style={{ alignSelf: "center" }}  source={require("../../assets/profile/white-logo.png")} />
         </TouchableOpacity>
 
         {openOptions && (

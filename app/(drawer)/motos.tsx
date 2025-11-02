@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, Image, ScrollView, } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
@@ -71,93 +71,95 @@ export default function Motos() {
   };
 
   return (
-    <SafeAreaView >
-      <View style={styles.motoPerfil}>
-        <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
-          {t('titleListBikes')}
-        </Text>
+    <SafeAreaView style={styles.profile}>
+      <ScrollView>
+        <View style={styles.motoPerfil}>
+          <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
+            {t('titleListBikes')}
+          </Text>
 
-        <View>
-          <Picker
-            selectedValue={filtroCampo}
-            onValueChange={(itemValue) => setFiltroCampo(itemValue)}
-            style={{ color: "#fff", backgroundColor: "#099302", borderRadius: 10 }}
-          >
-            <Picker.Item label={t('titleAll')} value="todos" />
-            <Picker.Item label={t('titlePlate')} value="placa" />
-            <Picker.Item label={t('titleModel')} value="modelo" />
-            <Picker.Item label={t('titleCondition')} value="condicao" />
-            <Picker.Item label={t('titleBraking')} value="frenagem" />
-          </Picker>
+          <View>
+            <Picker
+              selectedValue={filtroCampo}
+              onValueChange={(itemValue) => setFiltroCampo(itemValue)}
+              style={{ color: "#fff", backgroundColor: "#099302", borderRadius: 10 }}
+            >
+              <Picker.Item label={t('titleAll')} value="todos" />
+              <Picker.Item label={t('titlePlate')} value="placa" />
+              <Picker.Item label={t('titleModel')} value="modelo" />
+              <Picker.Item label={t('titleCondition')} value="condicao" />
+              <Picker.Item label={t('titleBraking')} value="frenagem" />
+            </Picker>
 
-          <TextInput
-            placeholder={t('titleSearchBike')}
-            placeholderTextColor="#ccc"
-            value={filtroValor}
-            onChangeText={setFiltroValor}
-            style={{
-              borderWidth: 1,
-              borderColor: "#09BC00",
-              borderRadius: 10,
-              width: "90%",
-              color: "#fff",
-              padding: 10,
-              marginTop: 10
-            }}
-          />
+            <TextInput
+              placeholder={t('titleSearchBike')}
+              placeholderTextColor="#ccc"
+              value={filtroValor}
+              onChangeText={setFiltroValor}
+              style={{
+                borderWidth: 1,
+                borderColor: "#09BC00",
+                borderRadius: 10,
+                width: "90%",
+                color: "#fff",
+                padding: 10,
+                marginTop: 10
+              }}
+            />
+          </View>
         </View>
-      </View>
 
-      <FlatList
-        data={filteredMotos}
-        keyExtractor={(item) => item.placa}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#099302",
-              gap: 20,
-              width: "90%",
-              borderRadius: 20,
-              padding: 20,
-              alignSelf: "center",
-              marginTop: 20,
-            }}
-            onPress={() => handleItemPress(item)}
-          >
-            <Text style={{ color: "#fff", fontSize: 30, textAlign: "center" }}>
-              {getCampoValor(item, "modelo")}
-            </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titlePlate')}: {item.placa}
-            </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titleCondition')}: {item.condicao}
-            </Text>
-          </TouchableOpacity>
+        <FlatList
+          data={filteredMotos}
+          keyExtractor={(item) => item.placa}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#099302",
+                gap: 20,
+                width: "90%",
+                borderRadius: 20,
+                padding: 20,
+                alignSelf: "center",
+                marginTop: 20,
+              }}
+              onPress={() => handleItemPress(item)}
+            >
+              <Text style={{ color: "#fff", fontSize: 30, textAlign: "center" }}>
+                {getCampoValor(item, "modelo")}
+              </Text>
+              <Text style={{ color: "#fff", fontSize: 20 }}>
+                {t('titlePlate')}: {item.placa}
+              </Text>
+              <Text style={{ color: "#fff", fontSize: 20 }}>
+                {t('titleCondition')}: {item.condicao}
+              </Text>
+            </TouchableOpacity>
+          )}
+          ListEmptyComponent={
+            <Text style={{ textAlign: "center", marginTop: 20 }}>{t('alertContextErroFindAnyBike')}</Text>
+          }
+        />
+
+        <TouchableOpacity style={styles.botaoConfig}
+          onPress={() => setOpenOptions(!openOptions)}
+        >
+          <Image  style={{ alignSelf: "center" }} source={require("../../assets/profile/white-logo.png")} />
+        </TouchableOpacity>
+
+        {openOptions && (
+          <View style={styles.config}>
+            <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-moto')}>
+              <Ionicons name="create-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
+              <View>
+                <Text style={{ color: "#fff" }}>{t('titleRegister')}</Text>
+                <Text style={{ color: "#fff", width: "80%" }}>{t('contextRegisterBike')}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         )}
-        ListEmptyComponent={
-          <Text style={{ textAlign: "center", marginTop: 20 }}>{t('alertContextErroFindAnyBike')}</Text>
-        }
-      />
-
-      <TouchableOpacity style={styles.botaoConfig}
-        onPress={() => setOpenOptions(!openOptions)}
-      >
-        <Image style={{ alignSelf: "center", width: 50, height: 50 }} source={require("../../assets/profile/white-logo.png")} />
-      </TouchableOpacity>
-
-      {openOptions && (
-        <View style={styles.config}>
-          <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-moto')}>
-            <Ionicons name="create-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
-            <View>
-              <Text style={{ color: "#fff" }}>{t('titleRegister')}</Text>
-              <Text style={{ color: "#fff", width: "80%" }}>{t('contextRegisterBike')}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      )}
+      </ScrollView>
     </SafeAreaView>
   );
 }

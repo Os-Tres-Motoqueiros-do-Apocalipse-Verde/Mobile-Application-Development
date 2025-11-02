@@ -14,6 +14,9 @@ import { Setor } from "../../src/types/setor";
 import { Motorista } from "../../src/types/motorista";
 import { Situacao } from "../../src/types/situacao";
 
+
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 // ===== MOCKS =====
 const enderecosMock = [
   { id: "1", rua: "Rua A", numero: "100", estado: "SP", codigoPais: "BR", codigoPostal: "01000-000", complemento: "Apto 101" },
@@ -85,6 +88,7 @@ export default function MotoRegister() {
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
   const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [modelos, setModelos] = useState<Modelo[]>([]);
   const [setores, setSetores] = useState<Setor[]>([]);
@@ -166,24 +170,26 @@ export default function MotoRegister() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView
+    <SafeAreaView style={styles.profile}>
+      <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
-        style={{ flex: 1 }}
+        style={{ flex:1, gap:50 }}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <TouchableWithoutFeedback  onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName} size={24} color="green"/>
+              <View style={{ flex:1, gap:20 }}>
+                <Text >{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName} size={24} color="green" style={styles.iconForm}/>
                   <TextInput
+                    style={styles.textInput}
                     value={item.key === "chassi" ? form.chassi?.toString() ?? "" : (form[item.key as keyof Moto] as string)}
                     onChangeText={(text) => {
                       if (item.key === "chassi") {
@@ -207,10 +213,11 @@ export default function MotoRegister() {
               </View>
             )}
             ListFooterComponent={
-              <View>
+              <View style={styles.form} >
                 {/* Modelo */}
-                <Text>{t("titleModel")}</Text>
-                <RNPickerSelect
+                <Text >{t("titleModel")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
                   placeholder={{}}
                   onValueChange={(value) => {
                     const modeloSelecionado = modelos.find(m => m.id === value);
@@ -218,11 +225,15 @@ export default function MotoRegister() {
                   }}
                   value={form.modelo.id}
                   items={modelos.length > 0 ? modelos.map(m => ({ label: m.nome, value: m.id })) : [{ label: t('labelNoModel'), value: null }]}
-                />
+                  />
+
+                </View>
+                
 
                 {/* Setor */}
-                <Text>{t("titleSector")}</Text>
-                <RNPickerSelect
+                <Text style={{ flex:1, gap:20, color: colors.text }}>{t("titleSector")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
                   placeholder={{}}
                   onValueChange={(value) => {
                     const setorSelecionado = setores.find(s => s.id === value);
@@ -230,11 +241,15 @@ export default function MotoRegister() {
                   }}
                   value={form.setor?.id ?? null}
                   items={[{ label: t('EmptySector'), value: null }, ...setores.map(s => ({ label: s.nome, value: s.id }))]}
-                />
+                  />
+
+                </View>
+                
 
                 {/* Situação */}
-                <Text>{t("titleSituation")}</Text>
-                <RNPickerSelect
+                <Text style={{ flex:1, gap:20 }}>{t("titleSituation")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
                   placeholder={{}}
                   onValueChange={(value) => {
                     const situacaoSelecionado = situacoes.find(s => s.id === value);
@@ -244,9 +259,13 @@ export default function MotoRegister() {
                   items={situacoes.length > 0 ? situacoes.map(s => ({ label: s.nome, value: s.id })) : [{ label: t('labelNoSituation'), value: null }]}
                 />
 
+                </View>
+                
+
                 {/* Motorista */}
                 <Text>{t("titleDriver")}</Text>
-                <RNPickerSelect
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
                   placeholder={{}}
                   onValueChange={(value) => {
                     if (!value) handleChange("motorista", undefined);
@@ -256,23 +275,26 @@ export default function MotoRegister() {
                   items={[{ label: t('EmptyDriver'), value: null }, ...motoristas.map(m => ({ label: m.dados.nome, value: m.id }))]}
                 />
 
+                </View>
+                
+
                 {/* Botões */}
-                <View>
-                  <TouchableOpacity onPress={() => router.push('/cadastro-modelo')}>
-                    <Text>{t("titleRegisterModel")}</Text>
+                <View style={{ flex:1, gap:20 }}>
+                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-modelo')}>
+                    <Text style={styles.buttonText}>{t("titleRegisterModel")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => router.push('/cadastro-setor')}>
-                    <Text>{t("titleRegisterSector")}</Text>
+                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-setor')}>
+                    <Text style={styles.buttonText}>{t("titleRegisterSector")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => router.push('/cadastro-situacao')}>
-                    <Text>{t("titleRegisterSituation")}</Text>
+                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-situacao')}>
+                    <Text style={styles.buttonText}>{t("titleRegisterSituation")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => router.push('/cadastro-motorista')}>
-                    <Text>{t("titleRegisterBiker")}</Text>
+                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-motorista')}>
+                    <Text style={styles.buttonText}>{t("titleRegisterBiker")}</Text>
                   </TouchableOpacity>
                   <View>
-                    <TouchableOpacity onPress={handleSave}>
-                      <Text>{t("titleSaveBike")}</Text>
+                    <TouchableOpacity style={styles.button} onPress={handleSave}>
+                      <Text style={styles.buttonText}>{t("titleSaveBike")}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
