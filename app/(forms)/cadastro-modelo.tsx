@@ -7,9 +7,15 @@ import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
 import { Modelo } from "../../src/types/modelo";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function ModeloCreate() {
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [form, setForm] = useState<Modelo>({
     id: Date.now().toString(),
@@ -63,7 +69,7 @@ export default function ModeloCreate() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -71,16 +77,18 @@ export default function ModeloCreate() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName as any} size={22}/>
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={22} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
+                    style={styles.textInput}
                     placeholder={item.placeholder}
                     value={
                       ["tanque", "consumo"].includes(item.key)
@@ -104,9 +112,9 @@ export default function ModeloCreate() {
               </View>
             )}
             ListFooterComponent={
-              <View>
-                <TouchableOpacity onPress={handleSave}>
-                  <Text>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>
                     {t("titleSaveModel")}
                   </Text>
                 </TouchableOpacity>

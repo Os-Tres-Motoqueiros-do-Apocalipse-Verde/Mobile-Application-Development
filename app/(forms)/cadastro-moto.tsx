@@ -185,9 +185,9 @@ export default function MotoRegister() {
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
               <View style={{ flex:1, gap:20 }}>
-                <Text >{item.label}</Text>
+                <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
-                  <Ionicons name={item.iconName} size={24} color="green" style={styles.iconForm}/>
+                  <Ionicons name={item.iconName} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     style={styles.textInput}
                     value={item.key === "chassi" ? form.chassi?.toString() ?? "" : (form[item.key as keyof Moto] as string)}
@@ -215,7 +215,7 @@ export default function MotoRegister() {
             ListFooterComponent={
               <View style={styles.form} >
                 {/* Modelo */}
-                <Text >{t("titleModel")}</Text>
+                <Text style={styles.textLabel} >{t("titleModel")}</Text>
                 <View style={styles.inputSelecao}>
                   <RNPickerSelect
                   placeholder={{}}
@@ -231,7 +231,7 @@ export default function MotoRegister() {
                 
 
                 {/* Setor */}
-                <Text style={{ flex:1, gap:20, color: colors.text }}>{t("titleSector")}</Text>
+                <Text style={{color: colors.text, fontSize:16 }}>{t("titleSector")}</Text>
                 <View style={styles.inputSelecao}>
                   <RNPickerSelect
                   placeholder={{}}
@@ -247,7 +247,7 @@ export default function MotoRegister() {
                 
 
                 {/* Situação */}
-                <Text style={{ flex:1, gap:20 }}>{t("titleSituation")}</Text>
+                <Text style={{ color: colors.text, fontSize:16 }}>{t("titleSituation")}</Text>
                 <View style={styles.inputSelecao}>
                   <RNPickerSelect
                   placeholder={{}}
@@ -263,7 +263,7 @@ export default function MotoRegister() {
                 
 
                 {/* Motorista */}
-                <Text>{t("titleDriver")}</Text>
+                <Text style={{ color: colors.text, fontSize:16 }}>{t("titleDriver")}</Text>
                 <View style={styles.inputSelecao}>
                   <RNPickerSelect
                   placeholder={{}}
@@ -280,23 +280,28 @@ export default function MotoRegister() {
 
                 {/* Botões */}
                 <View style={{ flex:1, gap:20 }}>
-                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-modelo')}>
-                    <Text style={styles.buttonText}>{t("titleRegisterModel")}</Text>
+                  <TouchableOpacity style={styles.linksCadastro} onPress={() => router.push('/cadastro-modelo')}>
+                    <Text style={{color: "#09BC00", fontWeight: "bold", textDecorationLine: "underline", fontSize:15}}>{t("titleRegisterModel")}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-setor')}>
+
+                  <View style={{ flex:1, flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
+                    <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-setor')}>
                     <Text style={styles.buttonText}>{t("titleRegisterSector")}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-situacao')}>
-                    <Text style={styles.buttonText}>{t("titleRegisterSituation")}</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-motorista')}>
-                    <Text style={styles.buttonText}>{t("titleRegisterBiker")}</Text>
-                  </TouchableOpacity>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => router.push('/cadastro-situacao')}>
+                      <Text style={styles.buttonText}>{t("titleRegisterSituation")}</Text>
+                    </TouchableOpacity>
+                  </View>
+
                   <View>
                     <TouchableOpacity style={styles.button} onPress={handleSave}>
                       <Text style={styles.buttonText}>{t("titleSaveBike")}</Text>
                     </TouchableOpacity>
                   </View>
+
+                  <TouchableOpacity style={styles.linksCadastro} onPress={() => router.push('/cadastro-motorista')}>
+                    <Text style={{color: "#09BC00", fontWeight: "bold", textDecorationLine: "underline", fontSize:15}}>{t("titleRegisterBiker")}</Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             }

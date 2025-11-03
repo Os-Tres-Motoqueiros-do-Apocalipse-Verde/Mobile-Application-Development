@@ -20,10 +20,18 @@ import { Dados } from "../../src/types/dados";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RNPickerSelect from "react-native-picker-select";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
+
 export default function MotoristaCreate() {
   const router = useRouter();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
+
 
   const planos = ["Básico", "Premium", "VIP"];
 
@@ -86,7 +94,7 @@ export default function MotoristaCreate() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -94,15 +102,16 @@ export default function MotoristaCreate() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item, index) => item.key + index}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName} size={30} color="green"/>
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName} size={30} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     value={
                       Object.keys(form.dados).includes(item.key as string)
@@ -125,17 +134,22 @@ export default function MotoristaCreate() {
             )}
             ListFooterComponent={
               <View>
-                <Text>{t("titlePlan")}</Text>
-                <RNPickerSelect
-                  placeholder={{}}
-                  value={form.plano}
-                  onValueChange={(value) => handleChange("plano", value)}
-                  items={planos.map((p) => ({ label: p, value: p }))}
-                />
-
-                <TouchableOpacity onPress={handleSave}>
-                  <Text>{t("titleSave")}</Text>
-                </TouchableOpacity>
+                  <Text style={styles.textLabel}>{t("titlePlan")}</Text>
+                  <View style={styles.inputSelecao}>
+                    <RNPickerSelect
+                    placeholder={{}}
+                    value={form.plano}
+                    onValueChange={(value) => handleChange("plano", value)}
+                    items={planos.map((p) => ({ label: p, value: p }))}
+                    />
+                  </View>
+                  
+                <View style={{ paddingTop: 30 }}>
+                  <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                    <Text style={styles.buttonText}>{t("titleSave")}</Text>
+                  </TouchableOpacity>
+                </View>
+                
               </View>
             }
           />

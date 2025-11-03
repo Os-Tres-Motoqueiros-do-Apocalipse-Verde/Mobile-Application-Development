@@ -8,9 +8,16 @@ import { router } from "expo-router";
 import { Situacao } from "../../src/types/situacao";
 import RNPickerSelect from "react-native-picker-select";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
+
 export default function SituacaoRegister() {
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [form, setForm] = useState<Situacao>({
     id: Date.now().toString(),
@@ -54,19 +61,20 @@ export default function SituacaoRegister() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0} style={{ flex: 1 }}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={item => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName as any} size={22} />
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={22} color="#09BC00" style={styles.iconForm}/>
                   {item.key === "status" ? (
                     <RNPickerSelect
                       value={form.status}
@@ -89,9 +97,9 @@ export default function SituacaoRegister() {
               </View>
             )}
             ListFooterComponent={
-              <View>
-                <TouchableOpacity onPress={handleSave} >
-                  <Text>{t("titleSaveSituacao")}</Text>
+              <View style={{ paddingTop: 20 }}>
+                <TouchableOpacity style={styles.button} onPress={handleSave} >
+                  <Text style={styles.buttonText}>{t("titleSaveSituacao")}</Text>
                 </TouchableOpacity>
               </View>
             }

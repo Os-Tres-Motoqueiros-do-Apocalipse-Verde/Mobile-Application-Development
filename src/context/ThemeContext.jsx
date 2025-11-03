@@ -29,7 +29,7 @@ export function ThemeProvider({children}){
         dark:{
             background:'#373737',
             text:'#fff',
-            button:'#099302',
+            button:'#09BC00',
             buttonText:'#000',
             border:'#fff',
             titulo: '#373737',

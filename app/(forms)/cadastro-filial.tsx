@@ -19,10 +19,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Endereco } from "../../src/types/endereco";
 import { Filial } from "../../src/types/filial";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function FilialCreate() {
   const router = useRouter();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
+
 
   const [form, setForm] = useState<Filial>({
     id: Date.now().toString(),
@@ -88,7 +95,7 @@ export default function FilialCreate() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -96,15 +103,16 @@ export default function FilialCreate() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item, index) => item.key + index}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName as any} size={24} color="green"/>
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     value={
                       Object.keys(form.endereco).includes(item.key)
@@ -126,11 +134,12 @@ export default function FilialCreate() {
               </View>
             )}
             ListFooterComponent={
-                <TouchableOpacity
-                    onPress={handleSave}
-                >
-                    <Text>{t("titleSave")}</Text>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>{t("titleSave")}</Text>
                 </TouchableOpacity>
+              </View>
+              
             }
           />
         </TouchableWithoutFeedback>

@@ -239,6 +239,15 @@ export const createGlobalStyles = (colors) =>
       flexDirection: 'row', 
     },
 
+    linksCadastro: {
+      color: "#09BC00",
+      padding:5,
+      gap:10,
+      justifyContent:"center",
+      borderRadius:15,
+      flexDirection: 'row', 
+    },
+
     profileImage: { 
       width: 150, 
       height: 150, 
@@ -362,6 +371,12 @@ export const createGlobalStyles = (colors) =>
     marginLeft:40, 
     borderTopEndRadius:20, 
     borderTopStartRadius:20
+  },
+
+  textLabel: {
+    color: colors.text, 
+    fontSize:16, 
+    paddingTop:10
   }
 
 

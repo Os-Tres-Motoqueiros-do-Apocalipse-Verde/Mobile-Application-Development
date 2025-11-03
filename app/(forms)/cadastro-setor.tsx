@@ -20,10 +20,16 @@ import RNPickerSelect from "react-native-picker-select";
 import { Setor } from "../../src/types/setor";
 import { Patio } from "../../src/types/patio";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function SetorRegister() {
   const router = useRouter();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [patios, setPatios] = useState<Patio[]>([]);
   const [form, setForm] = useState<Setor>({
@@ -136,7 +142,7 @@ export default function SetorRegister() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -144,31 +150,36 @@ export default function SetorRegister() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item, index) => item.key + index}
             keyboardShouldPersistTaps="handled"
             ListHeaderComponent={
-              <View style={{ marginBottom: 16 }}>
-                <Text>{t("titlePatio")}</Text>
-                <RNPickerSelect
-                  placeholder={{ label: t("placeholderSelectPatio"), value: null }}
-                  onValueChange={(value) => {
-                    const selectedPatio = patios.find(p => p.id === value);
-                    if (selectedPatio) {
-                      setForm(prev => ({ ...prev, patio: selectedPatio }));
-                    }
-                  }}
-                  items={patios.map(p => ({ label: p.localizacao, value: p.id }))}
-                  value={form.patio.id || null}
-                />
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{t("titlePatio")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
+                    placeholder={{ label: t("placeholderSelectPatio"), value: null }}
+                    onValueChange={(value) => {
+                      const selectedPatio = patios.find(p => p.id === value);
+                      if (selectedPatio) {
+                        setForm(prev => ({ ...prev, patio: selectedPatio }));
+                      }
+                    }}
+                    items={patios.map(p => ({ label: p.localizacao, value: p.id }))}
+                    value={form.patio.id || null}
+                  />
+
+                </View>
+                
               </View>
             }
             renderItem={({ item, index }) => (
               <View style={{ marginBottom: 16 }}>
-                <Text>{item.label}</Text>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Ionicons name={item.iconName as any} size={24} color="green" />
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     value={String(form[item.key as keyof Setor] ?? "")}
                     onChangeText={(text) =>
@@ -191,8 +202,8 @@ export default function SetorRegister() {
               </View>
             )}
             ListFooterComponent={
-              <TouchableOpacity onPress={handleSave}>
-                <Text>{t("titleSave")}</Text>
+              <TouchableOpacity style={styles.button} onPress={handleSave}>
+                <Text style={styles.buttonText}>{t("titleSave")}</Text>
               </TouchableOpacity>
             }
           />
