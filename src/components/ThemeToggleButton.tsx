@@ -1,19 +1,55 @@
-import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useTheme } from "../context/ThemeContext"; 
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { useColorScheme } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === "dark";
+type Theme = "light" | "dark";
+
+interface ThemeContextProps {
+  theme: Theme;
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextProps>({
+  theme: "light",
+  toggleTheme: () => {},
+});
+
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  const systemScheme = useColorScheme(); 
+  const [theme, setTheme] = useState<Theme>("light");
+
+  useEffect(() => {
+    const loadTheme = async () => {
+      try {
+        const storedTheme = await AsyncStorage.getItem("@theme");
+        if (storedTheme === "light" || storedTheme === "dark") {
+          setTheme(storedTheme);
+        } else if (systemScheme) {
+          setTheme(systemScheme); 
+        }
+      } catch (e) {
+        console.log("Erro ao carregar tema:", e);
+        if (systemScheme) setTheme(systemScheme);
+      }
+    };
+    loadTheme();
+  }, [systemScheme]);
+
+  const toggleTheme = async () => {
+    const newTheme: Theme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    try {
+      await AsyncStorage.setItem("@theme", newTheme);
+    } catch (e) {
+      console.log("Erro ao salvar tema:", e);
+    }
+  };
 
   return (
-    <TouchableOpacity onPress={toggleTheme} style={{ padding: 10 }}>
-      <Ionicons
-        name={isDark ? "sunny-outline" : "moon-outline"}
-        size={28}
-        color={isDark ? "#FFD700" : "#4B5563"} 
-      />
-    </TouchableOpacity>
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
   );
-}
+};
+
+export const useTheme = () => useContext(ThemeContext);

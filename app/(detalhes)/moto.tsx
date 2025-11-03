@@ -172,7 +172,7 @@ export default function MotoDetails() {
               <Ionicons name="pencil-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
               <View>
                 <Text style={{ color: "#fff" }}>{t('titleUpdate')}</Text>
-                <Text style={{ color: "#fff", width: "80%" }}>{t('contextUpdateMoto')}</Text>
+                <Text style={{ color: "#fff", width: "80%" }}>{t('contextUpdateBike')}</Text>
               </View>
             </TouchableOpacity>
 
