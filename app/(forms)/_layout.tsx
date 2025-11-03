@@ -32,7 +32,7 @@ export default function AuthLayout() {
         }, 
       }}/>
       <Stack.Screen name="cadastro-patio" options={{
-        title:t("titleRegisterSituation"), 
+        title:t("titleRegisterPatio"), 
         headerStyle: {
           backgroundColor: "#099302", 
         }, 
