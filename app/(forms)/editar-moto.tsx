@@ -23,6 +23,8 @@ import { Situacao } from "../../src/types/situacao";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RNPickerSelect from "react-native-picker-select";
 
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 // ===== MOCKS =====
 const modelosMock: Modelo[] = [
   { id: "1", nome: "Honda CG 160", frenagem: "ABS", sisPartida: "Elétrica", tanque: 14, tipoCombustivel: "Gasolina", consumo: 35 },
@@ -53,6 +55,9 @@ export default function MotoEdit() {
   const params = useLocalSearchParams();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [form, setForm] = useState<Moto>({
     id: "",
@@ -106,7 +111,7 @@ export default function MotoEdit() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -114,15 +119,16 @@ export default function MotoEdit() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName} size={30} color="green" />
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName} size={30} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     value={
                       item.key === "chassi"
@@ -144,8 +150,9 @@ export default function MotoEdit() {
             ListHeaderComponent={
               <View>
                 {/* Modelo */}
-                <Text>{t("titleModel")}</Text>
-                <RNPickerSelect
+                <Text style={styles.textLabel}>{t("titleModel")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
                   placeholder={{}}
                   value={form.modelo?.id}
                   onValueChange={(value) => {
@@ -155,9 +162,13 @@ export default function MotoEdit() {
                   items={modelosMock.map((m) => ({ label: m.nome, value: m.id }))}
                 />
 
+                </View>
+                
+
                 {/* Setor */}
-                <Text>{t("titleSector")}</Text>
-                <RNPickerSelect
+                <Text style={styles.textLabel}>{t("titleSector")}</Text>
+                <View style={styles.inputSelecao}>
+                   <RNPickerSelect
                   placeholder={{}}
                   value={form.setor?.id}
                   onValueChange={(value) => {
@@ -167,9 +178,13 @@ export default function MotoEdit() {
                   items={[{ label: "Não possui setor", value: null }, ...setoresMock.map((s) => ({ label: s.nome, value: s.id }))]}
                 />
 
+
+                </View>
+               
                 {/* Situação */}
-                <Text>{t("titleSituation")}</Text>
-                <RNPickerSelect
+                <Text style={styles.textLabel}>{t("titleSituation")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
                   placeholder={{}}
                   value={form.situacao?.id}
                   onValueChange={(value) => {
@@ -178,12 +193,15 @@ export default function MotoEdit() {
                   }}
                   items={situacoesMock.map((s) => ({ label: s.nome, value: s.id }))}
                 />
+
+                </View>
+                
               </View>
             }
             ListFooterComponent={
-              <View>
-                <TouchableOpacity onPress={handleSave}>
-                  <Text>{t("titleSaveBike")}</Text>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>{t("titleSave")}</Text>
                 </TouchableOpacity>
               </View>
             }
