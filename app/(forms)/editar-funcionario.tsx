@@ -18,6 +18,9 @@ import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Funcionario } from '../../src/types/funcionario';
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function EditUser() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -26,6 +29,9 @@ export default function EditUser() {
 
   const [form, setForm] = useState<Funcionario | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   useEffect(() => {
     const loadUser = async () => {
@@ -109,7 +115,7 @@ export default function EditUser() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
@@ -117,15 +123,16 @@ export default function EditUser() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={item => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
-                <View>
-                  <Ionicons name={item.iconName as any} size={24} color="green"/>
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     placeholder={item.placeholder}
                     value={
@@ -152,11 +159,9 @@ export default function EditUser() {
               </View>
             )}
             ListFooterComponent={
-              <View>
-                <TouchableOpacity
-                  onPress={handleSave}
-                >
-                  <Text>{t('titleUpdate')}</Text>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>{t("titleUpdate")}</Text>
                 </TouchableOpacity>
               </View>
             }

@@ -20,11 +20,17 @@ import RNPickerSelect from "react-native-picker-select";
 import { Patio } from "../../src/types/patio";
 import { Filial } from "../../src/types/filial";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function PatioEdit() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [filiais, setFiliais] = useState<Filial[]>([]);
   const [form, setForm] = useState<Patio>({
@@ -156,7 +162,7 @@ export default function PatioEdit() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -164,12 +170,13 @@ export default function PatioEdit() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             ListHeaderComponent={
-              <View style={{ marginBottom: 16 }}>
+              <View style={{ flex:1, gap:20 }}>
                 <Text>{t("titleFilial")}</Text>
                 <RNPickerSelect
                   placeholder={{ label: t("placeholderSelectFilial"), value: null }}
@@ -183,10 +190,10 @@ export default function PatioEdit() {
               </View>
             }
             renderItem={({ item, index }) => (
-              <View style={{ marginBottom: 16 }}>
-                <Text>{item.label}</Text>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Ionicons name={item.iconName as any} size={24} color="green"/>
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     value={String(form[item.key as keyof Patio] ?? "")}
                     onChangeText={(text) =>
@@ -205,9 +212,11 @@ export default function PatioEdit() {
               </View>
             )}
             ListFooterComponent={
-              <TouchableOpacity onPress={handleSave}>
-                <Text>{t("titleSave")}</Text>
-              </TouchableOpacity>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>{t("titleSave")}</Text>
+                </TouchableOpacity>
+              </View>
             }
           />
         </TouchableWithoutFeedback>

@@ -20,11 +20,17 @@ import RNPickerSelect from "react-native-picker-select";
 import { Setor } from "../../src/types/setor";
 import { Patio } from "../../src/types/patio";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function SetorEdit() {
   const router = useRouter();
   const params = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [patios, setPatios] = useState<Patio[]>([]);
   const [form, setForm] = useState<Setor>({
@@ -129,7 +135,7 @@ export default function SetorEdit() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 16 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -137,12 +143,13 @@ export default function SetorEdit() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={item => item.key}
             keyboardShouldPersistTaps="handled"
             ListHeaderComponent={
-              <View style={{ marginBottom: 16 }}>
+              <View style={{ flex:1, gap:20 }}>
                 <Text>{t("titlePatio")}</Text>
                 <RNPickerSelect
                   placeholder={{ label: t("placeholderSelectPatio"), value: null }}
@@ -158,10 +165,10 @@ export default function SetorEdit() {
               </View>
             }
             renderItem={({ item, index }) => (
-              <View style={{ marginBottom: 16 }}>
-                <Text>{item.label}</Text>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Ionicons name={item.iconName as any} size={22} />
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
+                <View style={styles.input}>
+                  <Ionicons name={item.iconName as any} size={22} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     placeholder={item.placeholder}
                     value={String(form[item.key as keyof Setor] ?? "")}
@@ -178,9 +185,9 @@ export default function SetorEdit() {
               </View>
             )}
             ListFooterComponent={
-              <View>
-                <TouchableOpacity onPress={handleSave}>
-                  <Text>{t("titleSaveSetor")}</Text>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>{t("titleSaveSetor")}</Text>
                 </TouchableOpacity>
               </View>
             }

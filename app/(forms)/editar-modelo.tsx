@@ -18,11 +18,17 @@ import { useTranslation } from "react-i18next";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Modelo } from "../../src/types/modelo";
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function ModeloEdit() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>(); 
   const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
+
+  const { colors } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const [form, setForm] = useState<Modelo | null>(null);
 
@@ -104,7 +110,7 @@ export default function ModeloEdit() {
   ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
@@ -112,15 +118,16 @@ export default function ModeloEdit() {
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <FlatList
+            style={styles.form}
             ref={flatListRef}
             data={campos}
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             renderItem={({ item, index }) => (
-              <View>
-                <Text>{item.label}</Text>
+              <View style={{ flex:1, gap:20 }}>
+                <Text style={styles.textLabel}>{item.label}</Text>
                 <View>
-                  <Ionicons name={item.iconName as any} size={24} color="green"/>
+                  <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     placeholder={item.placeholder}
                     value={
@@ -149,13 +156,9 @@ export default function ModeloEdit() {
               </View>
             )}
             ListFooterComponent={
-              <View>
-                <TouchableOpacity
-                  onPress={handleSave}
-                >
-                  <Text>
-                    {t("titleSaveModel")}
-                  </Text>
+              <View style={{ paddingTop: 30 }}>
+                <TouchableOpacity style={styles.button}  onPress={handleSave}>
+                  <Text style={styles.buttonText}>{t("titleSaveModel")}</Text>
                 </TouchableOpacity>
               </View>
             }
