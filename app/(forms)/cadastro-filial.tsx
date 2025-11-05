@@ -108,6 +108,7 @@ export default function FilialCreate() {
             data={campos}
             keyExtractor={(item, index) => item.key + index}
             keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ paddingBottom: 100 }}
             renderItem={({ item, index }) => (
               <View style={{ flex:1, gap:20 }}>
                 <Text style={styles.textLabel}>{item.label}</Text>

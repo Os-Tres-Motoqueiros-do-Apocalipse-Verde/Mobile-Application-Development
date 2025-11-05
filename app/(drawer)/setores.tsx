@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, Image } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, FlatList, Alert, Image, ScrollView } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from '@expo/vector-icons';
@@ -69,84 +69,97 @@ export default function Setores() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <View style={styles.motoPerfil}>
-        <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
-          {t('titleListSetores')}
-        </Text>
+      <ScrollView>
+        <View style={styles.motoPerfil}>
+          <Text style={{ color: "#fff", fontSize: 25, fontWeight: "bold", textAlign: "center", paddingBottom: 30 }}>
+            {t('titleListSetores')}
+          </Text>
 
-        <View style={{ marginBottom: 20 }}>
-          <Picker
-            selectedValue={filtroCampo}
-            onValueChange={(itemValue) => setFiltroCampo(itemValue)}
-            style={{ color: "#fff", backgroundColor: "#099302", borderRadius: 10 }}
-          >
-            <Picker.Item label={t('titleAll')} value="todos" />
-            <Picker.Item label={t('titleNome')} value="nome" />
-            <Picker.Item label={t('titleDescricao')} value="descricao" />
-            <Picker.Item label={t('titlePatio')} value="patio" />
-            <Picker.Item label={t('titleCor')} value="cor" />
-            <Picker.Item label={t('titleLocalizacao')} value="localizacao" />
-          </Picker>
+          <View style={{ marginBottom: 20 }}>
+            <Picker
+              selectedValue={filtroCampo}
+              onValueChange={(itemValue) => setFiltroCampo(itemValue)}
+              style={{ color: "#fff", backgroundColor: "#099302", borderRadius: 10 }}
+            >
+              <Picker.Item label={t('titleAll')} value="todos" />
+              <Picker.Item label={t('titleNome')} value="nome" />
+              <Picker.Item label={t('titleDescricao')} value="descricao" />
+              <Picker.Item label={t('titlePatio')} value="patio" />
+              <Picker.Item label={t('titleCor')} value="cor" />
+              <Picker.Item label={t('titleLocalizacao')} value="localizacao" />
+            </Picker>
 
-          <TextInput
-            placeholder={t('titleSearchSetor')}
-            placeholderTextColor="#ccc"
-            value={filtroValor}
-            onChangeText={setFiltroValor}
-            style={{
-              borderWidth: 1,
-              borderColor: "#09BC00",
-              borderRadius: 10,
-              width: "90%",
-              color: "#fff",
-              padding: 10,
-              marginTop: 10
-            }}
-          />
+            <TextInput
+              placeholder={t('titleSearchSetor')}
+              placeholderTextColor="#ccc"
+              value={filtroValor}
+              onChangeText={setFiltroValor}
+              style={{
+                borderWidth: 1,
+                borderColor: "#09BC00",
+                borderRadius: 10,
+                width: "90%",
+                color: "#fff",
+                padding: 10,
+                marginTop: 10
+              }}
+            />
+          </View>
         </View>
-      </View>
 
-      <FlatList
-        data={filteredSetores}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{
-              backgroundColor: "#099302",
-              gap: 20,
-              width: "90%",
-              borderRadius: 20,
-              padding: 20,
-              alignSelf: "center",
-              marginTop: 20,
-            }}
-            onPress={() => handleItemPress(item)}
-          >
-            <Text style={{ color: "#fff", fontSize: 30, textAlign: "center" }}>
-              {item.nome}
-            </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titlePatio')}: {getCampoValor(item, "patio")}
-            </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titleCapacidade')}: {item.capacidade}
-            </Text>
-            <Text style={{ color: "#fff", fontSize: 20 }}>
-              {t('titleQtdMoto')}: {item.qtdMoto}
-            </Text>
-          </TouchableOpacity>
+        <FlatList
+          data={filteredSetores}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={{ paddingBottom: 100 }}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#099302",
+                gap: 20,
+                width: "90%",
+                borderRadius: 20,
+                padding: 20,
+                alignSelf: "center",
+                marginTop: 20,
+              }}
+              onPress={() => handleItemPress(item)}
+            >
+              <Text style={{ color: "#fff", fontSize: 30, textAlign: "center" }}>
+                {item.nome}
+              </Text>
+              <Text style={{ color: "#fff", fontSize: 20 }}>
+                {t('titlePatio')}: {getCampoValor(item, "patio")}
+              </Text>
+              <Text style={{ color: "#fff", fontSize: 20 }}>
+                {t('titleCapacidade')}: {item.capacidade}
+              </Text>
+              <Text style={{ color: "#fff", fontSize: 20 }}>
+                {t('titleQtdMoto')}: {item.qtdMoto}
+              </Text>
+            </TouchableOpacity>
+          )}
+          ListEmptyComponent={
+            <Text style={{ textAlign: "center", marginTop: 20 }}>{t('alertContextErroFindAnySetor')}</Text>
+          }
+        />
+
+        <TouchableOpacity style={styles.botaoConfig}
+          onPress={() => setOpenOptions(!openOptions)}
+        >
+          <Image source={require("../../assets/profile/white-logo.png")} />
+        </TouchableOpacity>
+        {openOptions && (
+          <View style={styles.config}>
+            <TouchableOpacity style={styles.botoesConf} onPress={() => router.push('/cadastro-setor')}>
+              <Ionicons name="create-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
+              <View>
+                <Text style={{ color: "#fff" }}>{t('titleRegister')}</Text>
+                <Text style={{ color: "#fff", width: "80%" }}>{t('contextRegisterSector')}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
         )}
-        ListEmptyComponent={
-          <Text style={{ textAlign: "center", marginTop: 20 }}>{t('alertContextErroFindAnySetor')}</Text>
-        }
-      />
-
-      <TouchableOpacity style={styles.botaoConfig}
-        onPress={() => router.push('/setor-register')}
-      >
-        <Image source={require("../../assets/profile/white-logo.png")} />
-      </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }

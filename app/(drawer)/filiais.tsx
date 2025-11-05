@@ -62,7 +62,7 @@ export default function Filiais() {
   });
 
   const handleItemPress = (filial: Filial) => {
-    router.push({ pathname: "/filial", params: { id: filial.id } });
+    router.push({ pathname: "/filiais", params: { id: filial.id } });
   };
 
   return (
@@ -130,7 +130,7 @@ export default function Filiais() {
           </TouchableOpacity>
         )}
         ListEmptyComponent={
-          <Text style={{ textAlign: "center", marginTop: 20, color: "#fff" }}>{t('alertContextErroFindAnyFiliais')}</Text>
+          <Text style={{ textAlign: "center", marginTop: 20, color: "#fff" }}>{t('alertContextErroFindAnyFilial')}</Text>
         }
       />
 

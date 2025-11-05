@@ -286,6 +286,6 @@
   "alertConfirmedSetor": "Setor deletado com sucesso!",
   "alertContextErroDeletedSetor": "Erro ao deletar o setor",
   "contextUpdateSetor": "Atualize os dados deste setor",
-  "contextRegisterSetor": "Cadastre um novo setor",
+  "contextRegisterSector": "Cadastre um novo setor",
   "contextDeleteSetor": "Deseja realmente deletar este setor?"
 }
