@@ -75,7 +75,7 @@ export default function MotoristaDetails() {
     value && value.trim() !== '' ? value : fallback;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <ScrollView contentContainerStyle={styles.profile}>
 
         {/* Nome */}

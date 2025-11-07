@@ -77,7 +77,7 @@ export default function ModeloDetails() {
       : fallback;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <ScrollView contentContainerStyle={styles.profile}>
         <View style={styles.motoStatus}>
           <Text style={{ fontSize: 30, color: "#fff" }}>
