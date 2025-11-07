@@ -105,14 +105,18 @@ export default function SituacaoEdit() {
                 <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={22} color="#09BC00" style={styles.iconForm}/>
                   {item.key === "status" ? (
-                    <RNPickerSelect
-                      value={form.status}
-                      onValueChange={(value) => handleChange("status", value)}
-                      items={[
-                        { label: t("statusActive"), value: "Ativo" },
-                        { label: t("statusInactive"), value: "Inativo" },
-                      ]}
-                    />
+                    <View style={{ flex:1, gap:20 }}>
+                      <RNPickerSelect
+                        value={form.status}
+                        onValueChange={(value) => handleChange("status", value)}
+                        items={[
+                          { label: t("statusActive"), value: "Ativo" },
+                          { label: t("statusInactive"), value: "Inativo" },
+                        ]}
+                      />
+
+                    </View>
+                    
                   ) : (
                     <TextInput
                       placeholder={item.placeholder}

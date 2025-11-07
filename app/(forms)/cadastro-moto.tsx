@@ -295,7 +295,7 @@ export default function MotoRegister() {
 
                   <View>
                     <TouchableOpacity style={styles.button} onPress={handleSave}>
-                      <Text style={styles.buttonText}>{t("titleSaveBike")}</Text>
+                      <Text >{t("titleSaveBike")}</Text>
                     </TouchableOpacity>
                   </View>
 

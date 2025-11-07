@@ -176,17 +176,21 @@ export default function PatioEdit() {
             keyExtractor={(item) => item.key}
             keyboardShouldPersistTaps="handled"
             ListHeaderComponent={
-              <View style={{ flex:1, gap:20 }}>
-                <Text>{t("titleFilial")}</Text>
-                <RNPickerSelect
-                  placeholder={{ label: t("placeholderSelectFilial"), value: null }}
-                  onValueChange={(value) => {
-                    const selectedFilial = filiais.find(f => f.id === value);
-                    if (selectedFilial) setForm(prev => ({ ...prev, filial: selectedFilial }));
-                  }}
-                  items={filiais.map(f => ({ label: f.nome, value: f.id }))}
-                  value={form.filial.id || null}
-                />
+              <View style={styles.form}>
+                <Text style={styles.textLabel}>{t("titleFilial")}</Text>
+                <View style={styles.inputSelecao}>
+                   <RNPickerSelect
+                    placeholder={{ label: t("placeholderSelectFilial"), value: null }}
+                    onValueChange={(value) => {
+                      const selectedFilial = filiais.find(f => f.id === value);
+                      if (selectedFilial) setForm(prev => ({ ...prev, filial: selectedFilial }));
+                    }}
+                    items={filiais.map(f => ({ label: f.nome, value: f.id }))}
+                    value={form.filial.id || null}
+                  />
+
+                </View>
+               
               </View>
             }
             renderItem={({ item, index }) => (

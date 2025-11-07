@@ -126,7 +126,7 @@ export default function ModeloDetails() {
         {/* Botão de opções */}
         <TouchableOpacity
           style={{
-            backgroundColor: "#099302",
+            backgroundColor: colors.button,
             width: 100,
             marginLeft: 40,
             borderTopEndRadius: 20,

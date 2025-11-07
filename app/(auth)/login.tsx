@@ -7,12 +7,18 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useTheme } from "../../src/context/ThemeContext";
+import { createGlobalStyles } from "..//../src/styles/globalStyles";
+
 export default function Login() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  const { colors, toggleTheme } = useTheme();
+  const styles = createGlobalStyles(colors);
 
   const router = useRouter();
 
@@ -68,59 +74,71 @@ export default function Login() {
 
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View>
-          {/* Campo de email */}
-          <View>
-            <Text>{t('emailPlace')}</Text>
-            <View>
-              <Ionicons name="mail-outline" size={24} color="green" />
-              <TextInput
-                placeholder={t('emailPlace')}
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-              />
-            </View>
-          </View>
-
-          {/* Campo de senha */}
-          <View>
-            <Text>{t('passwordPlace')}</Text>
-            <View>
-              <Ionicons name="lock-closed-outline" size={24} color="green" />
-              <TextInput
-                placeholder={t('passwordPlace')}
-                value={senha}
-                onChangeText={setSenha}
-                secureTextEntry={!showPassword}
-              />
-              <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                <Ionicons
-                  name={showPassword ? 'eye-outline' : 'eye-off-outline'}
-                  size={24}
-                  color="green"
+    <SafeAreaView style={styles.profile}>
+      <ScrollView >
+        <View style={styles.organization}>
+          <View style={styles.form}>
+            {/* Campo de email */}
+            <View style={styles.form}>
+              <Text style={styles.textLabel}>{t('emailPlace')}</Text>
+              <View style={styles.input}>
+                <Ionicons name="mail-outline" size={24} color="green" style={styles.iconForm}/>
+                <TextInput
+                  placeholder={t('emailPlace')}
+                  value={email}
+                  onChangeText={setEmail}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
                 />
-              </TouchableOpacity>
+              </View>
             </View>
-          </View>
 
-          {/* Lembrar login */}
-          <TouchableOpacity onPress={() => setRememberMe(!rememberMe)}>
-            <Ionicons
-              name={rememberMe ? 'checkbox' : 'square-outline'}
-              size={24}
-              color="green"
-            />
-            <Text>{t('rememberMe')}</Text>
-          </TouchableOpacity>
+            {/* Campo de senha */}
+            <View style={styles.form}>
+              <Text style={styles.textLabel}>{t('passwordPlace')}</Text>
+              <View style={styles.input}>
+                <Ionicons name="lock-closed-outline" size={24} color="green" style={styles.iconForm}/>
+                <TextInput
+                  placeholder={t('passwordPlace')}
+                  value={senha}
+                  style={styles.textInput}
+                  onChangeText={setSenha}
+                  secureTextEntry={!showPassword}
+                />
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                  <Ionicons
+                    style={styles.olho}
+                    name={showPassword ? 'eye-outline' : 'eye-off-outline'}
+                    size={24}
+                    color="green"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Lembrar login */}
+            <TouchableOpacity style={styles.lembre}  onPress={() => setRememberMe(!rememberMe)}>
+              <Ionicons
+              
+                name={rememberMe ? 'checkbox' : 'square-outline'}
+                size={24}
+                color="green"
+              />
+              <Text style={{color:colors.text}}>{t('rememberMe')}</Text>
+            </TouchableOpacity>
+
+          </View>
+          
+
+          
 
           {/* Botão de login */}
-          <TouchableOpacity onPress={handleLogin}>
-            <Text>{t('loginTitle')}</Text>
-          </TouchableOpacity>
+          <View style={{ marginHorizontal: 40 }}>
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+              <Text style={styles.buttonText}>{t('loginTitle')}</Text>
+            </TouchableOpacity>
+          </View>
+          
 
           {/* Botão para limpar o AsyncStorage */}
           {/* <TouchableOpacity
@@ -132,10 +150,10 @@ export default function Login() {
           </TouchableOpacity> */}
 
           
-          <View>
-            <Text>{t('noAccountText')}</Text>
+          <View style={styles.cadastrar}>
+            <Text style={{color:colors.text}}>{t('noAccountText')}</Text>
             <TouchableOpacity onPress={() => router.push('/cadastro')}>
-              <Text>{t('registerTitle')}</Text>
+              <Text style={{ color: '#099302' }}>{t('registerTitle')}</Text>
             </TouchableOpacity>
           </View>
         </View>

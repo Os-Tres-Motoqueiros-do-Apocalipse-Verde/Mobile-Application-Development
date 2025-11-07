@@ -149,19 +149,23 @@ export default function SetorEdit() {
             keyExtractor={item => item.key}
             keyboardShouldPersistTaps="handled"
             ListHeaderComponent={
-              <View style={{ flex:1, gap:20 }}>
-                <Text>{t("titlePatio")}</Text>
-                <RNPickerSelect
-                  placeholder={{ label: t("placeholderSelectPatio"), value: null }}
-                  onValueChange={(value) => {
-                    const selectedPatio = patios.find(p => p.id === value);
-                    if (selectedPatio) {
-                      setForm(prev => ({ ...prev, patio: selectedPatio }));
-                    }
-                  }}
-                  items={patios.map(p => ({ label: p.localizacao, value: p.id }))}
-                  value={form.patio.id || null}
-                />
+              <View style={styles.form}>
+                <Text style={styles.textLabel} >{t("titlePatio")}</Text>
+                <View style={styles.inputSelecao}>
+                  <RNPickerSelect
+                    placeholder={{ label: t("placeholderSelectPatio"), value: null }}
+                    onValueChange={(value) => {
+                      const selectedPatio = patios.find(p => p.id === value);
+                      if (selectedPatio) {
+                        setForm(prev => ({ ...prev, patio: selectedPatio }));
+                      }
+                    }}
+                    items={patios.map(p => ({ label: p.localizacao, value: p.id }))}
+                    value={form.patio.id || null}
+                  />
+
+                </View>
+                
               </View>
             }
             renderItem={({ item, index }) => (

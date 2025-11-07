@@ -50,7 +50,7 @@ export default function LanguageSelector() {
               key={lang.code}
               onPress={() => changeLanguage(lang.code)}
             >
-              <Text>{lang.label}</Text>
+              <Text style={{color: colors.text, fontSize: 14}}>{lang.label}</Text>
             </TouchableOpacity>
           ))}
         </View>

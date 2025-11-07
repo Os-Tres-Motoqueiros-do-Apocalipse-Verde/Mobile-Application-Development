@@ -17,7 +17,6 @@ export const createGlobalStyles = (colors) =>
 
     profile: {
     backgroundColor: colors.background,
-    minHeight: 700,
 
     },
 
@@ -108,7 +107,7 @@ export const createGlobalStyles = (colors) =>
     button: {
       backgroundColor: colors.button,
       padding: 12,
-      borderRadius: 8,
+      borderRadius: 10,
       alignItems: "center",
     },
 
@@ -127,7 +126,7 @@ export const createGlobalStyles = (colors) =>
     form: {
         flex:1,
         alignSelf: "center",
-        gap:20,
+        gap:30,
         
        },
 
@@ -192,7 +191,7 @@ export const createGlobalStyles = (colors) =>
     HeaderForm: {
         flexDirection: "row", 
         gap: 12, 
-        marginRight: 10, 
+        marginRight: 5, 
         height:168.14,
         
     },

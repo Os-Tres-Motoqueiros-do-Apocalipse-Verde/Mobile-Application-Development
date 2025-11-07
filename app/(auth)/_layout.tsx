@@ -27,7 +27,7 @@ export default function AuthLayout() {
       <ThemeProvider>
         <Stack
           screenOptions={{
-            headerStyle: { backgroundColor: "#0BA70F",  },
+            headerStyle: { backgroundColor: colors.button,  },
             headerTintColor: colors.titulo,
             headerTitleStyle: { fontWeight: "bold", fontSize:30 },
             headerTitleAlign: "center",

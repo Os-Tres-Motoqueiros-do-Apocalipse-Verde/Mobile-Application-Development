@@ -107,7 +107,7 @@ export default function MotoristaDetails() {
         </View>
 
         {/* Botão de opções */}
-        <TouchableOpacity style={{ backgroundColor: "#099302", width: 100, marginLeft: 40, borderTopEndRadius: 20, borderTopStartRadius: 20 }} onPress={() => setOpenOptions(!openOptions)}>
+        <TouchableOpacity style={{ backgroundColor: colors.button, width: 100, marginLeft: 40, borderTopEndRadius: 20, borderTopStartRadius: 20 }} onPress={() => setOpenOptions(!openOptions)}>
           <Image style={{ alignSelf: "center" }} source={require("../../assets/profile/white-logo.png")} />
         </TouchableOpacity>
 

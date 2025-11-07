@@ -82,7 +82,7 @@ export default function Motos() {
             <Picker
               selectedValue={filtroCampo}
               onValueChange={(itemValue) => setFiltroCampo(itemValue)}
-              style={{ color: "#fff", backgroundColor: colors.button, borderRadius: 10 }}
+              style={{ color: "#fff"}}
             >
               <Picker.Item label={t('titleAll')} value="todos" />
               <Picker.Item label={t('titlePlate')} value="placa" />
