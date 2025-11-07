@@ -48,16 +48,28 @@ export default function MotoristaCreate() {
     },
   });
 
-  const handleChange = (key: keyof Motorista | keyof Dados, value: string) => {
-    if (Object.keys(form.dados).includes(key as string)) {
-      setForm((prev) => ({
-        ...prev,
-        dados: { ...prev.dados, [key as keyof Dados]: value },
-      }));
-    } else {
-      setForm((prev) => ({ ...prev, [key as keyof Motorista]: value }));
-    }
-  };
+    const handleChange = <K extends keyof Motorista | keyof Dados>(
+      key: K,
+      value: string
+    ) => {
+      const camposDados: (keyof Dados)[] = ["nome", "cpf", "telefone", "email", "senha"];
+
+      if (camposDados.includes(key as keyof Dados)) {
+        setForm((prev) => ({
+          ...prev,
+          dados: {
+            ...prev.dados,
+            [key as keyof Dados]: value,
+          },
+        }));
+      } else {
+        setForm((prev) => ({
+          ...prev,
+          [key as keyof Motorista]: value,
+        }));
+      }
+    };
+
 
   const handleSave = async () => {
     const errors: string[] = [];
