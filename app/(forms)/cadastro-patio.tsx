@@ -163,8 +163,8 @@ export default function PatioCreate() {
             keyExtractor={(item, index) => item.key + index}
             keyboardShouldPersistTaps="handled"
             ListHeaderComponent={
-              <View style={{ flex:1, gap:20 }}>
-                <Text style={styles.textLabel}>{t("titleFilial")}</Text>
+              <View style={styles.form} >
+                <Text style={{color: colors.text, fontSize:16 }}>{t("titleFilial")}</Text>
                 <View style={styles.inputSelecao}>
                   <RNPickerSelect
                     placeholder={{ label: t("placeholderSelectFilial"), value: null }}

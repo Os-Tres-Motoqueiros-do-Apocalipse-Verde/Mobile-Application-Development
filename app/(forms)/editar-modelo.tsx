@@ -126,7 +126,7 @@ export default function ModeloEdit() {
             renderItem={({ item, index }) => (
               <View style={{ flex:1, gap:20 }}>
                 <Text style={styles.textLabel}>{item.label}</Text>
-                <View>
+                <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
                   <TextInput
                     placeholder={item.placeholder}

@@ -64,7 +64,7 @@ export default function PatioDetails() {
     value !== undefined && value !== null && value.toString().trim() !== "" ? value.toString() : fallback;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <ScrollView contentContainerStyle={styles.profile}>
 
         {/* Localização do Pátio */}

@@ -76,15 +76,19 @@ export default function SituacaoRegister() {
                 <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={22} color="#09BC00" style={styles.iconForm}/>
                   {item.key === "status" ? (
-                    <RNPickerSelect
-                      value={form.status}
-                      onValueChange={(value) => handleChange("status", value)}
-                      items={[
-                        { label: t("statusActive"), value: "Ativo" },
-                        { label: t("statusInactive"), value: "Inativo" },
-                      ]}
-                      placeholder={{ label: t("titleSelectStatus"), value: "" }}
-                    />
+                    <View style={{height: 50,width:300,}}>
+                      <RNPickerSelect
+                        value={form.status}
+                        onValueChange={(value) => handleChange("status", value)}
+                        items={[
+                          { label: t("statusActive"), value: "Ativo" },
+                          { label: t("statusInactive"), value: "Inativo" },
+                        ]}
+                        placeholder={{ label: t("titleSelectStatus"), value: "" }}
+                      />
+
+                    </View>
+                    
                   ) : (
                     <TextInput
                       placeholder={item.placeholder}
