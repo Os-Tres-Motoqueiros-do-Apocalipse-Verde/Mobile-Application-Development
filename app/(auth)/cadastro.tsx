@@ -1,15 +1,15 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   Alert,
-  FlatList,
   KeyboardAvoidingView,
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  ScrollView,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
@@ -26,8 +26,6 @@ import { createGlobalStyles } from "../../src/styles/globalStyles";
 export default function Cadastro() {
   const router = useRouter();
   const { t } = useTranslation();
-  const flatListRef = useRef<FlatList>(null);
-
   const { colors } = useTheme();
   const styles = createGlobalStyles(colors);
 
@@ -47,7 +45,7 @@ export default function Cadastro() {
     },
   });
 
-  // --- handleChange genérico e tipado ---
+  // --- handleChange tipado ---
   const handleChange = <K extends keyof Funcionario | keyof Dados>(
     key: K,
     value: string
@@ -68,6 +66,23 @@ export default function Cadastro() {
     } else {
       setForm((prev) => ({ ...prev, [key as keyof Funcionario]: value }));
     }
+  };
+
+  // --- getValue seguro ---
+  const getValue = (key: string): string => {
+    const dadosKeys: (keyof Dados)[] = ["nome", "email", "senha", "telefone", "cpf"];
+    const funcionarioKeys: (keyof Funcionario)[] = ["nome", "cargo"];
+
+    if (dadosKeys.includes(key as keyof Dados)) {
+      return form.dados[key as keyof Dados] ?? "";
+    }
+
+    if (funcionarioKeys.includes(key as keyof Funcionario)) {
+      const value = form[key as keyof Funcionario];
+      return typeof value === "string" ? value : "";
+    }
+
+    return "";
   };
 
   // --- salvar cadastro ---
@@ -178,103 +193,71 @@ export default function Cadastro() {
   ];
 
   return (
-    <SafeAreaView style={styles.profile}>
+    <SafeAreaView style={[styles.profile, { flex: 1 }]}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
         style={{ flex: 1 }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <FlatList
-            ref={flatListRef}
-            data={campos}
-            keyExtractor={(item, index) => item.key + index}
+          <ScrollView
+            style={{ flex: 1 }}
+            contentContainerStyle={{
+              padding: 20,
+              paddingBottom: 120,
+            }}
             keyboardShouldPersistTaps="handled"
-            contentContainerStyle={styles.form}
-            renderItem={({ item, index }) => (
-              <View style={{ flex: 1, gap: 20 }}>
-                <Text style={styles.textLabel}>{item.label}</Text>
-                <View style={styles.input}>
-                  <Ionicons
-                    name={item.iconName as any}
-                    size={30}
-                    color="#09BC00"
-                    style={styles.iconForm}
-                  />
-                  <TextInput
-                    placeholder={item.placeholder}
-                    value={
-                      ["nome", "email", "senha", "telefone", "cpf"].includes(
-                        item.key
-                      )
-                        ? String(
-                            form.dados[item.key as keyof Dados] ?? ""
-                          )
-                        : String(form[item.key as keyof Funcionario] ?? "")
-                    }
-                    onChangeText={(text) =>
-                      handleChange(
-                        item.key as keyof Funcionario | keyof Dados,
-                        text
-                      )
-                    }
-                    keyboardType={
-                      (item.keyboardType as any) || "default"
-                    }
-                    secureTextEntry={
-                      item.secure ? !showPassword : false
-                    }
-                    onFocus={() => {
-                      flatListRef.current?.scrollToIndex({
-                        index,
-                        animated: true,
-                        viewPosition: 0.3,
-                      });
-                    }}
-                  />
-                  {item.secure && (
-                    <TouchableOpacity
-                      onPress={() => setShowPassword(!showPassword)}
-                    >
-                      <Ionicons
-                        name={
-                          showPassword
-                            ? "eye-outline"
-                            : "eye-off-outline"
-                        }
-                        size={24}
-                        color="#09BC00"
-                        style={styles.olho}
-                      />
-                    </TouchableOpacity>
-                  )}
+          >
+            <View style={styles.form}>
+              {campos.map((item, index) => (
+                <View key={index} style={{ marginBottom: 20 }}>
+                  <Text style={styles.textLabel}>{item.label}</Text>
+                  <View style={styles.input}>
+                    <Ionicons
+                      name={item.iconName as any}
+                      size={30}
+                      color="#09BC00"
+                      style={styles.iconForm}
+                    />
+                    <TextInput
+                      placeholder={item.placeholder}
+                      value={getValue(item.key)}
+                      onChangeText={(text) =>
+                        handleChange(item.key as keyof Funcionario | keyof Dados, text)
+                      }
+                      keyboardType={(item.keyboardType as any) || "default"}
+                      secureTextEntry={item.secure ? !showPassword : false}
+                    />
+                    {item.secure && (
+                      <TouchableOpacity
+                        onPress={() => setShowPassword(!showPassword)}
+                      >
+                        <Ionicons
+                          name={showPassword ? "eye-outline" : "eye-off-outline"}
+                          size={24}
+                          color="#09BC00"
+                          style={styles.olho}
+                        />
+                      </TouchableOpacity>
+                    )}
+                  </View>
                 </View>
-              </View>
-            )}
-            ListFooterComponent={
-              <View style={{ paddingTop: 30 }}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={handleRegister}
-                >
-                  <Text style={styles.buttonText}>{t("registerTitle")}</Text>
-                </TouchableOpacity>
+              ))}
 
-                <View style={styles.cadastrar}>
-                  <Text style={{ color: colors.text }}>
-                    {t("haveAccountText")}{" "}
-                  </Text>
-                  <TouchableOpacity
-                    onPress={() => router.push("/login")}
-                  >
-                    <Text style={{ color: "#099302" }}>
-                      {t("loginTitle")}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+              <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                <Text style={styles.buttonText}>{t("registerTitle")}</Text>
+              </TouchableOpacity>
+
+              <View style={styles.cadastrar}>
+                <Text style={{ color: colors.text }}>
+                  {t("haveAccountText")}{" "}
+                </Text>
+                <TouchableOpacity onPress={() => router.push("/login")}>
+                  <Text style={{ color: "#099302" }}>{t("loginTitle")}</Text>
+                </TouchableOpacity>
               </View>
-            }
-          />
+            </View>
+          </ScrollView>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </SafeAreaView>
