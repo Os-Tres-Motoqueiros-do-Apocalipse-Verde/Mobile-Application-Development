@@ -120,7 +120,7 @@ export default function SetorDetails() {
               style={styles.botoesConf}
               onPress={() =>
                 router.push({
-                  pathname: "/setor-edit",
+                  pathname: "/editar-setor",
                   params: { id: setor?.id },
                 })
               }
@@ -135,7 +135,7 @@ export default function SetorDetails() {
             {/* Cadastrar novo Setor */}
             <TouchableOpacity
               style={styles.botoesConf}
-              onPress={() => router.push("/setor-register")}
+              onPress={() => router.push("/cadastro-setor")}
             >
               <Ionicons name="create-outline" size={30} color="#fff" style={{ alignSelf: "center" }} />
               <View>
