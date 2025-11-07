@@ -66,7 +66,7 @@ export default function FilialDetails() {
   const endereco = filial.endereco;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <ScrollView contentContainerStyle={styles.profile}>
         {/* Nome da Filial */}
         <View style={styles.motoStatus}>
@@ -127,7 +127,7 @@ export default function FilialDetails() {
         {/* Botão de opções */}
         <TouchableOpacity
           style={{
-            backgroundColor: "#099302",
+            backgroundColor: colors.button,
             width: 100,
             marginLeft: 40,
             borderTopEndRadius: 20,

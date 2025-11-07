@@ -25,7 +25,7 @@ export const createGlobalStyles = (colors) =>
       marginBottom:50,
       paddingBottom:60,
       borderBottomWidth:2,
-      borderBottomColor: "#099302",
+      borderBottomColor: colors.button,
       
     },
 
@@ -33,7 +33,7 @@ export const createGlobalStyles = (colors) =>
       flexDirection: 'row', 
       justifyContent: "space-between", 
       paddingHorizontal:10, 
-      backgroundColor: "#099302",
+      backgroundColor: colors.button,
       height: 70,
       borderRadius: 20
     },
@@ -240,7 +240,7 @@ export const createGlobalStyles = (colors) =>
     },
 
     linksCadastro: {
-      color: "#09BC00",
+      color: colors.button,
       padding:5,
       gap:10,
       justifyContent:"center",
@@ -285,7 +285,7 @@ export const createGlobalStyles = (colors) =>
   fotoPerfil: {
     height:260,
     paddingTop:70,
-    backgroundColor: "#099302",
+    backgroundColor: colors.button,
     alignItems: "center",
     borderBottomStartRadius:200,
     borderBottomEndRadius:200, 
@@ -295,7 +295,7 @@ export const createGlobalStyles = (colors) =>
   motoPerfil: {
     height:240,
     paddingTop:30,
-    backgroundColor: "#099302",
+    backgroundColor: colors.button,
     alignItems: "center",
     borderBottomStartRadius:100,
     borderBottomEndRadius:100, 
@@ -304,7 +304,7 @@ export const createGlobalStyles = (colors) =>
   motoStatus: {
     height:200,
     paddingTop:30,
-    backgroundColor: "#099302",
+    backgroundColor: colors.button,
     alignItems: "center",
     borderBottomStartRadius:100,
     borderBottomEndRadius:100, 
@@ -338,7 +338,7 @@ export const createGlobalStyles = (colors) =>
   },
 
   config: {
-    backgroundColor: "#099302",
+    backgroundColor: colors.button,
     alignItems: "center",
     borderTopEndRadius:30, 
     borderTopStartRadius:30,
@@ -353,11 +353,11 @@ export const createGlobalStyles = (colors) =>
     borderRadius:20,
     gap:10,
     padding:10,
-    backgroundColor:"#09BC00"
+    backgroundColor:colors.buttonInvert
   },
 
   botao: {
-    backgroundColor: "#09BC00",
+    backgroundColor: colors.buttonInvert,
     alignSelf: 'center',
     height:40,
     width:150,
@@ -366,7 +366,7 @@ export const createGlobalStyles = (colors) =>
   },
 
   botaoConfig: {
-    backgroundColor:"#099302", 
+    backgroundColor:colors.button, 
     width:100, 
     marginLeft:40, 
     borderTopEndRadius:20, 

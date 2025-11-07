@@ -64,7 +64,7 @@ export default function SetorDetails() {
     value !== undefined && value !== null && String(value).trim() !== "" ? value : fallback;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.profile}>
       <ScrollView contentContainerStyle={styles.profile}>
 
         {/* Nome do Setor */}
@@ -107,7 +107,7 @@ export default function SetorDetails() {
 
         {/* Botão de opções */}
         <TouchableOpacity
-          style={{ backgroundColor: "#099302", width: 100, marginLeft: 40, borderTopEndRadius: 20, borderTopStartRadius: 20 }}
+          style={{ backgroundColor: colors.button, width: 100, marginLeft: 40, borderTopEndRadius: 20, borderTopStartRadius: 20 }}
           onPress={() => setOpenOptions(!openOptions)}
         >
           <Image style={{ alignSelf: "center" }} source={require("../../assets/profile/white-logo.png")} />

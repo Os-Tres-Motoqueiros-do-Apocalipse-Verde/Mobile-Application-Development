@@ -88,7 +88,7 @@ export default function Home() {
                 <View>
                     
                   <TouchableOpacity onPress={openLink}>
-                    <Text style={{color:"#099302", fontSize: 20, alignSelf:"center"}} >
+                    <Text style={{color:colors.button, fontSize: 20, alignSelf:"center"}} >
                       OTMAV
                     </Text>
                   </TouchableOpacity>

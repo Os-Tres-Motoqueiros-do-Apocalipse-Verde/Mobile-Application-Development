@@ -70,7 +70,7 @@ export default function Patios() {
             <Picker
                 selectedValue={filtroCampo}
                 onValueChange={(itemValue) => setFiltroCampo(itemValue)}
-                style={{ color: "#fff", backgroundColor: "#099302", borderRadius: 10 }}
+                style={{ color: "#fff" }}
             >
                 <Picker.Item label={t('titleAll')} value="todos" />
                 <Picker.Item label={t('titleLocation')} value="localizacao" />
@@ -86,7 +86,7 @@ export default function Patios() {
                 onChangeText={setFiltroValor}
                 style={{
                 borderWidth: 1,
-                borderColor: "#09BC00",
+                borderColor: "#000000",
                 borderRadius: 10,
                 width: "90%",
                 color: "#fff",
@@ -104,7 +104,7 @@ export default function Patios() {
             renderItem={({ item }) => (
             <TouchableOpacity
                 style={{
-                backgroundColor: "#099302",
+                backgroundColor: colors.button,
                 gap: 10,
                 width: "90%",
                 borderRadius: 20,

@@ -117,70 +117,70 @@ export default function DrawerLayout() {
         name="filiais"
         options={{
           title: t("titleFiliais"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="home"
         options={{
           title: t("titleHome"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="about"
         options={{
           title: t("titleAboutUs"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="profile"
         options={{
           title: t("titleProfile"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="motos"
         options={{
           title: t("titleBikes"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="modelos"
         options={{
           title: t("titleModels"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="motoristas"
         options={{
           title: t("titleBikers"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="patios"
         options={{
           title: t("titlePatios"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="setores"
         options={{
           title: t("titleSectors"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
       <Drawer.Screen
         name="situacoes"
         options={{
           title: t("titleSituations"),
-          headerStyle: { backgroundColor: "#099302" },
+          headerStyle: { backgroundColor: colors.button },
         }}
       />
     </Drawer>

@@ -6,6 +6,7 @@ interface ThemeColors {
   background: string;
   text: string;
   button: string;
+  buttonInvert: string;
   buttonText: string;
   border: string;
   titulo: string;
@@ -23,6 +24,7 @@ const ThemeContext = createContext<ThemeContextProps>({
     background: "#fff",
     text: "#000",
     button: "#099302",
+    buttonInvert: "#09BC00",
     buttonText: "#fff",
     border: "#000",
     titulo: "#fff",
@@ -45,6 +47,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       background: "#fff",
       text: "#000",
       button: "#099302",
+      buttonInvert: "#09BC00",
       buttonText: "#fff",
       border: "#000",
       titulo: "#fff",
@@ -54,6 +57,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
       background: "#373737",
       text: "#fff",
       button: "#09BC00",
+      buttonInvert: "#099302",
       buttonText: "#000",
       border: "#fff",
       titulo: "#373737",
