@@ -114,6 +114,13 @@ export default function DrawerLayout() {
       }}
     >
       <Drawer.Screen
+        name="filiais"
+        options={{
+          title: t("titleFiliais"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
+      <Drawer.Screen
         name="home"
         options={{
           title: t("titleHome"),
@@ -159,6 +166,13 @@ export default function DrawerLayout() {
         name="patios"
         options={{
           title: t("titlePatios"),
+          headerStyle: { backgroundColor: "#099302" },
+        }}
+      />
+      <Drawer.Screen
+        name="setores"
+        options={{
+          title: t("titleSectors"),
           headerStyle: { backgroundColor: "#099302" },
         }}
       />
