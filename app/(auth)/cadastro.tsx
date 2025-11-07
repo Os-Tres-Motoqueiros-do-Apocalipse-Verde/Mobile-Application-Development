@@ -229,7 +229,7 @@ export default function Cadastro() {
                       secureTextEntry={item.secure ? !showPassword : false}
                     />
                     {item.secure && (
-                      <TouchableOpacity
+                      <TouchableOpacity 
                         onPress={() => setShowPassword(!showPassword)}
                       >
                         <Ionicons

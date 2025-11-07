@@ -152,9 +152,9 @@ export default function Profile() {
               resizeMode="cover"
             />
 
-            <View style={{position:"absolute", top:180, left:20}}>
+            <View style={{position:"absolute", top:180, left:50}}>
               <TouchableOpacity onPress={() => setOpen(!open)}>
-                <MaterialIcons name="edit" size={20} color="#000" />
+                <MaterialIcons name="edit" size={20} color="#09BC00" />
               </TouchableOpacity>
 
               {open && (
@@ -181,7 +181,7 @@ export default function Profile() {
         </View>
 
         <View style={styles.dadosProfile}>
-          <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30 }} >{t("titleMydata")}</Text>
+          <Text style={{ fontSize:25, fontWeight:"bold" , textAlign:"center", paddingBottom:30, color: colors.text }} >{t("titleMydata")}</Text>
           <View style={styles.dadosPreenchidos}>
             <Ionicons name="mail-outline" size={30} color="#099302" />
             <Text style={styles.text} >{funcionario?.dados?.email}</Text>
@@ -223,14 +223,14 @@ export default function Profile() {
 
               {openLanguage && (
                 <View style={styles.escolhasProfile}>
-                  <Text style={{fontWeight:"bold"}} >{t("ContextLanguage")}</Text>
+                  <Text style={{fontWeight:"bold", color: colors.text}} >{t("ContextLanguage")}</Text>
                   {langs.map((lang) => (
                     <TouchableOpacity
                       style={styles.dadosPreenchidos}
                       key={lang.code}
                       onPress={() => changeLanguage(lang.code)}
                     >
-                      <Text>{lang.label}</Text>
+                      <Text style={{ color: colors.text}}>{lang.label}</Text>
                     </TouchableOpacity>
                   ))}
                 </View>

@@ -249,7 +249,8 @@ export const createGlobalStyles = (colors) =>
 
     profileImage: { 
       width: 150, 
-      height: 150, 
+      height: 150,
+      borderRadius: 999, 
       position:"absolute",
       top:40,
       left:-70,
