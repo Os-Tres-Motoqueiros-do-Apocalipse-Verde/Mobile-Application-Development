@@ -90,7 +90,7 @@ export default function SituacaoRegister() {
                     </View>
                     
                   ) : (
-                    <TextInput
+                    <TextInput style={styles.textInput}
                       placeholder={item.placeholder}
                       value={form[item.key as keyof Situacao]}
                       onChangeText={(text) => handleChange(item.key as keyof Situacao, text)}

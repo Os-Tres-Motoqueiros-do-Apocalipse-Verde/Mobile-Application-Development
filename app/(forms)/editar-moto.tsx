@@ -129,7 +129,7 @@ export default function MotoEdit() {
                 <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
                   <Ionicons name={item.iconName} size={30} color="#09BC00" style={styles.iconForm}/>
-                  <TextInput
+                  <TextInput style={styles.textInput}
                     value={
                       item.key === "chassi"
                         ? form.chassi?.toString() ?? ""

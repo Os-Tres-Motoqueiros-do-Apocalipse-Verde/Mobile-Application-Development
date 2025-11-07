@@ -16,7 +16,8 @@ export const createGlobalStyles = (colors) =>
     },
 
     profile: {
-    backgroundColor: colors.background,
+      flex:1,
+      backgroundColor: colors.background,
 
     },
 

@@ -67,7 +67,7 @@ export default function FilialDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView >
         {/* Nome da Filial */}
         <View style={styles.motoStatus}>
           <Text style={{ fontSize: 30, color: "#fff" }}>{displayOptional(filial.nome)}</Text>

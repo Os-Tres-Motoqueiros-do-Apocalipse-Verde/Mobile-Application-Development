@@ -83,7 +83,7 @@ export default function MotoDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView >
         {/* Placa */}
         <View style={styles.motoStatus}>
           <Text style={{ fontSize: 30, color: "#fff" }}>{displayString(moto.placa)}</Text>

@@ -65,7 +65,7 @@ export default function SituacaoDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView >
 
         {/* Nome da Situação */}
         <View style={styles.motoStatus}>

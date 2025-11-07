@@ -219,7 +219,8 @@ export default function Cadastro() {
                       color="#09BC00"
                       style={styles.iconForm}
                     />
-                    <TextInput
+                    <TextInput 
+                      style={styles.textInput}
                       placeholder={item.placeholder}
                       value={getValue(item.key)}
                       onChangeText={(text) =>

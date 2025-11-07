@@ -65,7 +65,7 @@ export default function SetorDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView>
 
         {/* Nome do Setor */}
         <View style={styles.motoStatus}>

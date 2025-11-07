@@ -124,7 +124,7 @@ export default function MotoristaCreate() {
                 <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
                   <Ionicons name={item.iconName} size={30} color="#09BC00" style={styles.iconForm}/>
-                  <TextInput
+                  <TextInput style={styles.textInput}
                     value={
                       Object.keys(form.dados).includes(item.key as string)
                         ? String(form.dados[item.key as keyof Dados] ?? "")

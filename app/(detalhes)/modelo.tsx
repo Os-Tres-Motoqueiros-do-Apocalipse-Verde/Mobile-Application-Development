@@ -78,7 +78,7 @@ export default function ModeloDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView>
         <View style={styles.motoStatus}>
           <Text style={{ fontSize: 30, color: "#fff" }}>
             {displayOptional(modelo.nome, "-")}

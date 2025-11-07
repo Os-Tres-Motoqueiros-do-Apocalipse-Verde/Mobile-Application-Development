@@ -170,7 +170,7 @@ export default function MotoRegister() {
   ];
 
   return (
-    <SafeAreaView style={styles.profile}>
+    <SafeAreaView style={[styles.profile]}>
       <KeyboardAvoidingView 
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}

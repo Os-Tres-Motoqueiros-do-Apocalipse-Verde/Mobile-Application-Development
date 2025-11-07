@@ -198,7 +198,7 @@ export default function PatioEdit() {
                 <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
-                  <TextInput
+                  <TextInput style={styles.textInput}
                     value={String(form[item.key as keyof Patio] ?? "")}
                     onChangeText={(text) =>
                       handleChange(

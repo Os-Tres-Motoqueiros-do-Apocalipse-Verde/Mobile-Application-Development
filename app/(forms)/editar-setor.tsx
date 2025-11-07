@@ -173,7 +173,7 @@ export default function SetorEdit() {
                 <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={22} color="#09BC00" style={styles.iconForm}/>
-                  <TextInput
+                  <TextInput style={styles.textInput}
                     placeholder={item.placeholder}
                     value={String(form[item.key as keyof Setor] ?? "")}
                     keyboardType={item.keyboardType || "default"}

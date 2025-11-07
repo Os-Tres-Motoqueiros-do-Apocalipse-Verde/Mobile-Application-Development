@@ -141,7 +141,7 @@ export default function FilialEdit() {
                 <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
-                  <TextInput
+                  <TextInput style={styles.textInput}
                     value={
                       Object.keys(form.endereco).includes(item.key)
                         ? String(form.endereco[item.key as keyof Endereco] ?? "")

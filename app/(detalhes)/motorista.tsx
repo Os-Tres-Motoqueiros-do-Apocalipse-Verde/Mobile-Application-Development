@@ -76,7 +76,7 @@ export default function MotoristaDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView >
 
         {/* Nome */}
         <View style={styles.motoStatus}>

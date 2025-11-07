@@ -128,7 +128,7 @@ export default function ModeloEdit() {
                 <Text style={styles.textLabel}>{item.label}</Text>
                 <View style={styles.input}>
                   <Ionicons name={item.iconName as any} size={24} color="#09BC00" style={styles.iconForm}/>
-                  <TextInput
+                  <TextInput style={styles.textInput}
                     placeholder={item.placeholder}
                     value={
                       ["tanque", "consumo"].includes(item.key)

@@ -65,7 +65,7 @@ export default function PatioDetails() {
 
   return (
     <SafeAreaView style={styles.profile}>
-      <ScrollView contentContainerStyle={styles.profile}>
+      <ScrollView>
 
         {/* Localização do Pátio */}
         <View style={styles.motoStatus}>
