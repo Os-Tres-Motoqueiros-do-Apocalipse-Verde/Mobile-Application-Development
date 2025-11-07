@@ -62,7 +62,7 @@ export default function Filiais() {
   });
 
   const handleItemPress = (filial: Filial) => {
-    router.push({ pathname: "/filiais", params: { id: filial.id } });
+    router.push({ pathname: "/filial", params: { id: filial.id } });
   };
 
   return (
