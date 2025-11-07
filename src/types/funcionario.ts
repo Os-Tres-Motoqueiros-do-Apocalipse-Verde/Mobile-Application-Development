@@ -1,7 +1,7 @@
 import { Dados } from './dados';
 export interface Funcionario{
     nome: string;
-    id: number;
+    id: string;
     cargo:string;
     dados: Dados;
 }
