@@ -62,7 +62,7 @@ export default function Setores() {
 
   const handleItemPress = (setor: Setor) => {
     router.push({
-      pathname: "/setor-edit",
+      pathname: "/setor",
       params: { id: setor.id },
     });
   };
