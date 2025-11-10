@@ -15,6 +15,9 @@
 
 Este projeto consiste em uma aplicação móvel desenvolvida utilizando **React Native** com **Expo**. O objetivo é criar um aplicativo multiplataforma (Android e iOS) com funcionalidades modernas e interface intuitiva, demonstrando conceitos de desenvolvimento mobile, integração com APIs e boas práticas de UI/UX.
 
+## Link do vídeo
+https://youtu.be/GF5Sl44M0Mc
+
 ---
 
 ## Tecnologias Utilizadas
